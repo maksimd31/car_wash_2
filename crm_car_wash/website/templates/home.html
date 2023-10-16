@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <!-- Если пользователь аутентифицирован, отображаем таблицу с данными -->
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Address</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">Zipcode</th>
+                <th scope="col">Created At</th>
+                <th scope="col">ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if records %}
+                <!-- Если есть записи, выводим их в таблицу -->
+                {% for record in records %}
+                    <tr>
+                        <td>{{ record.first_name }} {{ record.last_name }}</td>
+                        <td>{{ record.email }}</td>
+                        <td>{{ record.phone }}</td>
+                        <td>{{ record.address }}</td>
+                        <td>{{ record.city }}</td>
+                        <td>{{ record.state }}</td>
+                        <td>{{ record.zipcode }}</td>
+                        <td>{{ record.created_at }}</td>
+                        <td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+{% else %}
+    <!-- Если пользователь не аутентифицирован, отображаем форму для входа -->
+    <div class="col-md-6 offset-md-3">
+        <h1>Login</h1>
+        <br/>
+        <form method="POST" action="{% url 'home' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div><br/>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <br/>
+            <button type="submit" class="btn btn-secondary">Login</button>
+        </form>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+<!--Этот код является шаблоном Django и представляет собой страницу, отображающую данные о пользователях и предоставляющую возможность входа в систему.-->
+
+<!-- - `{% extends 'base.html' %}`: указывает на расширение базового шаблона `base.html`.-->
+<!-- - `{% block content %}` и `{% endblock %}`: определяют блок контента, который будет замещен в базовом шаблоне.-->
+<!-- - `{% if user.is_authenticated %}`: проверяет, аутентифицирован ли пользователь.-->
+<!-- - `<table class="table table-striped table-hover table-bordered">`: создает таблицу для отображения данных о пользователях.-->
+<!-- - `{% if records %}` и `{% endif %}`: проверяет, есть ли записи для отображения в таблице.-->
+<!-- - `{% for record in records %}` и `{% endfor %}`: перебирает записи и выводит их в таблицу.-->
+<!-- - `<div class="col-md-6 offset-md-3">`: создает блок с классом `col-md-6` и отступом 3 колонки справа.-->
+<!-- - `{% csrf_token %}`: вставляет токен CSRF для защиты формы от подделки запроса межсайтовой подделки запроса (CSRF).-->
+<!-- - `<input type="text" class="form-control" name="username" placeholder="Username" required>`: создает поле ввода для имени пользователя с классом `form-control` и атрибутом `required`.-->
+<!-- - `<input type="password" class="form-control" name="password" placeholder="Password" required>`: создает поле ввода для пароля с классом `form-control` и атрибутом `required`.-->
+<!-- - `<button type="submit" class="btn btn-secondary">Login</button>`: создает кнопку для отправки формы входа.-->
+

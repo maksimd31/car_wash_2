@@ -40,7 +40,7 @@
 {% else %}
     <!-- Если пользователь не аутентифицирован, отображаем форму для входа -->
     <div class="col-md-6 offset-md-3">
-        <h1>Login</h1>
+        <h1>Вход</h1>
         <br/>
         <form method="POST" action="{% url 'home' %}">
             {% csrf_token %}
@@ -51,24 +51,9 @@
                 <input type="password" class="form-control" name="password" placeholder="Password" required>
             </div>
             <br/>
-            <button type="submit" class="btn btn-secondary">Login</button>
+            <button type="submit" class="btn btn-secondary">Войти</button>
         </form>
     </div>
 {% endif %}
 
 {% endblock %}
-
-<!--Этот код является шаблоном Django и представляет собой страницу, отображающую данные о пользователях и предоставляющую возможность входа в систему.-->
-
-<!-- - `{% extends 'base.html' %}`: указывает на расширение базового шаблона `base.html`.-->
-<!-- - `{% block content %}` и `{% endblock %}`: определяют блок контента, который будет замещен в базовом шаблоне.-->
-<!-- - `{% if user.is_authenticated %}`: проверяет, аутентифицирован ли пользователь.-->
-<!-- - `<table class="table table-striped table-hover table-bordered">`: создает таблицу для отображения данных о пользователях.-->
-<!-- - `{% if records %}` и `{% endif %}`: проверяет, есть ли записи для отображения в таблице.-->
-<!-- - `{% for record in records %}` и `{% endfor %}`: перебирает записи и выводит их в таблицу.-->
-<!-- - `<div class="col-md-6 offset-md-3">`: создает блок с классом `col-md-6` и отступом 3 колонки справа.-->
-<!-- - `{% csrf_token %}`: вставляет токен CSRF для защиты формы от подделки запроса межсайтовой подделки запроса (CSRF).-->
-<!-- - `<input type="text" class="form-control" name="username" placeholder="Username" required>`: создает поле ввода для имени пользователя с классом `form-control` и атрибутом `required`.-->
-<!-- - `<input type="password" class="form-control" name="password" placeholder="Password" required>`: создает поле ввода для пароля с классом `form-control` и атрибутом `required`.-->
-<!-- - `<button type="submit" class="btn btn-secondary">Login</button>`: создает кнопку для отправки формы входа.-->
-

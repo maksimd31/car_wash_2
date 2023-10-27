@@ -69,12 +69,22 @@ def register_user(request):
 
 
 def customer_record(request, pk):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated:  # Если пользователь вошел в систему то
         # Look Up Records
         customer_record = Record.objects.get(id=pk)
         return render(request, 'record.html', {'customer_record': customer_record})
     else:
-        messages.success(request, "You Must Be Logged In To View That Page...")
+        messages.success(request, "Вы Должны Войти В Систему, Чтобы Просмотреть Эту Страницу...")
+        return redirect('home')
+
+
+def customer_record_first_name(request, pk):
+    if request.user.is_authenticated:  # Если пользователь вошел в систему то
+        # Look Up Records
+        customer_record = Record.objects.get(first_name=pk)
+        return render(request, 'record.html', {'customer_record': customer_record})
+    else:
+        messages.success(request, "Вы Должны Войти В Систему, Чтобы Просмотреть Эту Страницу...")
         return redirect('home')
 
 

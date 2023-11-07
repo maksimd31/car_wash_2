@@ -1,0 +1,43 @@
+<!--add_employee.html-->
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Добавить сотрудника</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Добавить сотрудника</h1>-->
+<!--    <form method="post" action="{% url 'add_employee' %}">-->
+<!--        {% csrf_token %}-->
+<!--        <label for="first_name">Имя:</label>-->
+<!--        <input type="text" id="first_name" name="first_name" required><br><br>-->
+
+<!--        <label for="last_name">Фамилия:</label>-->
+<!--        <input type="text" id="last_name" name="last_name" required><br><br>-->
+
+<!--        <label for="position">Должность:</label>-->
+<!--        <input type="text" id="position" name="position" required><br><br>-->
+
+<!--        <label for="department">Отдел:</label>-->
+<!--        <input type="text" id="department" name="department" required><br><br>-->
+
+<!--        <input type="submit" value="Добавить">-->
+<!--    </form>-->
+<!--</body>-->
+<!--</html>-->
+
+<!--add_employee.html-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить сотрудника</title>
+</head>
+<body>
+    <h1>Добавить сотрудника</h1>
+    <form method="post" action="{% url 'add_employee' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Добавить">
+    </form>
+</body>
+</html>
+

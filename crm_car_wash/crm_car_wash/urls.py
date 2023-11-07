@@ -19,5 +19,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('website.urls')),
+    # path('1hfhthtshsth/', include('website.urls')),
+    path('', include('website2.urls')),
+
 ]
+
+# hendler404 = page_not_found
+handler400 = 'handlers.handle_bad_request'
+handler403 = 'handlers.handle_forbidden'
+handler404 = 'handlers.handle_not_found'
+handler500 = 'handlers.handle_server_error'

@@ -1,0 +1,23 @@
+<!-- delete_client.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Удаление клиента</title>
+</head>
+<body>
+<h1>Удаление клиента</h1>
+
+{% if error_message %}
+<p>{{ error_message }}</p>
+{% endif %}
+
+<form method="post" action="{% url 'delete_client' %}">
+    {% csrf_token %}
+    <label for="license_plate">Государственный номер:</label>
+    <input type="text" id="license_plate" name="license_plate" required>
+    <br><br>
+    <input type="submit" value="Удалить">
+</form>
+</body>
+</html>

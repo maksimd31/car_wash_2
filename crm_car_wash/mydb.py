@@ -1,4 +1,5 @@
-# Install Mysql on your computer
+# mybd.py
+# устанавливаем MySQL на компьютере
 # https://dev.mysql.com/downloads/installer/
 # pip install mysql
 # pip install mysql-connector
@@ -13,12 +14,12 @@ dataBase = mysql.connector.connect(
 
 )
 
-# prepare a cursor object
+# создание курсора
 cursorObject = dataBase.cursor()
 
-# Create a database
+# создание базы данных
 cursorObject.execute("CREATE DATABASE dataMysql")
 
-print("All Done!")
+print('База данных создана')
 
 "Таким образом мы создаем базу данных mysql"

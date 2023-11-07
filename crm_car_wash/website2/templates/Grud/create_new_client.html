@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Создание нового клиента</title>
+</head>
+<body>
+    <h2>Создание нового клиента</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="license_plate">Государственный номер:</label>
+        <input type="text" name="license_plate" id="license_plate" required><br><br>
+
+        <label for="full_name">ФИО клиента:</label>
+        <input type="text" name="full_name" id="full_name" required><br><br>
+
+        <label for="phone_number">Номер телефона:</label>
+        <input type="text" name="phone_number" id="phone_number" required><br><br>
+
+        <label for="car_model">марка модель автомобиля:</label>
+        <input type="text" name="car_model" id="car_model" required><br><br>
+
+        <input type="submit" value="Сохранить">
+    </form>
+</body>
+</html>

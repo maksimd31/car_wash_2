@@ -1,0 +1,30 @@
+<!--employee_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список сотрудников</title>
+</head>
+<body>
+    <h1>Список сотрудников</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Должность</th>
+                <th>Отдел</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.first_name }}</td>
+                <td>{{ employee.last_name }}</td>
+                <td>{{ employee.position }}</td>
+                <td>{{ employee.department }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<!-- order_list.html -->
+
+<ul>
+  {% for order in orders %}
+    <li>{{ order.id }} - {{ order.work_type }} - {{ order.cost }}</li>
+  {% endfor %}
+</ul>

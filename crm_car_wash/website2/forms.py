@@ -1,7 +1,46 @@
+from django import forms
+from .models import Client, Order, Employee
+
+
+# filename forms.py
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = '__all__'
+
+
+# filename forms.py
+class ClientUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ['full_name', 'phone_number', 'car_model']
+
+
+# filename forms.py
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['client', 'work_type', 'cost', 'employee', 'comment']
+
+
+# filename forms.py
+
+
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ('full_name', 'position', 'employment_date', 'phone_number', 'registration_address',
+                  'residential_address')
+
+
+
+
+# От сюда
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from ..models import Record
+from .models import Client
 
 
 class SignUpForm(UserCreationForm):
@@ -71,5 +110,5 @@ class AddRecordForm(forms.ModelForm):
                            label="")
 
     class Meta:
-        model = Record
+        model = Client
         exclude = ("user",)

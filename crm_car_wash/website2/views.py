@@ -151,6 +151,17 @@ def order_list(request):
 """
 
 
+def authenticated_user_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return view_func(request, *args, **kwargs)
+        else:
+            messages.success(request, "Необходимо войти в систему...")
+            return redirect('home')
+
+    return wrapper
+
+
 def page_not_found(reqwest, exception):
     """
     Функция предоставления несуществующей страницы
@@ -228,8 +239,6 @@ def edit_employee(request, employee_id):
 
 # Вот от сюда
 def home(request):
-    records = Client.objects.all()
-
     # Check to see if logging in
     if request.method == 'POST':
         username = request.POST['username']
@@ -246,6 +255,7 @@ def home(request):
     else:
         # return render(request, 'homee.html', {'records': records})
         return render(request, 'home.html')
+
 
 def register_user(request):
     if request.method == 'POST':
@@ -266,12 +276,10 @@ def register_user(request):
     return render(request, 'register.html', {'form': form})
 
 
-
 def logout_user(request):
     logout(request)
     messages.success(request, "Вы вышли из системы")
     return redirect('home')
-
 
 
 def add_record(request):
@@ -285,4 +293,20 @@ def add_record(request):
         return render(request, 'add_record.html', {'form': form})
     else:
         messages.success(request, "You Must Be Logged In...")
+        return redirect('home')
+
+
+@authenticated_user_required
+def client(request):
+    clients = Client.objects.all()
+    return render(request, 'client.html', {'clients': clients})
+
+
+def customer_client(request, pk):
+    if request.user.is_authenticated:
+        # Look Up Records
+        customer_record = Client.objects.get(id=pk)
+        return render(request, 'record.html', {'customer_record': customer_record})
+    else:
+        messages.success(request, "You Must Be Logged In To View That Page...")
         return redirect('home')

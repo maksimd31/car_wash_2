@@ -30,5 +30,6 @@ urlpatterns = [
     path('add_record/', views.add_record, name='add_record'),
     #
     # path('update_record/<int:pk>', views.update_record, name='update_record'),
+    path('client/', views.client, name='client')  # представление к клиентам.
 
 ]

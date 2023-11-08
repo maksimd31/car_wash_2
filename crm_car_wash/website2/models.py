@@ -11,7 +11,8 @@ class Client(models.Model):
     """
     license_plate = models.CharField(max_length=20, unique=True, verbose_name='Государственный номер')
     full_name = models.CharField(max_length=100, verbose_name='ФИО')
-    phone_number = models.CharField(max_length=15, verbose_name='Номер телефона')
+    phone_number = models.CharField(max_length=50, verbose_name='Номер телефона')
+    email = models.EmailField(max_length=50, verbose_name='email')
     car_model = models.CharField(max_length=50, verbose_name='Марка и модель автомобиля')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время добавления')
 

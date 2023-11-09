@@ -2,14 +2,13 @@
 
 {% block content %}
 
-    <meta charset="utf-8">
-
+<meta charset="utf-8">
 <div class="col-md-6 offset-md-3">
 <h1>Регистрация</h1>
 <br/>
 
 <form method="POST" action="">
-{% csrf_token %}
+	{% csrf_token %}
 	{% if form.errors %}
 			<div class="alert alert-warning alert-dismissible fade show" role="alert">
 			  Your Form Has Errors

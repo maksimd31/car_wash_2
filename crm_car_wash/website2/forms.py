@@ -91,23 +91,17 @@ class AddRecordForm(forms.ModelForm):
     """
     Форма добавления записи.
     """
-
-    first_name = forms.CharField(required=True, widget=forms.widgets.TextInput(
-        attrs={"placeholder": "Имя", "class": "form-control"}), label="")
-    last_name = forms.CharField(required=True, widget=forms.widgets.TextInput(
-        attrs={"placeholder": "Фамилия", "class": "form-control"}), label="")
-    email = forms.CharField(required=True,
-                            widget=forms.widgets.TextInput(attrs={"placeholder": "Email", "class": "form-control"}),
-                            label="")
-    phone = forms.CharField(required=True,
-                            widget=forms.widgets.TextInput(attrs={"placeholder": "Телефон", "class": "form-control"}),
-                            label="")
-    address = forms.CharField(required=True,
-                              widget=forms.widgets.TextInput(attrs={"placeholder": "Адрес", "class": "form-control"}),
-                              label="")
-    city = forms.CharField(required=True,
-                           widget=forms.widgets.TextInput(attrs={"placeholder": "Город", "class": "form-control"}),
-                           label="")
+    license_plate = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Государственный номер", "class": "form-control"}), label="")
+    full_name = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Ф.И.О", "class": "form-control"}), label="")
+    phone_number = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Номер телефона", "class": "form-control"}), label="")
+    email = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Email", "class": "form-control"}), label="")
+    car_model =forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Марка/Модель", "class": "form-control"}), label="")
+    # created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время добавления')
 
     class Meta:
         model = Client

@@ -10,30 +10,27 @@
   <div class="card-body">
 
 <p class="card-text">
-<strong>license_plate: </strong>{{ customer_client.license_plate }}</p>
+<strong>Государственный номер: </strong>{{ customer_client.license_plate }}</p>
 
 <p class="card-text">
-<strong>full_name: </strong>{{ customer_client.full_name }}</p>
+<strong>Ф.И.О: </strong>{{ customer_client.full_name }}</p>
 
 <p class="card-text">
-<strong>phone_number: </strong>{{ customer_client.phone_number }}</p>
+<strong>Номер телефона: </strong>{{ customer_client.phone_number }}</p>
+<p class="card-text">
+<strong>Марка и модель автомобиля: </strong>{{ customer_client.car_model }}</p>
 <p class="card-text">
 <strong>email: </strong>{{ customer_client.email }}</p>
-<p class="card-text">
-<strong>car_model: </strong>{{ customer_client.car_model }}</p>
 
 <p class="card-text">
-<strong>created_at: </strong>{{ customer_client.created_at }}</p>
+<strong>Дата добавления: </strong>{{ customer_client.created_at }}</p>
 
   </div>
 </div>
 
 <br/><br/>
-<a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+<a href="{% url 'client_home' %}" class="btn btn-secondary">Назад</a>
+<a href="{% url 'delete_client' customer_client.id %}" class="btn btn-danger">Удалить</a>
 
-<a href="{% url 'delete_record' customer_client.id %}" class="btn btn-danger">Delete</a>
-
-<a href="{% url 'update_record' customer_client.id %}" class="btn btn-secondary">Update Record</a>
-		
-
+<a href="{% url 'update_client' customer_client.id %}" class="btn btn-secondary">Редактировать</a>
 {% endblock %}

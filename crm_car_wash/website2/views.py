@@ -9,22 +9,22 @@ from django.contrib import messages
 
 # CLIENT
 # filename views.py
-def add_client(request):
-    """
-    Создание клиента
-    :param request: ответ на запрос GET
-    :return: render 'add_client.html'
-    """
-    if request.method == 'POST':
-        form = ClientForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('client_list')  # Перенаправление на страницу со списком клиентов
-    else:
-        form = ClientForm()
-
-    context = {'form': form}
-    return render(request, 'add_client.html', context)
+# def add_client(request):
+#     """
+#     Создание клиента
+#     :param request: ответ на запрос GET
+#     :return: render 'add_client.html'
+#     """
+#     if request.method == 'POST':
+#         form = ClientForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('client_list')  # Перенаправление на страницу со списком клиентов
+#     else:
+#         form = ClientForm()
+#
+#     context = {'form': form}
+#     return render(request, 'add_client.html', context)
 
 
 # filename views.py
@@ -237,7 +237,8 @@ def edit_employee(request, employee_id):
     return render(request, 'edit_employee.html', {'form': form})
 
 
-# Вот от сюда
+# Вот от сюда NEW
+
 def home(request):
     # Check to see if logging in
     if request.method == 'POST':
@@ -282,31 +283,43 @@ def logout_user(request):
     return redirect('home')
 
 
-def add_record(request):
+@authenticated_user_required
+def add_client(request):
     form = AddRecordForm(request.POST or None)
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            if form.is_valid():
-                add_record = form.save()
-                messages.success(request, "Record Added...")
-                return redirect('home')
-        return render(request, 'add_record.html', {'form': form})
-    else:
-        messages.success(request, "You Must Be Logged In...")
-        return redirect('home')
+    if request.method == "POST":
+        if form.is_valid():
+            add_record = form.save()
+            messages.success(request, "Запись добавлена...")
+            return redirect('home')
+    return render(request, 'add_client.html', {'form': form})
 
 
 @authenticated_user_required
-def client(request):
+def client_home(request):
     clients = Client.objects.all()
-    return render(request, 'client.html', {'clients': clients})
+    return render(request, 'client_home.html', {'clients': clients})
 
 
-def customer_client(request, pk):
-    if request.user.is_authenticated:
-        # Look Up Records
-        customer_record = Client.objects.get(id=pk)
-        return render(request, 'record.html', {'customer_record': customer_record})
-    else:
-        messages.success(request, "You Must Be Logged In To View That Page...")
-        return redirect('home')
+@authenticated_user_required
+def customer_client(request, client_id):
+    customer_client = Client.objects.get(id=client_id)
+    return render(request, 'customer_client.html', {'customer_client': customer_client})
+
+
+@authenticated_user_required
+def delete_client(request, client_id):
+    delete_it = Client.objects.get(id=client_id)
+    delete_it.delete()
+    messages.success(request, "Запись успешно удалена...")
+    return redirect('client_home')
+
+
+@authenticated_user_required
+def update_client(request, client_id):
+    current_record = Client.objects.get(id=client_id)
+    form = AddRecordForm(request.POST or None, instance=current_record)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Запись Была Обновлена!")
+        return redirect('client_home')
+    return render(request, 'update_client.html', {'form': form})

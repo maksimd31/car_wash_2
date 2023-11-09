@@ -51,7 +51,7 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="",
                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
     full_name = forms.CharField(label="", max_length=100,
-                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Full Name'}))
+                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ф.И.О'}))
     phone_number = forms.CharField(label="", max_length=50,
                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone Number'}))
     license_plate = forms.CharField(label="", max_length=20,
@@ -61,13 +61,13 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'full_name', 'phone_number', 'email', 'car_model', 'license_plate', 'password1', 'password2')
+        fields = ('full_name', 'phone_number', 'email', 'car_model', 'license_plate', 'password1', 'password2')
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
 
         self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].widget.attrs['placeholder'] = 'User Name'
+        self.fields['username'].widget.attrs['placeholder'] = 'Ф.И.О'
         self.fields['username'].label = ''
         self.fields[
             'username'].help_text = '<span class="form-text text-muted"><small> Требуется. 150 символов или меньше. ' \

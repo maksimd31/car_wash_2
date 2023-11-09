@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,13 +22,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g@7swncjword96e!16+wj1no&dk1pfo1ah_)^_p*#i!0_$cv_v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'CRMcarwash.pythonanywhere.com',
+]
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-      # Прописываем полный путь приложения
+    # Прописываем полный путь приложения
     'website2.apps.Website2Config',
 ]
 
@@ -80,17 +87,32 @@ WSGI_APPLICATION = 'crm_car_wash.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     # Б/Д для website mysql
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'dataMysql',
+#         'USER': 'root',
+#         'PASSWORD': '1234qwer',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
+
 DATABASES = {
-    # Б/Д для website
+    # Б/Д для pythonanywhere mysql
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dataMysql',
-        'USER': 'root',
-        'PASSWORD': '1234qwer',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
+        'NAME': 'CRMcarwash$default',
+        'USER': 'CRMcarwash',
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': 'CRMcarwash.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'init_command': "SET NAMES 'utf8mb4';SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        },
+    }}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -125,8 +147,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+SECRET_KEY = os.getenv('SECRET_KEY')

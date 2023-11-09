@@ -61,7 +61,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('full_name', 'phone_number', 'email', 'car_model', 'license_plate', 'password1', 'password2')
+        fields = ('username', 'full_name', 'phone_number', 'email', 'car_model', 'license_plate', 'password1', 'password2')
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)

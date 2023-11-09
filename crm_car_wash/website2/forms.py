@@ -50,14 +50,18 @@ class SignUpForm(UserCreationForm):
 
     email = forms.EmailField(label="",
                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
-    first_name = forms.CharField(label="", max_length=100,
-                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
-    last_name = forms.CharField(label="", max_length=100,
-                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
+    full_name = forms.CharField(label="", max_length=100,
+                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Full Name'}))
+    phone_number = forms.CharField(label="", max_length=50,
+                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone Number'}))
+    license_plate = forms.CharField(label="", max_length=20,
+                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'License Plate'}))
+    car_model = forms.CharField(label="", max_length=50,
+                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Car Model'}))
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('username', 'full_name', 'phone_number', 'email', 'car_model', 'license_plate', 'password1', 'password2')
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
@@ -73,7 +77,7 @@ class SignUpForm(UserCreationForm):
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
         self.fields['password1'].label = ''
         self.fields[
-            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\t не должен быть слишком ' \
+            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\\t не должен быть слишком ' \
                                      'похож на другую вашу личную информацию.</li><li>Ваш пароль должен содержать ' \
                                      'не менее 8 символов.</li><li>Ваш пароль не может быть часто ' \
                                      'используемым паролем. ' \

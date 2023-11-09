@@ -25,6 +25,7 @@ class OrderForm(forms.ModelForm):
 
 # filename forms.py
 
+
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
@@ -76,7 +77,7 @@ class SignUpForm(UserCreationForm):
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
         self.fields['password1'].label = ''
         self.fields[
-            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\t не должен быть слишком ' \
+            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\\\\t не должен быть слишком ' \
                                      'похож на другую вашу личную информацию.</li><li>Ваш пароль должен содержать ' \
                                      'не менее 8 символов.</li><li>Ваш пароль не может быть часто ' \
                                      'используемым паролем. ' \
@@ -110,16 +111,3 @@ class AddRecordForm(forms.ModelForm):
     class Meta:
         model = Client
         exclude = ("user",)
-
-    def __init__(self, *args, **kwargs):
-        super(AddRecordForm, self).__init__(*args, **kwargs)
-        self.fields['license_plate'].widget.attrs['class'] = 'form-control'
-        self.fields['license_plate'].widget.attrs['placeholder'] = 'Государственный номер'
-        self.fields['full_name'].widget.attrs['class'] = 'form-control'
-        self.fields['full_name'].widget.attrs['placeholder'] = 'Ф.И.О'
-        self.fields['phone_number'].widget.attrs['class'] = 'form-control'
-        self.fields['phone_number'].widget.attrs['placeholder'] = 'Номер телефона'
-        self.fields['email'].widget.attrs['class'] = 'form-control'
-        self.fields['email'].widget.attrs['placeholder'] = 'Email'
-        self.fields['car_model'].widget.attrs['class'] = 'form-control'
-        self.fields['car_model'].widget.attrs['placeholder'] = 'Марка/Модель'

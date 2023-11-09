@@ -25,14 +25,11 @@ class OrderForm(forms.ModelForm):
 
 # filename forms.py
 
-
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
         fields = ('full_name', 'position', 'employment_date', 'phone_number', 'registration_address',
                   'residential_address')
-
-
 
 
 # От сюда
@@ -51,11 +48,13 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="",
                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
     full_name = forms.CharField(label="", max_length=100,
-                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Full Name'}))
+                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Full Name'}))
     phone_number = forms.CharField(label="", max_length=50,
-                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone Number'}))
+                                   widget=forms.TextInput(
+                                       attrs={'class': 'form-control', 'placeholder': 'Phone Number'}))
     license_plate = forms.CharField(label="", max_length=20,
-                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'License Plate'}))
+                                    widget=forms.TextInput(
+                                        attrs={'class': 'form-control', 'placeholder': 'License Plate'}))
     car_model = forms.CharField(label="", max_length=50,
                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Car Model'}))
 
@@ -71,13 +70,13 @@ class SignUpForm(UserCreationForm):
         self.fields['full_name'].label = ''
         self.fields[
             'full_name'].help_text = '<span class="form-text text-muted"><small> Требуется. 150 символов или меньше. ' \
-                                    'Только буквы, цифры и @/./+/-/_. </small></span>'
+                                     'Только буквы, цифры и @/./+/-/_. </small></span>'
 
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
         self.fields['password1'].label = ''
         self.fields[
-            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\\\\t не должен быть слишком ' \
+            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\t не должен быть слишком ' \
                                      'похож на другую вашу личную информацию.</li><li>Ваш пароль должен содержать ' \
                                      'не менее 8 символов.</li><li>Ваш пароль не может быть часто ' \
                                      'используемым паролем. ' \
@@ -89,6 +88,7 @@ class SignUpForm(UserCreationForm):
         self.fields[
             'password2'].help_text = '<span class="form-text text-muted"><small>Введите тот же пароль, что и раньше, ' \
                                      'для проверки.</small></span>'
+
 
 class AddRecordForm(forms.ModelForm):
     """
@@ -102,10 +102,24 @@ class AddRecordForm(forms.ModelForm):
         attrs={"placeholder": "Номер телефона", "class": "form-control"}), label="")
     email = forms.CharField(required=True, widget=forms.widgets.TextInput(
         attrs={"placeholder": "Email", "class": "form-control"}), label="")
-    car_model =forms.CharField(required=True, widget=forms.widgets.TextInput(
+    car_model = forms.CharField(required=True, widget=forms.widgets.TextInput(
         attrs={"placeholder": "Марка/Модель", "class": "form-control"}), label="")
+
     # created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время добавления')
 
     class Meta:
         model = Client
         exclude = ("user",)
+
+    def __init__(self, *args, **kwargs):
+        super(AddRecordForm, self).__init__(*args, **kwargs)
+        self.fields['license_plate'].widget.attrs['class'] = 'form-control'
+        self.fields['license_plate'].widget.attrs['placeholder'] = 'Государственный номер'
+        self.fields['full_name'].widget.attrs['class'] = 'form-control'
+        self.fields['full_name'].widget.attrs['placeholder'] = 'Ф.И.О'
+        self.fields['phone_number'].widget.attrs['class'] = 'form-control'
+        self.fields['phone_number'].widget.attrs['placeholder'] = 'Номер телефона'
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+        self.fields['email'].widget.attrs['placeholder'] = 'Email'
+        self.fields['car_model'].widget.attrs['class'] = 'form-control'
+        self.fields['car_model'].widget.attrs['placeholder'] = 'Марка/Модель'

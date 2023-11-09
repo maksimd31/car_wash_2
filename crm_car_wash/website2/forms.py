@@ -61,23 +61,23 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'full_name', 'phone_number', 'email', 'car_model', 'license_plate', 'password1', 'password2')
+        fields = ('full_name', 'phone_number', 'email', 'car_model', 'license_plate', 'password1', 'password2')
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
 
-        self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].widget.attrs['placeholder'] = 'User Name'
-        self.fields['username'].label = ''
+        self.fields['full_name'].widget.attrs['class'] = 'form-control'
+        self.fields['full_name'].widget.attrs['placeholder'] = 'Full Name'
+        self.fields['full_name'].label = ''
         self.fields[
-            'username'].help_text = '<span class="form-text text-muted"><small> Требуется. 150 символов или меньше. ' \
+            'full_name'].help_text = '<span class="form-text text-muted"><small> Требуется. 150 символов или меньше. ' \
                                     'Только буквы, цифры и @/./+/-/_. </small></span>'
 
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
         self.fields['password1'].label = ''
         self.fields[
-            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\\t не должен быть слишком ' \
+            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\\\\t не должен быть слишком ' \
                                      'похож на другую вашу личную информацию.</li><li>Ваш пароль должен содержать ' \
                                      'не менее 8 символов.</li><li>Ваш пароль не может быть часто ' \
                                      'используемым паролем. ' \
@@ -89,7 +89,6 @@ class SignUpForm(UserCreationForm):
         self.fields[
             'password2'].help_text = '<span class="form-text text-muted"><small>Введите тот же пароль, что и раньше, ' \
                                      'для проверки.</small></span>'
-
 
 class AddRecordForm(forms.ModelForm):
     """

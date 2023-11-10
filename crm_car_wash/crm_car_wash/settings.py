@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-CSRF_TRUSTED_ORIGINS = ["http://crmcarwash.pythonanywhere.com/"]
+# CSRF_TRUSTED_ORIGINS = ["http://crmcarwash.pythonanywhere.com/"]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -160,3 +160,4 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 SECRET_KEY = os.getenv('SECRET_KEY')
+# SECRET_KEY = 'django-insecure-g@7swncjword96e!16+wj1no&dk1pfo1ah_)^_p*#i!0_$cv_v'

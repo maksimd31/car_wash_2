@@ -31,6 +31,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'CRMcarwash.pythonanywhere.com',
+    '*',
 ]
 INTERNAL_IPS = [
     '127.0.0.1',

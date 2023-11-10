@@ -162,3 +162,6 @@ CSRF_COOKIE_SECURE = True
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 # SECRET_KEY = 'django-insecure-g@7swncjword96e!16+wj1no&dk1pfo1ah_)^_p*#i!0_$cv_v'
+
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)

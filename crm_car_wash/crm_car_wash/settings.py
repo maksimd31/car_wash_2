@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -92,32 +92,33 @@ WSGI_APPLICATION = 'crm_car_wash.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    # Б/Д для website mysql
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dataMysql',
-        'USER': 'root',
-        'PASSWORD': '1234qwer',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-
-
 # DATABASES = {
-#     # Б/Д для pythonanywhere mysql
+#     # Б/Д для website mysql
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'CRMcarwash$default',
-#         'USER': 'CRMcarwash',
-#         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-#         'HOST': 'CRMcarwash.mysql.pythonanywhere-services.com',
-#         'OPTIONS': {
-#             'init_command': "SET NAMES 'utf8mb4';SET sql_mode='STRICT_TRANS_TABLES'",
-#             'charset': 'utf8mb4',
-#         },
-#     }}
+#         'NAME': 'dataMysql',
+#         'USER': 'root',
+#         'PASSWORD': '1234qwer',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
+
+DATABASES = {
+    # Б/Д для pythonanywhere mysql
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'CRMcarwash$default',
+        'USER': 'CRMcarwash',
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': 'CRMcarwash.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'init_command': "SET NAMES 'utf8mb4';SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        },
+    }}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -157,7 +158,7 @@ STATIC_ROOT = BASE_DIR / 'static/'
 
 MEDIA_URL = '/media/'
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -167,6 +168,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-# SECRET_KEY = os.getenv('SECRET_KEY')
-SECRET_KEY = 'django-insecure-g@7swncjword96e!16+wj1no&dk1pfo1ah_)^_p*#i!0_$cv_v'
+SECRET_KEY = os.getenv('SECRET_KEY')
+# SECRET_KEY = 'django-insecure-g@7swncjword96e!16+wj1no&dk1pfo1ah_)^_p*#i!0_$cv_v'
 

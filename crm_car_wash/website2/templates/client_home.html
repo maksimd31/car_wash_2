@@ -3,9 +3,26 @@
 {% block content %}
 <div class="d-grid gap-2">
     <a class="btn btn-secondary" href="{% url 'add_client' %}">Добавить пользователя</a>
-    <a class="btn btn-secondary" href="{% url 'random_client' %}">Добавить пользователя</a>
-    <a class="btn btn-secondary" onclick="runManagementCommand">Добавить рандомного пользователя</a>
-    <button class="btn btn-primary" onclick="runManagementCommand()">Добавить рандомного пользователя</button>
+
+    <a class="btn btn-secondary" onclick="runManagementCommand()">Добавить</a>
+
+    <script>
+    function runManagementCommand() {
+        fetch("{% url 'random_client' %}")
+            .then(response => {
+                if (response.ok) {
+                    console.log("Функция успешно вызвана");
+                } else {
+                    console.log("Ошибка вызова функции");
+                }
+            })
+            .catch(error => {
+                console.log("Произошла ошибка:", error);
+            });
+    }
+
+    </script>
+
 
 </div>
 

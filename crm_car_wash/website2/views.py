@@ -333,3 +333,4 @@ def update_client(request, client_id):
 def run_management_command(request):
     # subprocess.call(['python', 'manage.py', 'add_random_client'])
     management.call_command('add_random_client')
+    return redirect('client_home')

@@ -7,6 +7,7 @@ from .forms import ClientForm, ClientUpdateForm, OrderForm, EmployeeForm, SignUp
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.core import management
 
 
 # CLIENT
@@ -330,4 +331,5 @@ def update_client(request, client_id):
 
 
 def run_management_command(request):
-    subprocess.call(['python', 'manage.py', 'add_random_client'])
+    # subprocess.call(['python', 'manage.py', 'add_random_client'])
+    management.call_command('add_random_client')

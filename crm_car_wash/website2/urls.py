@@ -38,9 +38,6 @@ urlpatterns = [
     path('delete_client/<int:client_id>', views.delete_client, name='delete_client'),
     path('update_client/<int:client_id>', views.update_client, name='update_client'),
 
-
-
-
     path('run_management_command/', run_management_command, name='run_management_command'),
 
 ]

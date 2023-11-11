@@ -15,10 +15,6 @@ urlpatterns = [
     # path('delete_employee/<int:employee_id>/', views.delete_employee, name='delete_employee'),
     # path('employee/<int:employee_id>/edit/', views.edit_employee, name='edit_employee'),
 
-
-
-
-
     # path('result/', result_page, name='result_page'),
     path('register/', views.register_user, name='register'),
     # Путь входа
@@ -41,6 +37,12 @@ urlpatterns = [
     path('delete_client/<int:client_id>', views.delete_client, name='delete_client'),
     path('update_client/<int:client_id>', views.update_client, name='update_client'),
 
+
+
+
+    path('random_client/', views.run_management_command, name='random_client'),
+
+
+
+
 ]
-
-

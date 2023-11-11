@@ -1,3 +1,5 @@
+import subprocess
+
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Client, Order, Employee
@@ -323,3 +325,9 @@ def update_client(request, client_id):
         messages.success(request, "Запись Была Обновлена!")
         return redirect('client_home')
     return render(request, 'update_client.html', {'form': form})
+
+
+
+
+def run_management_command(request):
+    subprocess.call(['python', 'manage.py', 'add_random_client'])

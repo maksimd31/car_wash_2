@@ -331,6 +331,11 @@ def update_client(request, client_id):
 
 
 def run_management_command(request):
+    """
+    Вызывает функцию из management/commands которая рандомно добавляет нового клиента
+    :param request:
+    :return:
+    """
     # subprocess.call(['python', 'manage.py', 'add_random_client'])
     management.call_command('add_random_client')
     return redirect('client_home')

@@ -39,4 +39,4 @@ def handle_server_error(request):
     Error 500
     :return:ошибка сервера
     """
-    return HttpResponseServerError("Ошибка сервера")
+    return HttpResponseServerError("Ошибка сервера ERROR 500")

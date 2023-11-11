@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fake = Faker()
-        for _ in range(10):  # Добавим 10 рандомных записей
+        for _ in range(1):  # Добавим 10 рандомных записей
             client = Client(
                 license_plate=fake.license_plate(),  # Государственный номер
                 full_name=fake.name(),  # ФИО

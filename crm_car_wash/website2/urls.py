@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import run_management_command
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -40,9 +41,6 @@ urlpatterns = [
 
 
 
-    path('random_client/', views.run_management_command, name='random_client'),
-
-
-
+    path('run_management_command/', run_management_command, name='run_management_command'),
 
 ]

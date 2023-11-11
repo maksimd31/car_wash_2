@@ -138,7 +138,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru-en'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -150,7 +150,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
 STATIC_ROOT = BASE_DIR / 'static/'
+
 MEDIA_URL = '/media/'
 
 # Default primary key field type
@@ -164,5 +166,3 @@ CSRF_COOKIE_SECURE = True
 SECRET_KEY = os.getenv('SECRET_KEY')
 # SECRET_KEY = 'django-insecure-g@7swncjword96e!16+wj1no&dk1pfo1ah_)^_p*#i!0_$cv_v'
 
-import mimetypes
-mimetypes.add_type("text/css", ".css", True)

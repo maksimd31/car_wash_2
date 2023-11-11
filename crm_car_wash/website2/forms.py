@@ -1,5 +1,7 @@
 from django import forms
 from .models import Client, Order, Employee
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django import forms
 from .models import Client
 
@@ -45,11 +47,11 @@ from .models import Client
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="",
-                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
+                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
     first_name = forms.CharField(label="", max_length=100,
-                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}))
+                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
     last_name = forms.CharField(label="", max_length=100,
-                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}))
+                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
 
     class Meta:
         model = User
@@ -69,7 +71,7 @@ class SignUpForm(UserCreationForm):
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
         self.fields['password1'].label = ''
         self.fields[
-            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\t не должен быть слишком ' \
+            'password1'].help_text = '<ul class="form-text text-muted small"><li>Ваш пароль\\\\t не должен быть слишком ' \
                                      'похож на другую вашу личную информацию.</li><li>Ваш пароль должен содержать ' \
                                      'не менее 8 символов.</li><li>Ваш пароль не может быть часто ' \
                                      'используемым паролем. ' \

@@ -263,12 +263,12 @@ def register_user(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            # Аутентификация и вход в систему
+            # Authenticate and login
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            user = authenticate(full_name=username, password=password)
+            user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, "Регистрация прошла успешно")
+            messages.success(request, "You Have Successfully Registered! Welcome!")
             return redirect('home')
     else:
         form = SignUpForm()

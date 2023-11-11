@@ -25,7 +25,7 @@ urlpatterns = [
 ]
 
 # hendler404 = page_not_found
-handler400 = 'handlers.handle_bad_request'
-handler403 = 'handlers.handle_forbidden'
-handler404 = 'handlers.handle_not_found'
-handler500 = 'handlers.handle_server_error'
+# handler400 = 'handlers.handle_bad_request'
+# handler403 = 'handlers.handle_forbidden'
+# handler404 = 'handlers.handle_not_found'
+# handler500 = 'handlers.handle_server_error'

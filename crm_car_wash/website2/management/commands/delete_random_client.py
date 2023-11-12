@@ -11,8 +11,8 @@ class Command(BaseCommand):
     # def handle(self, *args, **options):
     #     clients = Client.objects.order_by('?')[:5]  # Измените число, если нужно удалить другое количество клиентов
     #     clients.delete()
-    def add_arguments(self, parser):
-        parser.add_argument('quantity', type=int, default=1, help='Количество клиентов для удаления (по умолчанию 1)')
+    # def add_arguments(self, parser):
+    #     parser.add_argument('quantity', type=int, default=1, help='Количество клиентов для удаления (по умолчанию 1)')
 
     def handle(self, *args, **options):
         quantity = options['quantity']
@@ -20,7 +20,7 @@ class Command(BaseCommand):
         for _ in range(quantity):
             total_clients = Client.objects.count()
             if total_clients > 0:
-                random_index = randint(0, total_clients - 1)
+                random_index = randint(1, total_clients - 1)
                 random_client = Client.objects.all()[random_index]
                 random_client.delete()
                 self.stdout.write(self.style.SUCCESS(f'Клиент {random_client.full_name} успешно удален.'))

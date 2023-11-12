@@ -340,12 +340,6 @@ def add_random_client(request):
 
 
 def del_random_client(request):
-    """
-    Вызывает функцию из management/commands которая рандомно добавляет нового клиента
-    :param request:
-    :return:
-    """
-    # subprocess.call(['python', 'manage.py', 'add_random_client'])
     management.call_command('delete_random_client')
     return redirect('client_home')
 

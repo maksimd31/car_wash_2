@@ -20,6 +20,6 @@ class Command(BaseCommand):
                 random_index = randint(0, total_clients - 1)
                 random_client = Client.objects.all()[random_index]
                 random_client.delete()
-                self.stdout.write(self.style.SUCCESS(f'Клиент {random_client.full_name} успешно удален.'))
-            else:
-                self.stdout.write(self.style.WARNING('В таблице Client нет клиентов для удаления.'))
+                # self.stdout.write(self.style.SUCCESS(f'Клиент {random_client.full_name} успешно удален.'))
+            # else:
+                # self.stdout.write(self.style.WARNING('В таблице Client нет клиентов для удаления.'))

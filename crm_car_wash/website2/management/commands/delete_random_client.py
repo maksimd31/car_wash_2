@@ -2,7 +2,7 @@
 
 from django.core.management.base import BaseCommand
 from random import randint
-from car_wash.models import Client
+from website2.models import Client
 
 
 class Command(BaseCommand):

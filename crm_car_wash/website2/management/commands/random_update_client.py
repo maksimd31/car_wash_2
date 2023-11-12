@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from car_wash.models import Client
+from website2.models import Client
 from random import choice
 
 

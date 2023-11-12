@@ -328,9 +328,7 @@ def update_client(request, client_id):
     return render(request, 'update_client.html', {'form': form})
 
 
-
-
-def run_management_command(request):
+def add_random_client(request):
     """
     Вызывает функцию из management/commands которая рандомно добавляет нового клиента
     :param request:
@@ -338,4 +336,20 @@ def run_management_command(request):
     """
     # subprocess.call(['python', 'manage.py', 'add_random_client'])
     management.call_command('add_random_client')
+    return redirect('client_home')
+
+
+def del_random_client(request):
+    """
+    Вызывает функцию из management/commands которая рандомно добавляет нового клиента
+    :param request:
+    :return:
+    """
+    # subprocess.call(['python', 'manage.py', 'add_random_client'])
+    management.call_command('delete_random_client')
+    return redirect('client_home')
+
+
+def update_random_client(reqwest):
+    management.call_command('random_update_client')
     return redirect('client_home')

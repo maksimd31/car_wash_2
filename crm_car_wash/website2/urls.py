@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import run_management_command
+from .views import add_random_client, del_random_client, update_random_client
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -38,6 +38,8 @@ urlpatterns = [
     path('delete_client/<int:client_id>', views.delete_client, name='delete_client'),
     path('update_client/<int:client_id>', views.update_client, name='update_client'),
 
-    path('run_management_command/', run_management_command, name='run_management_command'),
+    path('add_random_client/', add_random_client, name='add_random_client'),
+    path('del_random_client/', del_random_client, name='del_random_client'),
+    path('update_random_client/', update_random_client, name='update_random_client'),
 
 ]

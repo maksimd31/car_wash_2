@@ -242,11 +242,18 @@ def page_not_found(reqwest, exception):
 # Вот от сюда NEW
 
 def home(request):
-    # Check to see if logging in
+    """
+        Обрабатывает запрос на главную страницу.
+
+        Если метод запроса - POST, пытается аутентифицировать пользователя.
+        Если аутентификация прошла успешно, производит вход пользователя и перенаправляет на главную страницу.
+        В противном случае отправляет сообщение об ошибке и также перенаправляет на главную страницу.
+
+        Если метод запроса не POST, просто рендерит главную страницу.
+    """
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        # Authenticate
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -256,7 +263,6 @@ def home(request):
             messages.success(request, "ERROR ОШИБКА Please Try Again...")
             return redirect('home')
     else:
-        # return render(request, 'homee.html', {'records': records})
         return render(request, 'home.html')
 
 

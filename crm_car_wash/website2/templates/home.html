@@ -3,14 +3,9 @@
 {% block content %}
       {% if user.is_authenticated %}
 
-
-
 <div class="d-grid gap-2">
     <a href="{% url 'client_home' %}" class="btn btn-secondary">База клиентов</a>
 </div>
-
-
-
 
 {% else %}
 
@@ -32,13 +27,7 @@
         <br/>
         <button type="submit" class="btn btn-secondary">Войти</button>
 
-
-
-
     </form>
-
-
     {% endif %}
     </div>
-
     {% endblock %}

@@ -267,11 +267,20 @@ def home(request):
 
 
 def register_user(request):
+    """
+        Регистрирует нового пользователя.
+
+        Если метод запроса POST, форма SignUpForm заполняется данными из запроса.
+        Если форма валидна, сохраняет форму, аутентифицирует пользователя и осуществляет вход.
+        Затем отправляет сообщение об успехе и перенаправляет на домашнюю страницу.
+        Если форма не валидна, возвращает страницу регистрации с этой формой.
+
+        Если метод запроса не POST, возвращает страницу регистрации с новой формой SignUpForm.
+    """
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            # Authenticate and login
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)

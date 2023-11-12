@@ -8,8 +8,8 @@ from website2.models import Client
 class Command(BaseCommand):
     help = 'Удаление случайных клиентов из таблицы Client'
 
-    def add_arguments(self, parser):
-        parser.add_argument('quantity', type=int, default=1, help='Количество клиентов для удаления (по умолчанию 1)')
+    # def add_arguments(self, parser):
+    #     parser.add_argument('quantity', type=int, default=1, help='Количество клиентов для удаления (по умолчанию 1)')
 
     def handle(self, *args, **options):
         quantity = options['quantity']

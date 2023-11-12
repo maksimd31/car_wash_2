@@ -339,11 +339,11 @@ def add_random_client(request):
     return redirect('client_home')
 
 
-def delete_random_client(reqwest):
+def delete_random_client(request):
     management.call_command('delete_random_client')
     return redirect('client_home')
 
 
-def update_random_client(reqwest):
+def update_random_client(request):
     management.call_command('random_update_client')
     return redirect('client_home')

@@ -364,12 +364,28 @@ def client_home(request):
 
 @authenticated_user_required
 def customer_client(request, client_id):
+    """
+        Возвращает страницу с информацией о клиенте.
+
+        :param request: объект запроса
+        :param client_id: идентификатор клиента
+        :return: объект HttpResponse с отрендеренным шаблоном 'customer_client.html'
+    """
     customer_client = Client.objects.get(id=client_id)
     return render(request, 'customer_client.html', {'customer_client': customer_client})
 
 
 @authenticated_user_required
 def delete_client(request, client_id):
+    """Удаляет клиента из базы данных.
+
+        Args:
+            request (HttpRequest): Запрос от пользователя.
+            client_id (int): Идентификатор клиента.
+
+        Returns:
+            HttpResponseRedirect: Перенаправление на страницу списка клиентов.
+    """
     delete_it = Client.objects.get(id=client_id)
     delete_it.delete()
     messages.success(request, "Запись успешно удалена...")
@@ -378,6 +394,20 @@ def delete_client(request, client_id):
 
 @authenticated_user_required
 def update_client(request, client_id):
+    """
+       Обновляет информацию о клиенте.
+
+       Параметры:
+       - `request`: объект запроса HTTP
+       - `client_id`: идентификатор клиента
+
+       Возвращает:
+       - `HttpResponse`: HTTP-ответ
+
+       Исключения:
+       - `Client.DoesNotExist`: если клиент с указанным `client_id` не существует
+
+    """
     current_record = Client.objects.get(id=client_id)
     form = AddRecordForm(request.POST or None, instance=current_record)
     if form.is_valid():

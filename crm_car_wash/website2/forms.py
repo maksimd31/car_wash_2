@@ -75,7 +75,16 @@ class SignUpForm(UserCreationForm):
 
 class AddRecordForm(forms.ModelForm):
     """
-    Форма добавления записи.
+        Класс формы для добавления записи.
+
+        Атрибуты:
+        - license_plate: Государственный номер
+        - full_name: Ф.И.О
+        - phone_number: Номер телефона
+        - email: Email адрес
+        - car_model: Марка/Модель автомобиля
+
+        Эта форма исключает из модели 'Client' поле 'user'.
     """
     license_plate = forms.CharField(required=True, widget=forms.widgets.TextInput(
         attrs={"placeholder": "Государственный номер", "class": "form-control"}), label="")

@@ -154,6 +154,19 @@ from django.core import management
 
 
 def authenticated_user_required(view_func):
+    """
+        Декоратор, требующий аутентификацию пользователя.
+
+        Этот декоратор проверяет, является ли пользователь аутентифицированным.
+        Если пользователь аутентифицирован, он вызывает исходную функцию представления.
+        В противном случае он перенаправляет пользователя на домашнюю страницу с сообщением, что необходимо войти в систему.
+
+        Args:
+            view_func (function): Функция представления, которую требуется защитить.
+
+        Returns:
+            function: Обертка для функции представления.
+    """
     def wrapper(request, *args, **kwargs):
         if request.user.is_authenticated:
             return view_func(request, *args, **kwargs)
@@ -295,6 +308,19 @@ def register_user(request):
 
 
 def logout_user(request):
+    """
+       Выход пользователя из системы.
+
+       Эта функция выполняет выход пользователя из системы.
+       После выхода, пользователю показывается сообщение об успешном выходе и
+       происходит перенаправление на домашнюю страницу.
+
+       Параметры:
+       request (HttpRequest): HTTP запрос от клиента.
+
+       Возвращает:
+       HttpResponseRedirect: перенаправление на домашнюю страницу.
+    """
     logout(request)
     messages.success(request, "Вы вышли из системы")
     return redirect('home')
@@ -302,6 +328,19 @@ def logout_user(request):
 
 @authenticated_user_required
 def add_client(request):
+    """
+       Добавляет нового клиента.
+
+       Эта функция обрабатывает POST-запрос на добавление нового клиента.
+       Если форма валидна, запись о новом клиенте добавляется в базу данных.
+       После успешного добавления клиента, пользователь перенаправляется на главную страницу.
+
+       Аргументы:
+       request (HttpRequest): HTTP-запрос.
+
+       Возвращает:
+       HttpResponse: HTTP-ответ.
+    """
     form = AddRecordForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
@@ -313,6 +352,12 @@ def add_client(request):
 
 @authenticated_user_required
 def client_home(request):
+    """
+        Получает из базы данных список всех клиентов и возвращает страницу 'client_home.html'.
+
+        :param request: HTTP запрос.
+        :return: HTTP ответ с отрендеренной страницей 'client_home.html' и контекстом, содержащим список клиентов.
+    """
     clients = Client.objects.all()
     return render(request, 'client_home.html', {'clients': clients})
 

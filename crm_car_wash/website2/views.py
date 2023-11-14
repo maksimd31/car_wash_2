@@ -421,8 +421,9 @@ def update_client(request, client_id):
 def add_random_client(request):
     """
     Вызывает функцию из management/commands которая рандомно добавляет нового клиента
-    :param request:
-    :return:
+
+    :param request: объект запроса
+    :return: перенаправление на 'client_home'
     """
     # subprocess.call(['python', 'manage.py', 'add_random_client'])
     management.call_command('add_random_client')
@@ -431,11 +432,24 @@ def add_random_client(request):
 
 @authenticated_user_required
 def delete_random_client(request):
+    """
+    Вызывает функцию из management/commands которая рандомно удаляет клиента
+
+    :param request: объект запроса
+    :return: перенаправление на 'client_home'
+    """
     management.call_command('delete_random_client')
     return redirect('client_home')
 
 
 @authenticated_user_required
 def update_random_client(request):
+    """
+    Вызывает функцию из management/commands которая рандомно обновляет клиента
+
+    :param request: объект запроса
+    :return: перенаправление на 'client_home'
+    """
     management.call_command('random_update_client')
     return redirect('client_home')
+

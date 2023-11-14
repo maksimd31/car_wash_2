@@ -7,20 +7,21 @@ from django.core.management.base import BaseCommand
 from website2.models import Client
 
 
-
-
 class Command(BaseCommand):
+    """Команда для заполнения таблицы Client случайными данными."""
+
     help = 'Заполнить таблицу Client данными'
 
     def handle(self, *args, **options):
+        """Обработка команды."""
         fake = Faker()
-        for _ in range(1):  # Добавим 10 рандомных записей
+        for _ in range(1):
             client = Client(
-                license_plate=fake.license_plate(),  # Государственный номер
-                full_name=fake.name(),  # ФИО
-                phone_number=fake.phone_number(),  # Номер телефона
-                email=fake.email(),  # Email
-                car_model=fake.word(),  # Марка и модель автомобиля
+                license_plate=fake.license_plate(),
+                full_name=fake.name(),
+                phone_number=fake.phone_number(),
+                email=fake.email(),
+                car_model=fake.word(),
             )
             client.save()
 

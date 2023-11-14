@@ -6,9 +6,13 @@ from website2.models import Client
 
 
 class Command(BaseCommand):
+    """Команда для удаления случайных клиентов из таблицы Client."""
+
     help = 'Удаление случайных клиентов из таблицы Client'
 
     def handle(self, *args, **options):
+        """Обработчик команды."""
+
         quantity = options.get('quantity', 1)
 
         for _ in range(quantity):

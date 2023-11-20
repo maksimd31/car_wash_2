@@ -9,6 +9,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.core import management
 
+from pyowm import OWM
+from pyowm.utils import config
+from pyowm.utils import timestamps
+
 # CLIENT
 # filename views.py
 # def add_client(request):
@@ -167,6 +171,7 @@ def authenticated_user_required(view_func):
         Returns:
             function: Обертка для функции представления.
     """
+
     def wrapper(request, *args, **kwargs):
         if request.user.is_authenticated:
             return view_func(request, *args, **kwargs)
@@ -453,3 +458,8 @@ def update_random_client(request):
     management.call_command('random_update_client')
     return redirect('client_home')
 
+
+@authenticated_user_required
+def weather_forecast():
+    management.call_command('temp')
+    return redirect('home')

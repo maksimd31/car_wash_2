@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('1hfhthtshsth/', include('website.urls')),
     path('', include('website2.urls')),
-    path('weather/', include('weather.urls')),
+    path('weather/', include('weather_u.urls')),
 
 ]
 

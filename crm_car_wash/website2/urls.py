@@ -1,6 +1,6 @@
 from . import views
 from .views import add_random_client, delete_random_client, update_random_client
-from weather import urls as weather_urls
+# from weather import urls as weather_urls
 from django.urls import path, include
 urlpatterns = [
     path('', views.home, name='home'),
@@ -41,7 +41,7 @@ urlpatterns = [
     path('add_random_client/', add_random_client, name='add_random_client'),
     path('delete_random_client/', delete_random_client, name='delete_random_client'),
     path('update_random_client/', update_random_client, name='update_random_client'),
-    path('weather_urls/', include(weather_urls)),
+    # path('weather_urls/', include(weather_urls)),
     # path('index/', views.index, name='index'),
 
 ]

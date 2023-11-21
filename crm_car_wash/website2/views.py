@@ -583,7 +583,7 @@ def weather_view(request):
         city = request.POST.get("city")
 
         if city:
-            weather = get_weather(city)
+            weather = get_weather("Москва")
             return render(request, "weather.html", {"city": city, "weather": weather})
 
     return render(request, "weather.html")

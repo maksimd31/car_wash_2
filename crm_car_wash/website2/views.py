@@ -559,7 +559,7 @@ import requests
 
 def get_weather(request,city):
     api_key = "ad71d819492af038206fc7075fea00fa"
-    base_url = "<http://api.openweathermap.org/data/2.5/weather>"
+    base_url = "http://api.openweathermap.org/data/2.5/weather"
     params = {
         "q": city,
         "appid": api_key,

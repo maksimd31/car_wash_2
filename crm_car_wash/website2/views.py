@@ -461,6 +461,7 @@ def update_random_client(request):
     management.call_command('random_update_client')
     return redirect('client_home')
 
+
 # @authenticated_user_required
 # def weather_forecast():
 #     management.call_command('temp')
@@ -552,3 +553,29 @@ def update_random_client(request):
 #     contex = {'info': city_info}
 #
 #     return render(request, 'index.html', contex)
+
+import requests
+
+
+def get_weather(city):
+    api_key = "ad71d819492af038206fc7075fea00fa"
+    base_url = "<http://api.openweathermap.org/data/2.5/weather>"
+    params = {
+        "q": city,
+        "appid": api_key,
+        "units": "metric"
+    }
+    response = requests.get(base_url, params=params)
+    data = response.json()
+
+    if data["cod"] == 200:
+        temperature = data["main"]["temp"]
+        description = data["weather"][0]["description"]
+        return f"The current weather in {city} is {temperature}°C with {description}."
+    else:
+        return "Unable to retrieve weather information."
+
+
+city = "Moscow"
+weather = get_weather(city)
+print(weather)

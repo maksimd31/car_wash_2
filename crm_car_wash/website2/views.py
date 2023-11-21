@@ -493,13 +493,13 @@ def index(request):
     if request.method == 'POST':
         city = request.POST['city']
         ''' api key might be expired use your own api_key 
-            place api_key in place of appid ="your_api_key_here "  '''
+            place api_key in place of appid ="ad71d819492af038206fc7075fea00fa"  '''
 
         # source contain JSON data from API
 
         source = urllib.request.urlopen(
             'http://api.openweathermap.org/data/2.5/weather?q ='
-            + city + '&appid = your_api_key_here').read()
+            + city + '&appid = ad71d819492af038206fc7075fea00fa').read()
 
         # converting JSON data to a dictionary
         list_of_data = json.loads(source)

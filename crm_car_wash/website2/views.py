@@ -577,13 +577,12 @@ def get_weather(city):
     else:
         return "Не удалось получить информацию о погоде."
 
-
 def weather_view(request):
     if request.method == "POST":
         city = request.POST.get("city")
 
         if city:
-            weather = get_weather(city)
+            weather = get_weather("Москва")  # Показывать погоду в Москве
             return render(request, "weather.html", {"city": city, "weather": weather})
 
     return render(request, "weather.html")

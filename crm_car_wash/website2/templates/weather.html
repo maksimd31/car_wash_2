@@ -1,21 +1,18 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Погода</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <h1>Погода</h1>
-    <p>Вставьте ваш город:</p>
-    <form method="POST">
+    <form action="{% url 'weather' %}" method="POST">
         {% csrf_token %}
-        <input type="text" name="city" placeholder="Введите город" required>
+        <label for="city">Введите город:</label>
+        <input type="text" id="city" name="city">
         <button type="submit">Получить погоду</button>
     </form>
-    {% if weather %}
-        <h2>Погода в {{ city }}</h2>
+    {% if city %}
+        <h2>Погода в городе {{ city }}</h2>
         <p>{{ weather }}</p>
     {% endif %}
 </body>

@@ -42,8 +42,6 @@ urlpatterns = [
     path('delete_random_client/', delete_random_client, name='delete_random_client'),
     path('update_random_client/', update_random_client, name='update_random_client'),
 
-    path('weather_forecast/', weather_forecast, name='weather_forecast'),
-    path('weather/', views.weather, name='weather'),
-    path('index/', views.index, name='index'),
+
 
 ]

@@ -2,6 +2,7 @@ import json
 import subprocess
 import urllib
 
+from django.contrib.sites import requests
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Client, Order, Employee
@@ -470,75 +471,68 @@ def weather_forecast():
 # from django.shortcuts import render
 
 
-def weather(request):
-    city = "Toronto"
-    weather_condition = "Snow"
-    temperature = "-20°C"
-    time = "08:30 AM"
-    date = "Wednesday, 18 October 2019"
-    background_image_url = "<https://i.imgur.com/dpqZJV5.jpg>"
+# def weather(request):
+#     city = "Toronto"
+#     weather_condition = "Snow"
+#     temperature = "-20°C"
+#     time = "08:30 AM"
+#     date = "Wednesday, 18 October 2019"
+#     background_image_url = "<https://i.imgur.com/dpqZJV5.jpg>"
+#
+#     context = {
+#         'city': city,
+#         'weather_condition': weather_condition,
+#         'temperature': temperature,
+#         'time': time,
+#         'date': date,
+#         'background_image_url': background_image_url,
+#     }
+#
+#     return render(request, 'weather.html', context)
 
-    context = {
-        'city': city,
-        'weather_condition': weather_condition,
-        'temperature': temperature,
-        'time': time,
-        'date': date,
-        'background_image_url': background_image_url,
-    }
-
-    return render(request, 'weather.html', context)
-
-
-def index(request):
-    if request.method == 'POST':
-        city = request.POST['city']
-        ''' api key might be expired use your own api_key
-            place api_key in place of appid ="ad71d819492af038206fc7075fea00fa"  '''
-
-        # source contain JSON data from API
-
-        source = urllib.request.urlopen(
-            'http://api.openweathermap.org/data/2.5/weather?q ='
-            + city + '&appid = ad71d819492af038206fc7075fea00fa').read()
-
-        # converting JSON data to a dictionary
-        list_of_data = json.loads(source)
-
-        # data for variable list_of_data
-        data = {
-            "country_code": str(list_of_data['sys']['country']),
-            "coordinate": str(list_of_data['coord']['lon']) + ' '
-                          + str(list_of_data['coord']['lat']),
-            "temp": str(list_of_data['main']['temp']) + 'k',
-            "pressure": str(list_of_data['main']['pressure']),
-            "humidity": str(list_of_data['main']['humidity']),
-        }
-        print(data)
-    else:
-        data = {}
-    return render(request, "index.html", data)
 
 # def index(request):
-#     city = ['Moscow']
-#     source = urllib.request.urlopen(
-#         'http://api.openweathermap.org/data/2.5/weather?q ='
-#         + city + '&appid = ad71d819492af038206fc7075fea00fa').read()
+#     if request.method == 'POST':
+#         city = request.POST['city']
+#         ''' api key might be expired use your own api_key
+#             place api_key in place of appid ="ad71d819492af038206fc7075fea00fa"  '''
 #
-#     # converting JSON data to a dictionary
-#     list_of_data = json.loads(source)
+#         # source contain JSON data from API
 #
-#     # data for variable list_of_data
-#     data = {
-#         "country_code": str(list_of_data['sys']['country']),
-#         "coordinate": str(list_of_data['coord']['lon']) + ' '
-#                       + str(list_of_data['coord']['lat']),
-#         "temp": str(list_of_data['main']['temp']) + 'k',
-#         "pressure": str(list_of_data['main']['pressure']),
-#         "humidity": str(list_of_data['main']['humidity']),
-#     }
-#     print(data)
-#     data = {}
+#         source = urllib.request.urlopen(
+#             'http://api.openweathermap.org/data/2.5/weather?q ='
+#             + city + '&appid = ad71d819492af038206fc7075fea00fa').read()
+#
+#         # converting JSON data to a dictionary
+#         list_of_data = json.loads(source)
+#
+#         # data for variable list_of_data
+#         data = {
+#             "country_code": str(list_of_data['sys']['country']),
+#             "coordinate": str(list_of_data['coord']['lon']) + ' '
+#                           + str(list_of_data['coord']['lat']),
+#             "temp": str(list_of_data['main']['temp']) + 'k',
+#             "pressure": str(list_of_data['main']['pressure']),
+#             "humidity": str(list_of_data['main']['humidity']),
+#         }
+#         print(data)
+#     else:
+#         data = {}
 #     return render(request, "index.html", data)
 
 
+def ww(request):
+    appid = 'ad71d819492af038206fc7075fea00fa'
+    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&&appid =' + appid
+
+    city = 'Moscow'
+    res = requests.get(url.format(city)).json()
+    city_info = {
+        'city': city,
+        'temp': res['main']['temp'],
+        'icon': res['weather'][0]['icon']
+
+    }
+    contex = {'info': city_info}
+
+    return render(request, 'index.html', contex)

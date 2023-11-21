@@ -5,11 +5,11 @@
 </head>
 <body>
     <h1>Погода</h1>
-    <form action="{% include 'weather.html' %}" method="POST">
+    <form action="{% url 'weather' %}" method="POST">
         {% csrf_token %}
-        <label for="city">Введите город:</label>
-        <input type="text" id="city" name="city">
-        <button type="submit">Получить погоду</button>
+<!--        <label for="city">Введите город:</label>-->
+        <input type="text" id="city" name="city" value="Москва">
+<!--        <button type="submit">Получить погоду</button>-->
     </form>
     {% if city %}
         <h2>Погода в городе {{ city }}</h2>

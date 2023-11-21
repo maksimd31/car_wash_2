@@ -3,8 +3,6 @@
 {% block content %}
       {% if user.is_authenticated %}
 
-{% include 'index.html' %}
-
 
 <div class="d-grid gap-2">
     <a href="{% url 'client_home' %}" class="btn btn-secondary">База клиентов</a>

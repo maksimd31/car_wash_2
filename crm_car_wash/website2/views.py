@@ -468,6 +468,8 @@ def weather_forecast():
     return redirect('home')
 
 
+
+
 # from django.shortcuts import render
 
 
@@ -521,18 +523,35 @@ def weather_forecast():
 #     return render(request, "index.html", data)
 
 
-def index(request):
-    appid = 'ad71d819492af038206fc7075fea00fa'
-    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&&appid =' + appid
+# def index(request):
+#     appid = 'ad71d819492af038206fc7075fea00fa'
+#     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&&appid =' + appid
+#
+#     city = 'Moscow'
+#     res = requests.get(url.format(city)).json()
+#     city_info = {
+#         'city': city,
+#         'temp': res['main']['temp'],
+#         'icon': res['weather'][0]['icon']
+#
+#     }
+#     contex = {'info': city_info}
+#
+#     return render(request, 'index.html', contex)
 
-    city = 'Moscow'
-    res = requests.get(url.format(city)).json()
-    city_info = {
-        'city': city,
-        'temp': res['main']['temp'],
-        'icon': res['weather'][0]['icon']
 
-    }
-    contex = {'info': city_info}
-
-    return render(request, 'index.html', contex)
+# def index(request):
+#     appid = 'ad71d819492af038206fc7075fea00fa'
+#     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&&appid =' + appid
+#
+#     city = 'Moscow'
+#     res = requests.get(url.format(city)).json()
+#     city_info = {
+#         'city': city,
+#         'temp': res['main']['temp'],
+#         'icon': res['weather'][0]['icon']
+#
+#     }
+#     contex = {'info': city_info}
+#
+#     return render(request, 'index.html', contex)

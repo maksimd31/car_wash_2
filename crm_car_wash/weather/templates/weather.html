@@ -1,29 +1,60 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Погода</title>-->
+<!--    <link rel="stylesheet" href="<https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css>">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container">-->
+<!--        <h1 class="mt-4 mb-4">Погода</h1>-->
+<!--        <form method="POST">-->
+<!--            {% csrf_token %}-->
+
+<!--            <button class="btn btn-primary mt-2" type="submit">Добавить город</button>-->
+<!--        </form>-->
+<!--        {% for weather in weather_data %}-->
+<!--        <div class="card mt-4">-->
+<!--            <div class="card-header">-->
+<!--                <h3>{{ weather.city }}</h3>-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--                <p>Температура: {{ weather.temperature }} °C</p>-->
+<!--                <p>Описание: {{ weather.description }}</p>-->
+<!--                <img src="<http://openweathermap.org/img/wn/>{{ weather.icon }}.png" alt="weather icon">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Погода</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
     <link rel="stylesheet" href="<https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css>">
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-4 mb-4">Погода</h1>
-        <form method="POST">
-            {% csrf_token %}
-
-            <button class="btn btn-primary mt-2" type="submit">Добавить город</button>
-        </form>
-        {% for weather in weather_data %}
-        <div class="card mt-4">
-            <div class="card-header">
-                <h3>{{ weather.city }}</h3>
+        <h1>Погода</h1>
+        {% for city_weather in weather_data %}
+            <div class="card">
+                <div class="card-header">
+                    {{ city_weather.city }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Температура: {{ city_weather.temperature }}°C</h5>
+                    <p class="card-text">Описание: {{ city_weather.description }}</p>
+                    <img src="<http://openweathermap.org/img/wn/>{{ city_weather.icon }}.png" alt="Weather Icon">
+                </div>
             </div>
-            <div class="card-body">
-                <p>Температура: {{ weather.temperature }} °C</p>
-                <p>Описание: {{ weather.description }}</p>
-                <img src="<http://openweathermap.org/img/wn/>{{ weather.icon }}.png" alt="weather icon">
-            </div>
-        </div>
         {% endfor %}
     </div>
+    <script src="<https://code.jquery.com/jquery-3.5.1.slim.min.js>"></script>
+    <script src="<https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js>"></script>
+    <script src="<https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js>"></script>
 </body>
 </html>

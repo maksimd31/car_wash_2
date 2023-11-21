@@ -462,10 +462,10 @@ def update_random_client(request):
     return redirect('client_home')
 
 
-@authenticated_user_required
-def weather_forecast():
-    management.call_command('temp')
-    return redirect('home')
+# @authenticated_user_required
+# def weather_forecast():
+#     management.call_command('temp')
+#     return redirect('home')
 
 
 

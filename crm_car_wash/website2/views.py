@@ -521,7 +521,7 @@ def weather_forecast():
 #     return render(request, "index.html", data)
 
 
-def ww(request):
+def index(request):
     appid = 'ad71d819492af038206fc7075fea00fa'
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&&appid =' + appid
 

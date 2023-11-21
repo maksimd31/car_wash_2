@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Погода</h1>
-    <form action="{% url 'weather' %}" method="POST">
+    <form action="{% include 'weather.html' %}" method="POST">
         {% csrf_token %}
         <label for="city">Введите город:</label>
         <input type="text" id="city" name="city">

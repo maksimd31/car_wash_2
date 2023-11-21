@@ -1,37 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>☔️ Weather App</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <title>☔️ Приложение погоды</title>
+    <link rel="stylesheet" href="<https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css>">
 </head>
 
 <body>
-    <section class="hero is-primary">
+    <section class="hero bg-primary">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    What's the weather like?
+                    Какая погода сегодня?
                 </h1>
             </div>
         </div>
     </section>
     <section class="section">
         <div class="container">
-            <div class="columns">
-                <div class="column is-offset-4 is-4">
+            <div class="row">
+                <div class="col-md-4 offset-md-4">
                     <form method="POST">
                         {% csrf_token %}
-                        <div class="field has-addons">
-                            <div class="control is-expanded">
-                                {{ form.name }}
-                            </div>
-                            <div class="control">
-                                <button type="submit" class="button is-info">
-                                    Add City
+                        <div class="input-group mb-3">
+                            {{ form.name }}
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-info">
+                                    Добавить город
                                 </button>
                             </div>
                         </div>
@@ -42,27 +40,20 @@
     </section>
     <section class="section">
         <div class="container">
-            <div class="columns">
-                <div class="column is-offset-4 is-4">
+            <div class="row">
+                <div class="col-md-4 offset-md-4">
                     {% for city_weather in weather_data %}
-                    <div class="box">
-                        <article class="media">
-                            <div class="media-left">
-                                <figure class="image is-50x50">
-                                    <img src="http://openweathermap.org/img/w/{{city_weather.icon }}.png" alt="Image">
-                                </figure>
-                            </div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <span class="title">{{ city_weather.city }}</span>
-                                        <br>
-                                        <span class="subtitle">{{ city_weather.temperature }}° C</span>
-                                        <br> {{ city_weather.description }}
-                                    </p>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="media">
+                                <img src="<http://openweathermap.org/img/w/>{{city_weather.icon }}.png" class="mr-3" alt="Image" style="width:50px;height:50px;">
+                                <div class="media-body">
+                                    <h5 class="mt-0">{{ city_weather.city }}</h5>
+                                    <p class="mb-0">{{ city_weather.temperature }}° C</p>
+                                    <p class="mb-0">{{ city_weather.description }}</p>
                                 </div>
                             </div>
-                        </article>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>

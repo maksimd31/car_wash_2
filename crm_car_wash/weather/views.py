@@ -30,5 +30,5 @@ def index(request):
         }
         print(data)
     else:
-        data={}
-    return render(request, "index.html",data)
+        data = {}
+    return render(request, "index.html", data)

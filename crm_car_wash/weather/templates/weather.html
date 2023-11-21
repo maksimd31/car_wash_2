@@ -1,55 +1,29 @@
 <!DOCTYPE html>
-<html lang="ru">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>☔️ Приложение погоды</title>
+    <title>Погода</title>
     <link rel="stylesheet" href="<https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css>">
 </head>
-
 <body>
-<div class="col-md-4 offset-md-4">
-    <form method="POST">
-        {% csrf_token %}
-        <div class="input-group mb-3">
-            {{ form.name }}
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-info">
-                    Добавить город
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
-
-
-<section class="section">
     <div class="container">
-        <div class="row">
-            <div class="col-md-4 offset-md-4">
-                {% for city_weather in weather_data %}
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="media">
-                            <img src="<http://openweathermap.org/img/w/>{{city_weather.icon }}.png" class="mr-3"
-                                 alt="Image" style="width:50px;height:50px;">
-                            <div class="media-body">
-                                <h5 class="mt-0">{{ city_weather.city }}</h5>
-                                <p class="mb-0">{{ city_weather.temperature }}° C</p>
-                                <p class="mb-0">{{ city_weather.description }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+        <h1 class="mt-4 mb-4">Погода</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary mt-2" type="submit">Добавить город</button>
+        </form>
+        {% for weather in weather_data %}
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3>{{ weather.city }}</h3>
+            </div>
+            <div class="card-body">
+                <p>Температура: {{ weather.temperature }} °C</p>
+                <p>Описание: {{ weather.description }}</p>
+                <img src="<http://openweathermap.org/img/wn/>{{ weather.icon }}.png" alt="weather icon">
             </div>
         </div>
+        {% endfor %}
     </div>
-</section>
-<footer class="footer">
-</footer>
 </body>
-
 </html>

@@ -463,3 +463,26 @@ def update_random_client(request):
 def weather_forecast():
     management.call_command('temp')
     return redirect('home')
+
+
+# from django.shortcuts import render
+
+
+def weather(request):
+    city = "Toronto"
+    weather_condition = "Snow"
+    temperature = "-20°C"
+    time = "08:30 AM"
+    date = "Wednesday, 18 October 2019"
+    background_image_url = "<https://i.imgur.com/dpqZJV5.jpg>"
+
+    context = {
+        'city': city,
+        'weather_condition': weather_condition,
+        'temperature': temperature,
+        'time': time,
+        'date': date,
+        'background_image_url': background_image_url,
+    }
+
+    return render(request, 'weather.html', context)

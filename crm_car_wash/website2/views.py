@@ -274,7 +274,7 @@ def home(request):
     """
     if request.method == 'POST':
         username = request.POST.get('username')
-        password = request.POST['password']
+        password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -461,13 +461,10 @@ def update_random_client(request):
     management.call_command('random_update_client')
     return redirect('client_home')
 
-
 # @authenticated_user_required
 # def weather_forecast():
 #     management.call_command('temp')
 #     return redirect('home')
-
-
 
 
 # from django.shortcuts import render

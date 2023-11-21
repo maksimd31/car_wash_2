@@ -40,7 +40,7 @@ from .forms import CityForm
 
 @authenticated_user_required
 def index(request):
-    url = '<http://api.openweathermap.org/data/2.5/weather?q=Moscow&units=metric&appid=c56398aa9dd4ea5e0854302e39acf5a5>'
+    url = '<http://api.openweathermap.org/data/2.5/weather?q=Moscow&units=metric&appid=ad71d819492af038206fc7075fea00fa'
 
     cities = ['Moscow']
 

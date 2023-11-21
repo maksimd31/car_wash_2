@@ -273,7 +273,7 @@ def home(request):
         Если метод запроса не POST, просто рендерит главную страницу.
     """
     if request.method == 'POST':
-        username = request.POST['username']
+        username = request.POST.get('username')
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:

@@ -557,7 +557,7 @@ def update_random_client(request):
 import requests
 
 
-def get_weather(city):
+def get_weather(request,city):
     api_key = "ad71d819492af038206fc7075fea00fa"
     base_url = "<http://api.openweathermap.org/data/2.5/weather>"
     params = {

@@ -4,9 +4,16 @@
     <title>Погода</title>
 </head>
 <body>
-
-<h2>Погода в городе {{ city }}</h2>
-<p>{{ weather }}</p>
-
+    <h1>Погода</h1>
+    <form action="{% url 'weather' %}" method="POST">
+        {% csrf_token %}
+        <label for="city">Введите город:</label>
+        <input type="text" id="city" name="city">
+        <button type="submit">Получить погоду</button>
+    </form>
+    {% if city %}
+        <h2>Погода в городе {{ city }}</h2>
+        <p>{{ weather }}</p>
+    {% endif %}
 </body>
 </html>

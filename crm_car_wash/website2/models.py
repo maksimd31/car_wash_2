@@ -1,3 +1,5 @@
+from datetime import timezone
+
 from django.db import models
 
 # Create your models here.
@@ -30,7 +32,8 @@ class Order(models.Model):
     class order DB order сущность заказы
     """
     client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name='Клиент')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
+    # created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания', default=timezone.now)
     work_type = models.CharField(max_length=100, verbose_name='Вид работы')
     cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Стоимость')
     employee = models.CharField(max_length=100, verbose_name='Сотрудник выполневший работу')

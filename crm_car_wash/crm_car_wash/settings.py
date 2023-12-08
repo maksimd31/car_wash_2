@@ -45,11 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'DJANGO_SETTINGS_MODULE',
 
     # Прописываем полный путь приложения
     'website2.apps.Website2Config',
     'weather_u',
-
 
 ]
 
@@ -122,7 +122,6 @@ DATABASES = {
         },
     }}
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -173,4 +172,3 @@ CSRF_COOKIE_SECURE = True
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 # SECRET_KEY = 'django-insecure-g@7swncjword96e!16+wj1no&dk1pfo1ah_)^_p*#i!0_$cv_v'
-

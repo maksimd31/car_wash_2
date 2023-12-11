@@ -576,15 +576,21 @@ def get_weather(city):
         return "Не удалось получить информацию о погоде."
 
 
+# def weather_view(request):
+#     if request.method == "POST":
+#         city = request.POST.get("city")
+#
+#         if city:
+#             weather = get_weather("Москва")
+#             return render(request, "weather.html", {"city": city, "weather": weather})
+#
+#     return render(request, "weather.html")
+
 def weather_view(request):
-    if request.method == "POST":
-        city = request.POST.get("city")
+    city = request.POST.get("city")
+    weather = get_weather("Москва")
 
-        if city:
-            weather = get_weather("Москва")
-            return render(request, "weather.html", {"city": city, "weather": weather})
-
-    return render(request, "weather.html")
+    return render(request, "weather.html", {"city": city, "weather": weather})
 
 
 def new_order(reqwest):

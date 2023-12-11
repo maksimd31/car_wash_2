@@ -557,6 +557,7 @@ def update_random_client(request):
 
 import requests
 
+
 # def get_weather(city):
 #     api_key = "ad71d819492af038206fc7075fea00fa"
 #     base_url = "http://api.openweathermap.org/data/2.5/weather"
@@ -592,7 +593,6 @@ import requests
 #     return render(request, "weather.html", {"weather": weather})
 
 
-
 def get_weather(city):
     api_key = "ad71d819492af038206fc7075fea00fa"
     base_url = "<http://api.openweathermap.org/data/2.5/weather>"
@@ -604,12 +604,9 @@ def get_weather(city):
     response = requests.get(base_url, params=params)
     data = response.json()
 
-    if data["cod"] == 200:
-        temperature = data["main"]["temp"]
-        description = data["weather"][0]["description"]
-        return f"Текущая погода в {city} составляет {temperature}°C с {description}."
-    else:
-        return "Не удалось получить информацию о погоде."
+    temperature = data["main"]["temp"]
+    description = data["weather"][0]["description"]
+    return f"Текущая погода в {city} составляет {temperature}°C с {description}."
 
 
 def weather_view(request):

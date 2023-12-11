@@ -126,74 +126,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>☔️ Weather App</title>
 </head>
 
 <body>
-    <section class="hero">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">
-                    Какая погода?
-                </h1>
+<div class="column is-offset-4 is-4">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="field">
+            <div class="control">
+                {{ form.name }}
             </div>
         </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-offset-4 is-4">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="field">
-                            <div class="control">
-                                {{ form.name }}
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <button type="submit" class="button">
-                                    Добавить город
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <div class="field">
+            <div class="control">
+                <button type="submit" class="button">
+                    Добавить город
+                </button>
             </div>
         </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-offset-4 is-4">
-                    {% for city_weather in weather_data %}
-                    <div class="box">
-                        <article class="media">
-                            <div class="media-left">
-                                <figure class="image">
-                                    <img src="<http://openweathermap.org/img/w/>{{city_weather.icon }}.png" alt="Image">
-                                </figure>
-                            </div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <span class="title">{{ city_weather.city }}</span>
+    </form>
+</div>
+<div class="columns">
+    <div class="column is-offset-4 is-4">
+        {% for city_weather in weather_data %}
+        <div class="content">
+            <p>
+                <span class="title">{{ city_weather.city }}</span>
 
-                                        <span class="subtitle">{{ city_weather.temperature }}° C</span>
+                <span class="subtitle">{{ city_weather.temperature }}° C</span>
 
-                                        {{ city_weather.description }}
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+                {{ city_weather.description }}
+            </p>
         </div>
-    </section>
-    <footer class="footer">
-    </footer>
+    </div>
+    {% endfor %}
 </body>
 
 </html>

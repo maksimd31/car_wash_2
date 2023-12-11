@@ -5,8 +5,8 @@ import urllib
 from django.contrib.sites import requests
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Client, Order, Employee, City
-from .forms import ClientForm, ClientUpdateForm, OrderForm, EmployeeForm, SignUpForm, AddRecordForm, CityForm
+from .models import Client, Order, Employee
+from .forms import ClientForm, ClientUpdateForm, OrderForm, EmployeeForm, SignUpForm, AddRecordForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -663,7 +663,7 @@ def update_random_client(request):
 #
 #     return render(request, "home.html")
 
-# # ВАРИНТ 5
+# # ВАРИНТ5
 # # views.py
 # def get_weather(city):
 #     api_key = "ad71d819492af038206fc7075fea00fa"
@@ -693,8 +693,8 @@ def update_random_client(request):
 #             return render(request, "home.html", {"city": city, "weather": weather})
 #
 #     return render(request, "home.html")
-#
-#
+
+
 # def delete_weather(request):
 #     if request.method == "POST":
 #         city = request.POST.get("city")
@@ -715,10 +715,8 @@ def update_random_client(request):
 #
 #     return render(request, "home.html")
 
-# Варинт 6
-
 def index(request):
-    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=ad71d819492af038206fc7075fea00fa'
+    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=c56398aa9dd4ea5e0854302e39acf5a5'
     city = 'London'
 
     if request.method == 'POST':
@@ -732,6 +730,7 @@ def index(request):
     weather_data = []
 
     for city in cities:
+
         r = requests.get(url.format(city)).json()
 
         city_weather = {

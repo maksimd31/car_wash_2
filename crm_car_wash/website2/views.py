@@ -662,7 +662,7 @@ def update_random_client(request):
 #             return render(request, "home.html", {"city": city})
 #
 #     return render(request, "home.html")
-
+#
 # # ВАРИНТ5
 # # views.py
 # def get_weather(city):
@@ -693,8 +693,8 @@ def update_random_client(request):
 #             return render(request, "home.html", {"city": city, "weather": weather})
 #
 #     return render(request, "home.html")
-
-
+#
+#
 # def delete_weather(request):
 #     if request.method == "POST":
 #         city = request.POST.get("city")
@@ -744,7 +744,6 @@ def index(request):
 
     context = {'weather_data': weather_data, 'form': form}
     return render(request, 'weather.html', context)
-
 
 def new_order(reqwest):
     return render(reqwest, 'new_order.html')

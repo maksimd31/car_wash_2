@@ -5,7 +5,7 @@ import urllib
 from django.contrib.sites import requests
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Client, Order, Employee, City
+from .models import Client, Order, Employee
 from .forms import ClientForm, ClientUpdateForm, OrderForm, EmployeeForm, SignUpForm, AddRecordForm, CityForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout

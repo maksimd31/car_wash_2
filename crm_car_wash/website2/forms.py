@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm, TextInput
 
-from .models import Client, Order, Employee, City
+from .models import Client, Order, Employee
 
 
 # filename forms.py

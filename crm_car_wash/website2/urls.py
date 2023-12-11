@@ -46,6 +46,7 @@ urlpatterns = [
     path('weather_u/', include(weather_u)),
     path('weather', views.weather_view, name='weather'),
     path('delete_weather/', views.delete_weather, name='delete_weather'),
+    path('save_weather/', views.save_weather, name='save_weather'),
     # path('index/', views.index, name='index'),
     path('new_order', views.new_order, name='new_order'),
 

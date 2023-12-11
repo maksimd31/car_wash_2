@@ -623,11 +623,51 @@ def update_random_client(request):
 #
 #     return render(request, "weather.html")
 
-# Варинт 4
+# # Варинт 4
+# # views.py
+# def get_weather(city):
+#     api_key = "ad71d819492af038206fc7075fea00fa"
+#     base_url = "http://api.openweathermap.org/data/2.5/weather"
+#     params = {
+#         "q": city,
+#         "appid": api_key,
+#         "units": "metric"
+#     }
+#     response = requests.get(base_url, params=params)
+#     data = response.json()
+#
+#     if data["cod"] == 200:
+#         temperature = data["main"]["temp"]
+#         description = data["weather"][0]["description"]
+#         return f"Текущая погода в {city} составляет {temperature}°C с {description}."
+#     else:
+#         return "Не удалось получить информацию о погоде."
+#
+#
+# def weather_view(request):
+#     if request.method == "POST":
+#         city = request.POST.get("city")
+#
+#         if city:
+#             weather = get_weather(city)
+#             return render(request, "home.html", {"city": city, "weather": weather})
+#
+#     return render(request, "home.html")
+#
+#
+# def delete_weather(request):
+#     if request.method == "POST":
+#         city = request.POST.get("city")
+#         if city:
+#             return render(request, "home.html", {"city": city})
+#
+#     return render(request, "home.html")
+
+# ВАРИНТ5
 # views.py
 def get_weather(city):
     api_key = "ad71d819492af038206fc7075fea00fa"
-    base_url = "http://api.openweathermap.org/data/2.5/weather"
+    base_url = "<http://api.openweathermap.org/data/2.5/weather>"
     params = {
         "q": city,
         "appid": api_key,
@@ -660,6 +700,18 @@ def delete_weather(request):
         city = request.POST.get("city")
         if city:
             return render(request, "home.html", {"city": city})
+
+    return render(request, "home.html")
+
+
+def save_weather(request):
+    if request.method == "POST":
+        city = request.POST.get("city")
+
+        if city:
+            weather = get_weather(city)
+            with open("home.html", "a") as f:
+                f.write(f"<p>{city}: {weather}</p>")
 
     return render(request, "home.html")
 

@@ -34,7 +34,6 @@
     <button type="submit">Получить погоду</button>
 </form>
 {% if city %}
-    <h2>Погода в городе {{ city }}</h2>
     <p>{{ weather }}</p>
     <form action="{% url 'delete_weather' %}" method="POST">
         {% csrf_token %}

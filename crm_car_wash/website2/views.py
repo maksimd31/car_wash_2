@@ -15,7 +15,6 @@ from django.core import management
 from pyowm import OWM
 from pyowm.utils import config
 from pyowm.utils import timestamps
-import requests
 
 # CLIENT
 # filename views.py
@@ -649,7 +648,7 @@ def weather_view(request):
         city = request.POST.get("city")
 
         if city:
-            weather = get_weather(city)  # Use the input city here
+            weather = get_weather(city)
             return render(request, "home.html", {"city": city, "weather": weather})
 
     return render(request, "home.html")

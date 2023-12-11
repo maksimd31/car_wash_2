@@ -15,6 +15,7 @@ from django.core import management
 from pyowm import OWM
 from pyowm.utils import config
 from pyowm.utils import timestamps
+import requests
 
 # CLIENT
 # filename views.py

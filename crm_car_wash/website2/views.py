@@ -556,7 +556,6 @@ def update_random_client(request):
 #     return render(request, 'index.html', contex)
 
 
-
 def get_weather(city):
     api_key = "ad71d819492af038206fc7075fea00fa"
     base_url = "http://api.openweathermap.org/data/2.5/weather"
@@ -590,7 +589,6 @@ def weather_view(request):
     weather = get_weather("Moscow")
 
     return render(request, "weather.html", {"weather": weather})
-
 
 
 def new_order(reqwest):

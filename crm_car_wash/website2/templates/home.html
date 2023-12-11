@@ -3,13 +3,13 @@
 {% block content %}
       {% if user.is_authenticated %}
 
-{% include 'weather.html' %}
-<div class="d-grid gap-2">
-    <a href="{% url 'client_home' %}" class="btn btn-secondary">База клиентов</a>
-    <a href="{% url 'new_order' %}" class="btn btn-secondary">Новая сделка</a>
+    {% include 'weather.html' %}
+    <div class="d-grid gap-2">
+        <a href="{% url 'client_home' %}" class="btn btn-secondary">База клиентов</a>
+        <a href="{% url 'new_order' %}" class="btn btn-secondary">Новая сделка</a>
 
 
-</div>
+    </div>
 
 {% else %}
 

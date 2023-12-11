@@ -587,10 +587,9 @@ def get_weather(city):
 #     return render(request, "weather.html")
 
 def weather_view(request):
-    city = request.POST.get("city")
     weather = get_weather("Москва")
 
-    return render(request, "weather.html", {"city": city, "weather": weather})
+    return render(request, "weather.html", {"weather": weather})
 
 
 def new_order(reqwest):

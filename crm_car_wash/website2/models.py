@@ -68,3 +68,13 @@ class Employee(models.Model):
     def __repr__(self):
         return f'{self.pk} {self.full_name} {self.position} {self.employment_date} {self.phone_number}' \
                f'{self.registration_address} {self.residential_address}'
+
+
+class City(models.Model):
+    name = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'cities'

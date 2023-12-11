@@ -5,8 +5,8 @@ import urllib
 from django.contrib.sites import requests
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Client, Order, Employee
-from .forms import ClientForm, ClientUpdateForm, OrderForm, EmployeeForm, SignUpForm, AddRecordForm
+from .models import Client, Order, Employee, City
+from .forms import ClientForm, ClientUpdateForm, OrderForm, EmployeeForm, SignUpForm, AddRecordForm, CityForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -663,57 +663,88 @@ def update_random_client(request):
 #
 #     return render(request, "home.html")
 
-# ВАРИНТ5
-# views.py
-def get_weather(city):
-    api_key = "ad71d819492af038206fc7075fea00fa"
-    base_url = "http://api.openweathermap.org/data/2.5/weather"
-    params = {
-        "q": city,
-        "appid": api_key,
-        "units": "metric"
-    }
-    response = requests.get(base_url, params=params)
-    data = response.json()
+# # ВАРИНТ 5
+# # views.py
+# def get_weather(city):
+#     api_key = "ad71d819492af038206fc7075fea00fa"
+#     base_url = "http://api.openweathermap.org/data/2.5/weather"
+#     params = {
+#         "q": city,
+#         "appid": api_key,
+#         "units": "metric"
+#     }
+#     response = requests.get(base_url, params=params)
+#     data = response.json()
+#
+#     if data["cod"] == 200:
+#         temperature = data["main"]["temp"]
+#         description = data["weather"][0]["description"]
+#         return f"Текущая погода в {city} составляет {temperature}°C с {description}."
+#     else:
+#         return "Не удалось получить информацию о погоде."
+#
+#
+# def weather_view(request):
+#     if request.method == "POST":
+#         city = request.POST.get("city")
+#
+#         if city:
+#             weather = get_weather(city)
+#             return render(request, "home.html", {"city": city, "weather": weather})
+#
+#     return render(request, "home.html")
+#
+#
+# def delete_weather(request):
+#     if request.method == "POST":
+#         city = request.POST.get("city")
+#         if city:
+#             return render(request, "home.html", {"city": city})
+#
+#     return render(request, "home.html")
+#
+#
+# def save_weather(request):
+#     if request.method == "POST":
+#         city = request.POST.get("city")
+#
+#         if city:
+#             weather = get_weather(city)
+#             with open("home.html", "a") as f:
+#                 f.write(f"<p>{city}: {weather}</p>")
+#
+#     return render(request, "home.html")
 
-    if data["cod"] == 200:
-        temperature = data["main"]["temp"]
-        description = data["weather"][0]["description"]
-        return f"Текущая погода в {city} составляет {temperature}°C с {description}."
-    else:
-        return "Не удалось получить информацию о погоде."
+# Варинт 6
 
+def index(request):
+    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=ad71d819492af038206fc7075fea00fa'
+    city = 'London'
 
-def weather_view(request):
-    if request.method == "POST":
-        city = request.POST.get("city")
+    if request.method == 'POST':
+        form = CityForm(request.POST)
+        form.save()
 
-        if city:
-            weather = get_weather(city)
-            return render(request, "home.html", {"city": city, "weather": weather})
+    form = CityForm()
 
-    return render(request, "home.html")
+    cities = City.objects.all()
 
+    weather_data = []
 
-def delete_weather(request):
-    if request.method == "POST":
-        city = request.POST.get("city")
-        if city:
-            return render(request, "home.html", {"city": city})
+    for city in cities:
+        r = requests.get(url.format(city)).json()
 
-    return render(request, "home.html")
+        city_weather = {
+            'city': city.name,
+            'temperature': r['main']['temp'],
+            'description': r['weather'][0]['description'],
+            'icon': r['weather'][0]['icon'],
+        }
 
+        weather_data.append(city_weather)
 
-def save_weather(request):
-    if request.method == "POST":
-        city = request.POST.get("city")
-
-        if city:
-            weather = get_weather(city)
-            with open("home.html", "a") as f:
-                f.write(f"<p>{city}: {weather}</p>")
-
-    return render(request, "home.html")
+    context = {'weather_data': weather_data, 'form': form}
+    return render(request, 'weather.html', context)
 
 
 def new_order(reqwest):

@@ -5,26 +5,6 @@
 <!--</body>-->
 <!--</html>-->
 
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-<!--<head>-->
-<!--    <title>Погода</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <h1>Погода</h1>-->
-<!--    <form action="{% url 'weather' %}" method="POST">-->
-<!--        {% csrf_token %}-->
-<!--        <label for="city">Введите город:</label>-->
-<!--        <input type="text" id="city" name="city">-->
-<!--        <button type="submit">Получить погоду</button>-->
-<!--    </form>-->
-<!--    {% if city %}-->
-<!--        <h2>Погода в городе {{ city }}</h2>-->
-<!--        <p>{{ weather }}</p>-->
-<!--    {% endif %}-->
-<!--</body>-->
-<!--</html>-->
-
 
 <h1>Погода</h1>
 <form action="{% url 'weather' %}" method="POST">
@@ -34,12 +14,12 @@
     <button type="submit">Получить погоду</button>
 </form>
 {% if city %}
-    <p>{{ weather }}</p>
-    <form action="{% url 'delete_weather' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" id="city" name="city" value="{{ city }}">
-        <button type="submit">Удалить погоду</button>
-    </form>
+<p>{{ weather }}</p>
+<form action="{% url 'delete_weather' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" id="city" name="city" value="{{ city }}">
+    <button type="submit">Удалить погоду</button>
+</form>
 {% endif %}
 
 

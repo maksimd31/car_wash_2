@@ -595,7 +595,7 @@ import requests
 
 def get_weather(city):
     api_key = "ad71d819492af038206fc7075fea00fa"
-    base_url = "<http://api.openweathermap.org/data/2.5/weather>"
+    base_url = "http://api.openweathermap.org/data/2.5/weather"
     params = {
         "q": city,
         "appid": api_key,
@@ -604,16 +604,23 @@ def get_weather(city):
     response = requests.get(base_url, params=params)
     data = response.json()
 
-    temperature = data["main"]["temp"]
-    description = data["weather"][0]["description"]
-    return f"Текущая погода в {city} составляет {temperature}°C с {description}."
+    if data["cod"] == 200:
+        temperature = data["main"]["temp"]
+        description = data["weather"][0]["description"]
+        return f"Текущая погода в {city} составляет {temperature}°C с {description}."
+    else:
+        return "Не удалось получить информацию о погоде."
 
 
 def weather_view(request):
-    city = "Москва"
-    weather = get_weather(city)
-    return render(request, "weather.html", {"city": city, "weather": weather})
+    if request.method == "POST":
+        city = request.POST.get("city")
 
+        if city:
+            weather = get_weather("Москва")
+            return render(request, "weather.html", {"city": city, "weather": weather})
+
+    return render(request, "weather.html")
 
 def new_order(reqwest):
     return render(reqwest, 'new_order.html')

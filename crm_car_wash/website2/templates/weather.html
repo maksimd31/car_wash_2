@@ -120,47 +120,26 @@
 
 <!--</html>-->
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather</title>
 </head>
-
 <body>
-<div class="column is-offset-4 is-4">
-    <form method="POST">
+    <form method="post">
         {% csrf_token %}
-        <div class="field">
-            <div class="control">
-                {{ form.name }}
-            </div>
-        </div>
-        <div class="field">
-            <div class="control">
-                <button type="submit" class="button">
-                    Добавить город
-                </button>
-            </div>
-        </div>
+        {{ form.as_p }}
+        <button type="submit">Add City</button>
     </form>
-</div>
-<div class="columns">
-    <div class="column is-offset-4 is-4">
-        {% for city_weather in weather_data %}
-        <div class="content">
-            <p>
-                <span class="title">{{ city_weather.city }}</span>
 
-                <span class="subtitle">{{ city_weather.temperature }}° C</span>
-
-                {{ city_weather.description }}
-            </p>
+    {% for data in weather_data %}
+        <div>
+            <h2>{{ data.city }}</h2>
+            <p>Temperature: {{ data.temperature }}°C</p>
+            <p>Description: {{ data.description }}</p>
+            <img src="<http://openweathermap.org/img/w/>{{ data.icon }}.png" alt="Weather Icon">
         </div>
-    </div>
     {% endfor %}
 </body>
-
 </html>
+
 

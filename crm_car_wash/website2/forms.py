@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm, TextInput
 
-from .models import Client, Order, Employee
+from .models import Client, Order, Employee, City
 
 
 # filename forms.py
@@ -106,3 +106,11 @@ class AddRecordForm(forms.ModelForm):
         exclude = ("user",)
 
 
+
+
+class CityForm(ModelForm):
+    class Meta:
+        model = City
+        fields = ['name']
+        widgets = {'name': TextInput(
+            attrs={'class': 'input', 'placeholder': 'City Name'})}

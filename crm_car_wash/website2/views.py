@@ -556,9 +556,78 @@ def update_random_client(request):
 #     return render(request, 'index.html', contex)
 
 
+# def get_weather(city):
+#     api_key = "ad71d819492af038206fc7075fea00fa"
+#     base_url = "http://api.openweathermap.org/data/2.5/weather"
+#     params = {
+#         "q": city,
+#         "appid": api_key,
+#         "units": "metric"
+#     }
+#     response = requests.get(base_url, params=params)
+#     data = response.json()
+#
+#     if data["cod"] == 200:
+#         temperature = data["main"]["temp"]
+#         description = data["weather"][0]["description"]
+#         return f"Текущая погода в {city} составляет {temperature}°C с {description}."
+#     else:
+#         return "Не удалось получить информацию о погоде."
+#
+#
+# def weather_view(request):
+#     if request.method == "POST":
+#         city = request.POST.get("city")
+#
+#         if city:
+#             weather = get_weather("Москва")
+#             return render(request, "weather.html", {"city": city, "weather": weather})
+#
+#     return render(request, "weather.html")
+
+
+# def weather_view(request):
+#     weather = get_weather("Москва")
+#
+#     return render(request, "weather.html", {"weather": weather})
+#
+
+
+# # Вариант3
+# def get_weather(city):
+#     api_key = "ad71d819492af038206fc7075fea00fa"
+#     base_url = "<http://api.openweathermap.org/data/2.5/weather>"
+#     params = {
+#         "q": city,
+#         "appid": api_key,
+#         "units": "metric"
+#     }
+#     response = requests.get(base_url, params=params)
+#     data = response.json()
+#
+#     if data["cod"] == 200:
+#         temperature = data["main"]["temp"]
+#         description = data["weather"][0]["description"]
+#         return f"Текущая погода в {city} составляет {temperature}°C с {description}."
+#     else:
+#         return "Не удалось получить информацию о погоде."
+#
+#
+# def weather_view(request):
+#     if request.method == "POST":
+#         city = request.POST.get("city")
+#
+#         if city:
+#             weather = get_weather(city)
+#             return render(request, "weather.html", {"city": city, "weather": weather})
+#
+#     return render(request, "weather.html")
+
+# Варинт 4
+# views.py
 def get_weather(city):
     api_key = "ad71d819492af038206fc7075fea00fa"
-    base_url = "http://api.openweathermap.org/data/2.5/weather"
+    base_url = "<http://api.openweathermap.org/data/2.5/weather>"
     params = {
         "q": city,
         "appid": api_key,
@@ -580,17 +649,19 @@ def weather_view(request):
         city = request.POST.get("city")
 
         if city:
-            weather = get_weather("Москва")
-            return render(request, "weather.html", {"city": city, "weather": weather})
+            weather = get_weather(city)  # Use the input city here
+            return render(request, "home.html", {"city": city, "weather": weather})
 
-    return render(request, "weather.html")
+    return render(request, "home.html")
 
 
-# def weather_view(request):
-#     weather = get_weather("Москва")
-#
-#     return render(request, "weather.html", {"weather": weather})
-#
+def delete_weather(request):
+    if request.method == "POST":
+        city = request.POST.get("city")
+        if city:
+            return render(request, "home.html", {"city": city})
+
+    return render(request, "home.html")
 
 
 def new_order(reqwest):

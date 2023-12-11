@@ -3,6 +3,24 @@
 {% block content %}
       {% if user.is_authenticated %}
 
+<h1>Погода</h1>
+<form action="{% url 'weather' %}" method="POST">
+    {% csrf_token %}
+    <label for="city">Введите город:</label>
+    <input type="text" id="city" name="city">
+    <button type="submit">Получить погоду</button>
+</form>
+{% if city %}
+    <h2>Погода в городе {{ city }}</h2>
+    <p>{{ weather }}</p>
+    <form action="{% url 'delete_weather' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" id="city" name="city" value="{{ city }}">
+        <button type="submit">Удалить погоду</button>
+    </form>
+{% endif %}
+
+
     {% include 'weather.html' %}
     <div class="d-grid gap-2">
         <a href="{% url 'client_home' %}" class="btn btn-secondary">База клиентов</a>

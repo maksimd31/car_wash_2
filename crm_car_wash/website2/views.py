@@ -717,6 +717,6 @@ def save_weather(request):
 
 
 
-
+@authenticated_user_required
 def new_order(reqwest):
     return render(reqwest, 'new_order.html')

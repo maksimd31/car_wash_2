@@ -22,4 +22,4 @@ cursorObject.execute("CREATE DATABASE dataMysql")
 
 print('База данных создана')
 
-"Таким образом мы создаем базу данных mysql"
+"Таким образом создаю базу данных mysql"

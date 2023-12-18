@@ -2,7 +2,7 @@
 import random
 from django.core.management.base import BaseCommand
 
-from car_wash.models import Employee
+from website2.models import Employee
 
 
 class Command(BaseCommand):

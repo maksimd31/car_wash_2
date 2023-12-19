@@ -71,10 +71,10 @@ class AddRecordClientForm(forms.ModelForm):
 
     # created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время добавления')
 
-    # class Meta:
-    #     # Из формы AddRecordClientForm исключаю
-    #     model = Client
-    #     exclude = ('user')
+    class Meta:
+        # Из формы AddRecordClientForm исключаю
+        model = Client
+        exclude = ('user',)
 
 
 # class CityForm(ModelForm):

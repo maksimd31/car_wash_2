@@ -3,10 +3,10 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from .models import Client, Order, Employee
-from .forms import ClientForm, ClientUpdateForm, OrderForm, EmployeeForm, SignUpForm, AddRecordClientForm
+from .forms import SignUpForm, AddRecordClientForm
 from django.contrib.auth.models import User
 
-# Create your tests here.
+
 # User = get_user_model()
 #
 # class Car_wash_TestCases(TestCase):
@@ -44,6 +44,7 @@ class ClientTestCase(TestCase):
         self.assertEqual(new_client.email, 'jane.smith@example.com')
         self.assertEqual(new_client.phone, '9876543210')
 
+
 class OrderTestCase(TestCase):
     def setUp(self):
         self.client = Client.objects.create(name='John Doe', email='john.doe@example.com', phone='1234567890')
@@ -71,6 +72,7 @@ class OrderTestCase(TestCase):
         new_order = Order.objects.get(title='New Order')
         self.assertEqual(new_order.client, self.client)
         self.assertEqual(new_order.description, 'A new order')
+
 
 class EmployeeTestCase(TestCase):
     def setUp(self):

@@ -6,7 +6,7 @@ from django.contrib.sites import requests
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Client, Order, Employee, City
-from .forms import ClientForm, ClientUpdateForm, OrderForm, EmployeeForm, SignUpForm, AddRecordForm, CityForm
+from .forms import SignUpForm, AddRecordClientForm, CityForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -350,7 +350,7 @@ def add_client(request):
        Возвращает:
        HttpResponse: HTTP-ответ.
     """
-    form = AddRecordForm(request.POST or None)
+    form = AddRecordClientForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             add_record = form.save()
@@ -418,7 +418,7 @@ def update_client(request, client_id):
 
     """
     current_record = Client.objects.get(id=client_id)
-    form = AddRecordForm(request.POST or None, instance=current_record)
+    form = AddRecordClientForm(request.POST or None, instance=current_record)
     if form.is_valid():
         form.save()
         messages.success(request, "Запись Была Обновлена!")
@@ -713,8 +713,6 @@ def save_weather(request):
                 f.write(f"<p>{city}: {weather}</p>")
 
     return render(request, "home.html")
-
-
 
 
 @authenticated_user_required

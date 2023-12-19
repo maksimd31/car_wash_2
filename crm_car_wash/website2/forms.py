@@ -1,47 +1,14 @@
-
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm, TextInput
 
-from .models import Client, Order, Employee, City
+from .models import Client, City
 
-
-# filename forms.py
-class ClientForm(forms.ModelForm):
-    class Meta:
-        model = Client
-        fields = '__all__'
-
-
-# filename forms.py
-class ClientUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Client
-        fields = ['full_name', 'phone_number', 'car_model']
-
-
-# filename forms.py
-class OrderForm(forms.ModelForm):
-    class Meta:
-        model = Order
-        fields = ['client', 'work_type', 'cost', 'employee', 'comment']
-
-
-# filename forms.py
-
-
-class EmployeeForm(forms.ModelForm):
-    class Meta:
-        model = Employee
-        fields = ('full_name', 'position', 'employment_date', 'phone_number', 'registration_address',
-                  'residential_address')
-
-
-# От сюда
-
+# Методичка по виджитам форм https://docs.djangoproject.com/en/5.0/ref/forms/widgets/
 
 class SignUpForm(UserCreationForm):
+    # Форма для регистрации
     email = forms.EmailField(label="",
                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
     first_name = forms.CharField(label="", max_length=100,
@@ -50,12 +17,14 @@ class SignUpForm(UserCreationForm):
                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}))
 
     class Meta:
+        # Форма взаимодействует напрямую с Пользователями в админке
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
     def __init__(self, *args, **kwargs):
+        # Конструктор
         super(SignUpForm, self).__init__(*args, **kwargs)
-
+        # Определяем стили формы и правила валидации
         self.fields['username'].widget.attrs['class'] = 'form-control'
         self.fields['username'].widget.attrs['placeholder'] = 'Имя пользователя'
         self.fields['username'].label = ''
@@ -75,7 +44,7 @@ class SignUpForm(UserCreationForm):
             'password2'].help_text = '<span class="form-text text-muted"><small>Введите тот же пароль, что и раньше, для проверки.</small></span>'
 
 
-class AddRecordForm(forms.ModelForm):
+class AddRecordClientForm(forms.ModelForm):
     """
         Класс формы для добавления записи.
 
@@ -106,9 +75,8 @@ class AddRecordForm(forms.ModelForm):
         exclude = ("user",)
 
 
-
-
 class CityForm(ModelForm):
+
     class Meta:
         model = City
         fields = ['name']

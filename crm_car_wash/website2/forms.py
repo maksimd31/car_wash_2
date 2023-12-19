@@ -5,6 +5,7 @@ from django.forms import ModelForm, TextInput
 
 from .models import Client, City
 
+
 # Методичка по виджитам форм https://docs.djangoproject.com/en/5.0/ref/forms/widgets/
 
 class SignUpForm(UserCreationForm):
@@ -70,15 +71,15 @@ class AddRecordClientForm(forms.ModelForm):
 
     # created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время добавления')
 
-    class Meta:
-        model = Client
-        exclude = ("user",)
+    # class Meta:
+    #     # Из формы AddRecordClientForm исключаю
+    #     model = Client
+    #     exclude = ('user')
 
 
-class CityForm(ModelForm):
-
-    class Meta:
-        model = City
-        fields = ['name']
-        widgets = {'name': TextInput(
-            attrs={'class': 'input', 'placeholder': 'City Name'})}
+# class CityForm(ModelForm):
+#     class Meta:
+#         model = City
+#         fields = ['name']
+#         widgets = {'name': TextInput(
+#             attrs={'class': 'input', 'placeholder': 'City Name'})}

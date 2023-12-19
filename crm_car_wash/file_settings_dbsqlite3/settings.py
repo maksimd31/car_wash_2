@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     # 'DJANGO_SETTINGS_MODULE',
 
     # Прописываем полный путь приложения
-    'web_car_wash_crm.apps.Website2Config',
+    'website2.apps.Website2Config',
 ]
 
 MIDDLEWARE = [

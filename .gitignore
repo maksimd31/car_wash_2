@@ -160,3 +160,4 @@ cython_debug/
 .idea/
 /info.md
 /crm_car_wash/db.sqlite3
+

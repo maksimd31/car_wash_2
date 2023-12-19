@@ -49,7 +49,6 @@ INSTALLED_APPS = [
 
     # Прописываем полный путь приложения
     'website2.apps.Website2Config',
-    'weather_u',
 
 ]
 

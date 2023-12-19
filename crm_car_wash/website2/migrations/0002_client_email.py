@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web_car_wash_crm', '0001_initial'),
+        ('website2', '0001_initial'),
     ]
 
     operations = [

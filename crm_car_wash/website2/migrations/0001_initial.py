@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                 ('cost', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Стоимость')),
                 ('employee', models.CharField(max_length=100, verbose_name='Сотрудник выполневший работу')),
                 ('comment', models.TextField(blank=True, verbose_name='Комментарий')),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='web_car_wash_crm.client', verbose_name='Клиент')),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='website2.client', verbose_name='Клиент')),
             ],
         ),
     ]

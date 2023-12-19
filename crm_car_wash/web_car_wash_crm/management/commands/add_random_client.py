@@ -4,7 +4,7 @@ import random
 from faker import Faker
 from django.core.management.base import BaseCommand
 
-from website2.models import Client
+from web_car_wash_crm.models import Client
 
 
 class Command(BaseCommand):

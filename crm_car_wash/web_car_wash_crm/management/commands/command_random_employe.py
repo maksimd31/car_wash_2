@@ -3,7 +3,7 @@ import random
 from django.core.management import BaseCommand
 from faker import Faker
 
-from website2.models import Employee
+from web_car_wash_crm.models import Employee
 
 fake = Faker()
 

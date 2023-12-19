@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('website2', '0003_alter_client_phone_number'),
+        ('web_car_wash_crm', '0003_alter_client_phone_number'),
     ]
 
     operations = [

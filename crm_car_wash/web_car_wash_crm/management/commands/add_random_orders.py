@@ -1,7 +1,7 @@
 # filename add_random_orders.py
 
 from django.core.management.base import BaseCommand
-from website2.models import Order, Client
+from web_car_wash_crm.models import Order, Client
 import random
 
 

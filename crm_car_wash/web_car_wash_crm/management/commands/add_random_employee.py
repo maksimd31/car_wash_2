@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 from faker import Faker
 
-from website2.models import Employee
+from web_car_wash_crm.models import Employee
 
 
 class Command(BaseCommand):

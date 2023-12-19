@@ -1,26 +1,21 @@
-<!--<html>-->
-<!--<body>-->
-<!--    <h1>Погода в Москве</h1>-->
-<!--    <p>{{ weather }}</p>-->
-<!--</body>-->
-<!--</html>-->
 
-
-<h1>Погода</h1>
+<h3>Погода</h3>
 <form action="{% url 'weather' %}" method="POST">
     {% csrf_token %}
     <label for="city">Введите город:</label>
     <input type="text" id="city" name="city">
-    <button type="submit">Получить погоду</button>
+    <button type="submit" class="btn btn-secondary">Получить погоду</button>
 </form>
 {% if city %}
 <p>{{ weather }}</p>
 <form action="{% url 'delete_weather' %}" method="POST">
     {% csrf_token %}
     <input type="hidden" id="city" name="city" value="{{ city }}">
-    <button type="submit">Удалить погоду</button>
+    <button type="submit" class="btn btn-secondary">удалить погоду</button>
+    <br/>
 </form>
 {% endif %}
+<br/>
 
 
 

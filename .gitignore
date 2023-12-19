@@ -162,4 +162,4 @@ cython_debug/
 
 
 
-/crm_car_wash/settings.py
+/crm_car_wash/crm_car_wash/settings.py

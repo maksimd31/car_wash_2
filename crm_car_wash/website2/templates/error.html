@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<html>
+<head>
+    <title>Error Page</title>
+</head>
+<body>
+    <h1>{{ error_message }}</h1>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Вернутся на главную</a>
+
+
+
+</body>
+</html>
+
+    {% endblock %}

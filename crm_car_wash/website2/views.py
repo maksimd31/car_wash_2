@@ -1,5 +1,4 @@
 from django.contrib.sites import requests
-from django.http import HttpResponseNotFound
 from .models import Client
 from .forms import SignUpForm, AddRecordClientForm
 from django.shortcuts import render, redirect
@@ -7,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.core import management
 import requests
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound, HttpResponseServerError
 
 
 def authenticated_user_required(view_func):
@@ -297,4 +298,10 @@ def delete_weather(request):
 
 @authenticated_user_required
 def new_order(reqwest):
+    """
+    Скоро появится функционал
+    :param reqwest:
+    :return:
+    """
     return render(reqwest, 'new_order.html')
+

@@ -6,8 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.core import management
 import requests
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound, HttpResponseServerError
+from django.http import HttpResponseNotFound
 
 
 def authenticated_user_required(view_func):
@@ -16,7 +15,8 @@ def authenticated_user_required(view_func):
 
         Этот декоратор проверяет, является ли пользователь аутентифицированным.
         Если пользователь аутентифицирован, он вызывает исходную функцию представления.
-        В противном случае он перенаправляет пользователя на домашнюю страницу с сообщением, что необходимо войти в систему.
+        В противном случае он перенаправляет пользователя на домашнюю страницу с сообщением, что необходимо войти
+         в систему.
 
         Args:
             view_func (function): Функция представления, которую требуется защитить.
@@ -103,7 +103,7 @@ def logout_user(request):
        Выход пользователя из системы.
 
        Эта функция выполняет выход пользователя из системы.
-       После выхода, пользователю показывается сообщение об успешном выходе и
+       После выхода, пользователю показывается сообщение об успешном выходе, и
        происходит перенаправление на домашнюю страницу.
 
        Параметры:
@@ -137,7 +137,7 @@ def add_client(request):
         if form.is_valid():
             add_record = form.save()
             messages.success(request, "Запись добавлена...")
-            return redirect('home')
+            return redirect('client_home')
     return render(request, 'add_client.html', {'form': form})
 
 
@@ -158,7 +158,7 @@ def customer_client(request, client_id):
     """
         Возвращает страницу с информацией о клиенте.
 
-        :param request: объект запроса
+        :param request: Объект запроса
         :param client_id: идентификатор клиента
         :return: объект HttpResponse с отрендеренным шаблоном 'customer_client.html'
     """

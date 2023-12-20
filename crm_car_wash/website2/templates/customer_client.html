@@ -1,29 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-4к
+<br>/
 <div class="card">
-  <div class="card-header"><strong>
-		{{ customer_client.full_name }}</strong>
-  </div>
-  <div class="card-body">
+    <div class="card-header"><strong>
+        {{ customer_client.full_name }}</strong>
+    </div>
+    <div class="card-body">
 
-<p class="card-text">
-<strong>Государственный номер: </strong>{{ customer_client.license_plate }}</p>
+        <p class="card-text">
+            <strong>Государственный номер: </strong>{{ customer_client.license_plate }}</p>
 
-<p class="card-text">
-<strong>Ф.И.О: </strong>{{ customer_client.full_name }}</p>
+        <p class="card-text">
+            <strong>Ф.И.О: </strong>{{ customer_client.full_name }}</p>
 
-<p class="card-text">
-<strong>Номер телефона: </strong>{{ customer_client.phone_number }}</p>
-<p class="card-text">
-<strong>Марка и модель автомобиля: </strong>{{ customer_client.car_model }}</p>
-<p class="card-text">
-<strong>email: </strong>{{ customer_client.email }}</p>
+        <p class="card-text">
+            <strong>Номер телефона: </strong>{{ customer_client.phone_number }}</p>
+        <p class="card-text">
+            <strong>Марка и модель автомобиля: </strong>{{ customer_client.car_model }}</p>
+        <p class="card-text">
+            <strong>email: </strong>{{ customer_client.email }}</p>
 
-<p class="card-text">
-<strong>Дата добавления: </strong>{{ customer_client.created_at }}</p>
+        <p class="card-text">
+            <strong>Дата добавления: </strong>{{ customer_client.created_at }}</p>
 
-  </div>
+    </div>
 </div>
 
 <br/><br/>

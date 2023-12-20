@@ -203,7 +203,7 @@ def update_client(request, client_id):
     form = AddRecordClientForm(request.POST or None, instance=current_record)
     if form.is_valid():
         form.save()
-        messages.success(request, "Запись Была Обновлена!")
+        messages.success(request, "Запись Была обновлена!")
         return redirect('client_home')
     return render(request, 'update_client.html', {'form': form})
 
@@ -304,4 +304,3 @@ def new_order(reqwest):
     :return:
     """
     return render(reqwest, 'new_order.html')
-

@@ -1,11 +1,6 @@
-from django.test import TestCase
-from django.contrib.auth import get_user_model
-from django.test import TestCase
-from django.urls import reverse
-from .models import Client, Order, Employee
-from .forms import SignUpForm, AddRecordClientForm
+from django.test import Client
 from django.contrib.auth.models import User
-
+from .models import Client as ClientModel
 
 # User = get_user_model()
 #
@@ -15,89 +10,87 @@ from django.contrib.auth.models import User
 #         self.user = User.object.creane(username='test', password='password')
 #
 
-
-class ClientTestCase(TestCase):
-    def setUp(self):
-        self.client = Client.objects.create(name='John Doe', email='john.doe@example.com', phone='1234567890')
-
-    def test_client_creation(self):
-        self.assertEqual(self.client.name, 'John Doe')
-        self.assertEqual(self.client.email, 'john.doe@example.com')
-        self.assertEqual(self.client.phone, '1234567890')
-
-    def test_client_list_view(self):
-        url = reverse('client_list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'client_list.html')
-        self.assertContains(response, self.client.name)
-        self.assertContains(response, self.client.email)
-        self.assertContains(response, self.client.phone)
-
-    def test_add_client_view(self):
-        url = reverse('add_client')
-        data = {'name': 'Jane Smith', 'email': 'jane.smith@example.com', 'phone': '9876543210'}
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(Client.objects.count(), 2)
-        new_client = Client.objects.get(name='Jane Smith')
-        self.assertEqual(new_client.email, 'jane.smith@example.com')
-        self.assertEqual(new_client.phone, '9876543210')
+from django.test import TestCase
+from .models import Client, Order, Employee, City
 
 
-class OrderTestCase(TestCase):
-    def setUp(self):
-        self.client = Client.objects.create(name='John Doe', email='john.doe@example.com', phone='1234567890')
-        self.order = Order.objects.create(client=self.client, title='Test Order', description='A test order')
-
-    def test_order_creation(self):
-        self.assertEqual(self.order.client, self.client)
-        self.assertEqual(self.order.title, 'Test Order')
-        self.assertEqual(self.order.description, 'A test order')
-
-    def test_order_list_view(self):
-        url = reverse('order_list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'order_list.html')
-        self.assertContains(response, self.order.title)
-        self.assertContains(response, self.order.description)
-
-    def test_create_order_view(self):
-        url = reverse('create_order')
-        data = {'client': self.client.id, 'title': 'New Order', 'description': 'A new order'}
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(Order.objects.count(), 2)
-        new_order = Order.objects.get(title='New Order')
-        self.assertEqual(new_order.client, self.client)
-        self.assertEqual(new_order.description, 'A new order')
+class ClientModelTests(TestCase):
+    def test_create_client(self):
+        client = Client.objects.create(
+            license_plate="123ABC",
+            full_name="John Doe",
+            phone_number="1234567890",
+            email="johndoe@email.com",
+            car_model="Test Model"
+        )
+        self.assertEqual(str(client), f"123ABC John Doe 1234567890 Test Model {client.created_at}")
 
 
-class EmployeeTestCase(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
-        self.employee = Employee.objects.create(user=self.user, name='John Doe', email='john.doe@example.com')
+# class TestViews(TestCase):
+#     def setUp(self):
+#         self.client = Client()
+#         self.test_user = User.objects.create(username='testuser', password='testpassword')
+#         self.test_client = ClientModel.objects.create(license_plate='123ABC', full_name='John Doe',
+#                                                       phone_number='1234567890', email='johndoe@email.com',
+#                                                       car_model='Test Model')
+#
+#     def test_add_client(self):
+#         response = self.client.post('add_client', {
+#             'license_plate': '456DEF',
+#             'full_name': 'Jane Doe',
+#             'phone_number': '0987654321',
+#             'email': 'janedoe@email.com',
+#             'car_model': 'Test Model 2'
+#         })
+#         self.assertEqual(response.status_code, 302)
+#         self.assertEqual(ClientModel.objects.count(), 2)
+#         self.assertEqual(ClientModel.objects.get(license_plate='456DEF').full_name, 'Jane Doe')
 
-    def test_employee_creation(self):
-        self.assertEqual(self.employee.user, self.user)
-        self.assertEqual(self.employee.name, 'John Doe')
-        self.assertEqual(self.employee.email, 'john.doe@example.com')
+#     def setUp(self):
+#         self.client = Client()
+#         self.test_user = User.objects.create(username='testuser', password='testpassword')
+#         self.test_client = ClientModel.objects.create(license_plate='123ABC', full_name='John Doe',
+#                                                       phone_number='1234567890', email='johndoe@email.com',
+#                                                       car_model='Test Model')
+#
+#     def test_authenticated_user_required(self):
+#         resp = self.client.get('/add_client/')
+#         self.assertEqual(resp.status_code, 302)
 
-    def test_employee_list_view(self):
-        url = reverse('employee_list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'employee_list.html')
-        self.assertContains(response, self.employee.name)
-        self.assertContains(response, self.employee.email)
-
-    def test_add_employee_view(self):
-        url = reverse('add_employee')
-        data = {'user': self.user.id, 'name': 'Jane Smith', 'email': 'jane.smith@example.com'}
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(Employee.objects.count(), 2)
-        new_employee = Employee.objects.get(name='Jane Smith')
-        self.assertEqual(new_employee.user, self.user)
-        self.assertEqual(new_employee.email, 'jane.smith@example.com')
+# def test_home_view(self):
+#     resp = self.client.get('/')
+#     self.assertEqual(resp.status_code, 200)
+#
+# def test_register_user_view(self):
+#     resp = self.client.get('/register_user/')
+#     self.assertEqual(resp.status_code, 200)
+#
+# def test_logout_user_view(self):
+#     self.client.login(username='testuser', password='testpassword')
+#     resp = self.client.get('/logout_user/')
+#     self.assertEqual(resp.status_code, 302)
+#
+# def test_add_client_view(self):
+#     self.client.login(username='testuser', password='testpassword')
+#     resp = self.client.get('/add_client/')
+#     self.assertEqual(resp.status_code, 200)
+#
+# def test_client_home_view(self):
+#     self.client.login(username='testuser', password='testpassword')
+#     resp = self.client.get('/client_home/')
+#     self.assertEqual(resp.status_code, 200)
+#
+# def test_customer_client_view(self):
+#     self.client.login(username='testuser', password='testpassword')
+#     resp = self.client.get(f'/customer_client/{self.test_client.id}/')
+#     self.assertEqual(resp.status_code, 200)
+#
+# def test_delete_client_view(self):
+#     self.client.login(username='testuser', password='testpassword')
+#     resp = self.client.get(f'/delete_client/{self.test_client.id}/')
+#     self.assertEqual(resp.status_code, 302)
+#
+# def test_update_client_view(self):
+#     self.client.login(username='testuser', password='testpassword')
+#     resp = self.client.get(f'/update_client/{self.test_client.id}/')
+#     self.assertEqual(resp.status_code, 200)

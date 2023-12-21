@@ -35,16 +35,6 @@ def authenticated_user_required(view_func):
     return wrapper
 
 
-def page_not_found(reqwest, exception):
-    """
-    Функция предоставления несуществующей страницы
-    :param reqwest:
-    :param exception:
-    :return:
-    """
-    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
-
-
 def home(request):
     """
         Обрабатывает запрос на главную страницу.

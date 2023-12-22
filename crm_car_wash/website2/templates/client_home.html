@@ -9,9 +9,11 @@
     <a class="btn btn-secondary" href="{% url 'update_random_client' %}">Редактирование рандомного клиента</a>
 </div>
 
-    <br/>
-    <br/>
-
+<br/>
+<br/>
+{% include 'search_clients.html' %}
+<br/>
+<br/>
 
 <div class="table-responsive">
     <table class="table table-striped table-hover table-bordered">
@@ -29,7 +31,7 @@
         {% if clients %}
         {% for client in clients %}
         <tr>
-<!--            id по license_plate (государственному номеру)-->
+            <!--            id по license_plate (государственному номеру)-->
             <td><a href="{% url 'client' client.id %}">{{ client.license_plate }}</a></td>
             <td>{{ client.full_name }}</td>
             <td>{{ client.phone_number }}</td>

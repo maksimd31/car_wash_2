@@ -1,0 +1,36 @@
+<h2>Поиск</h2>
+<form method="GET" action="{% url 'search_clients' %}">
+    <input type="text" name="q" placeholder="Введите запрос">
+    <button type="submit" class="btn btn-secondary">Искать</button>
+    <a href="{% url 'client_home' %}" class="btn btn-secondary">Сброс</a>
+
+</form>
+
+{% if clients %}
+{% if search_triggered %}
+<h2>Результаты поиска:</h2>
+<ul>
+    {% for client in clients %}
+    <li>{{ client.license_plate }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% else %}
+{% if search_triggered %}
+<p>Ничего не найдено.</p>
+{% endif %}
+{% endif %}
+{% if messages %}
+<br/><br/>
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <!--        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>-->
+        Не найден номерной знак
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="закрыть"></button>
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+
+

@@ -1,4 +1,5 @@
 from django.contrib.sites import requests
+from django.views.decorators.http import require_http_methods
 from .models import Client
 from .forms import SignUpForm, AddRecordClientForm
 from django.shortcuts import render, redirect
@@ -294,3 +295,14 @@ def new_order(reqwest):
     :return:
     """
     return render(reqwest, 'new_order.html')
+
+
+@authenticated_user_required
+@require_http_methods(["GET"])
+def search_clients(request):
+    query = request.GET.get('q')
+    clients = Client.objects.filter(license_plate__icontains=query)
+    if not clients:
+        messages.info(request, 'ВНИМАНИЕ!')
+        # return redirect('message.html')
+    return render(request, 'client_home.html', {'clients': clients})

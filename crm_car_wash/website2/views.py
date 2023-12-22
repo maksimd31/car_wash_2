@@ -127,8 +127,11 @@ def add_client(request):
     if request.method == "POST":
         if form.is_valid():
             add_record = form.save()
-            messages.success(request, "Запись добавлена...")
+            messages.success(request, "Запись добавлена")
             return redirect('client_home')
+        else:
+            messages.success(request, 'Ну удалось добавить запись')
+
     return render(request, 'add_client.html', {'form': form})
 
 
@@ -194,7 +197,7 @@ def update_client(request, client_id):
     form = AddRecordClientForm(request.POST or None, instance=current_record)
     if form.is_valid():
         form.save()
-        messages.success(request, "Запись Была обновлена!")
+        messages.success(request, "Запись была обновлена!")
         return redirect('client_home')
     return render(request, 'update_client.html', {'form': form})
 
@@ -209,6 +212,7 @@ def add_random_client(request):
     """
     # subprocess.call(['python', 'manage.py', 'add_random_client'])
     management.call_command('add_random_client')
+    messages.success(request, "Добавлен случайный клиент!")
     return redirect('client_home')
 
 
@@ -221,6 +225,7 @@ def delete_random_client(request):
     :return: перенаправление на 'client_home'
     """
     management.call_command('delete_random_client')
+    messages.success(request, "Удален случайный клиент!")
     return redirect('client_home')
 
 
@@ -233,6 +238,7 @@ def update_random_client(request):
     :return: перенаправление на 'client_home'
     """
     management.call_command('random_update_client')
+    messages.success(request, "Отредактирован случайный клиент!")
     return redirect('client_home')
 
 
@@ -298,11 +304,13 @@ def new_order(reqwest):
 
 
 @authenticated_user_required
-@require_http_methods(["GET"])
+# @require_http_methods(["GET"])
 def search_clients(request):
+    # Получаем параметр запроса 'q'
     query = request.GET.get('q')
+    # Фильтруем объекты Client, где license_plate содержит query
     clients = Client.objects.filter(license_plate__icontains=query)
     if not clients:
-        messages.info(request, 'ВНИМАНИЕ!')
+        messages.success(request, 'Не найден номерной знак!')
         # return redirect('message.html')
     return render(request, 'client_home.html', {'clients': clients})

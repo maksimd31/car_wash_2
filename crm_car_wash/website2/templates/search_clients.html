@@ -7,21 +7,19 @@
 </form>
 
 {% if clients %}
-{% if search_triggered %}
-<h2>Результаты поиска:</h2>
-<ul>
-    {% for client in clients %}
-    <li>{{ client.license_plate }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+<!--{% if search_triggered %}-->
+<!--<h2>Результаты поиска:</h2>-->
+
+<!--<ul>-->
+<!--    {% for client in clients %}-->
+
+<!--    <li>{{ client.license_plate }}</li>-->
+<!--    {% endfor %}-->
+<!--</ul>-->
+<!--{% endif %}-->
 {% else %}
-{% if search_triggered %}
-<p>Ничего не найдено.</p>
-{% endif %}
-{% endif %}
-{% if messages %}
 <br/><br/>
+{% if messages %}
 <ul class="messages">
     {% for message in messages %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -31,6 +29,7 @@
     </div>
     {% endfor %}
 </ul>
+{% endif %}
 {% endif %}
 
 

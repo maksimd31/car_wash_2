@@ -303,6 +303,18 @@ def new_order(reqwest):
     return render(reqwest, 'new_order.html')
 
 
+
+@authenticated_user_required
+def registr_time(reqwest):
+    """
+    Скоро появится функционал
+    :param reqwest:
+    :return:
+    """
+    return render(reqwest, 'registr_time.html')
+
+
+
 @authenticated_user_required
 # @require_http_methods(["GET"])
 def search_clients(request):

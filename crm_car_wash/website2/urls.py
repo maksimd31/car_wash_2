@@ -20,5 +20,10 @@ urlpatterns = [
     # path('save_weather/', views.save_weather, name='save_weather'),
     path('new_order/', views.new_order, name='new_order'),
     path('search_clients/', views.search_clients, name='search_clients'),
+    path('registr_time/', views.search_clients, name='registr_time'),
+
+    registr_time.html
+
+
 
 ]

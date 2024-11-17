@@ -1,8 +1,10 @@
 from datetime import time
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.shortcuts import redirect, render
+
 from .forms import SignUpForm
-from django.shortcuts import render, redirect
+# from django.shortcuts import render, redirect
 
 from .models import Timer
 

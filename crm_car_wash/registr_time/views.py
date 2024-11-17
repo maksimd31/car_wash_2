@@ -39,7 +39,7 @@ def authenticated_user_required(view_func):
             return view_func(request, *args, **kwargs)
         else:
             messages.success(request, "Необходимо войти в систему...")
-            return redirect('home')
+            return redirect('home_reg')
 
     return wrapper
 
@@ -61,12 +61,12 @@ def home(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Вы вошли!")
-            return redirect('home')
+            return redirect('home_reg')
         else:
             messages.success(request, "ERROR ОШИБКА Please Try Again...")
-            return redirect('home')
+            return redirect('home_reg')
     else:
-        return render(request, 'home.html')
+        return render(request, 'home_reg.html')
 
 
 def register_user(request):

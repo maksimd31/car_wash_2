@@ -39,7 +39,7 @@ def authenticated_user_required(view_func):
             return view_func(request, *args, **kwargs)
         else:
             messages.success(request, "Необходимо войти в систему...")
-            return redirect('home_reg')
+            return redirect('home_registr')
 
     return wrapper
 

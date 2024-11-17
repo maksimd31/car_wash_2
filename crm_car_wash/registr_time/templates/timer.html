@@ -1,4 +1,6 @@
- <form method="post" class="text-center">
+
+<form action="{% url 'timer' %}" method="POST">
+<form method="post" class="text-center">
         {% csrf_token %}
         <button type="submit" name="start" class="btn btn-success btn-lg">Старт</button>
         <button type="submit" name="stop" class="btn btn-danger btn-lg">Стоп</button>
@@ -12,3 +14,4 @@
             <li class="list-group-item">Нет промежуточных интервалов</li>
         {% endfor %}
     </ul>
+    </form>

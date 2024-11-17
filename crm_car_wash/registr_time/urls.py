@@ -5,10 +5,12 @@ from . import views
 
 urlpatterns = [
     path('home/', views.home_registr, name='home_registr'),
+    path('register/', views.register_user, name='register_reg'),
+    path('logout/', views.logout_user, name='logout'),
 ]
 # urlpatterns = [
 #     path('time/', views.home, name='home'),
-    # path('register/', views.register_user, name='register'),
+#     path('register/', views.register_user, name='register'),
     # path('logout/', views.logout_user, name='logout'),
     # path('add_client/', views.add_client, name='add_client'),
     # path('client_home', views.client_home, name='client_home'),  # представление к клиентам.

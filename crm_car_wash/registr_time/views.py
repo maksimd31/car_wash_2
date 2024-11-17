@@ -91,9 +91,9 @@ def register_user(request):
             return redirect('home_registr')
     else:
         form = SignUpForm()
-        return render(request, 'register.html', {'form': form})
+        return render(request, 'register_reg.html', {'form': form})
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'register_reg.html', {'form': form})
 
 
 def logout_user(request):

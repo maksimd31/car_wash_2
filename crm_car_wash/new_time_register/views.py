@@ -1,21 +1,10 @@
 from datetime import time
-
-from django.contrib.auth.decorators import login_required
-# from .models import Client
-# from .forms import SignUpForm, AddRecordClientForm
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-
-# from crm_car_wash.registr_time.forms import SignUpForm
-# from crm_car_wash.new_time_register.forms import SignUpForm
 from .forms import SignUpForm
+from django.shortcuts import render, redirect
 
 from .models import Timer
-
-
-# from crm_car_wash.registr_time.forms import SignUpForm
-
 
 # Create your views here.
 
@@ -135,7 +124,7 @@ def register_total(request):
 # from .models import Timer
 # import time
 #
-@authenticated_user_required
+# @authenticated_user_required
 # def timer_view(request):
 #     tm, created = Timer.objects.get_or_create(user=request.user)
 #

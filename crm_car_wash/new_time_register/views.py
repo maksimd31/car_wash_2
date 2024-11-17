@@ -135,27 +135,27 @@ def register_total(request):
 # import time
 #
 @authenticated_user_required
-def timer_view(request):
-    tm, created = Timer.objects.get_or_create(user=request.user)
-
-    if request.method == "POST":
-        if 'start' in request.POST:
-            tm.start_time = time.time()
-            tm.intervals = []
-            tm.save()
-        elif 'stop' in request.POST:
-            if tm.start_time:
-                interval = time.time() - tm.start_time
-                tm.elapsed_time += interval
-                tm.intervals.append(interval)
-                tm.start_time = None
-                tm.save()
-
-    total_time = tm.elapsed_time + sum(tm.intervals)
-    return render(request, 'tim.html', {
-        'total_time': total_time,
-        'intervals': tm.intervals,
-    })
+# def timer_view(request):
+#     tm, created = Timer.objects.get_or_create(user=request.user)
+#
+#     if request.method == "POST":
+#         if 'start' in request.POST:
+#             tm.start_time = time.time()
+#             tm.intervals = []
+#             tm.save()
+#         elif 'stop' in request.POST:
+#             if tm.start_time:
+#                 interval = time.time() - tm.start_time
+#                 tm.elapsed_time += interval
+#                 tm.intervals.append(interval)
+#                 tm.start_time = None
+#                 tm.save()
+#
+#     total_time = tm.elapsed_time + sum(tm.intervals)
+#     return render(request, 'tim.html', {
+#         'total_time': total_time,
+#         'intervals': tm.intervals,
+#     })
 
 # from django.shortcuts import render, redirect
 # from django.contrib.auth.decorators import login_required
@@ -184,3 +184,28 @@ def timer_view(request):
 #         'total_time': total_time,
 #         'intervals': timer.intervals,
 #     })
+
+
+def timer_view(request):
+    tm, created = Timer.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        if 'start' in request.POST:
+            print("Start button pressed")  # Отладочное сообщение
+            tm.start_time = time.time()
+            tm.intervals = []
+            tm.save()
+        elif 'stop' in request.POST:
+            print("Stop button pressed")  # Отладочное сообщение
+            if tm.start_time:
+                interval = time.time() - tm.start_time
+                tm.elapsed_time += interval
+                tm.intervals.append(interval)
+                tm.start_time = None
+                tm.save()
+
+    total_time = tm.elapsed_time + sum(tm.intervals)
+    return render(request, 'tim.html', {
+        'total_time': total_time,
+        'intervals': tm.intervals,
+    })

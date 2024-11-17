@@ -36,6 +36,22 @@ class Timer(models.Model):
         self.intervals = json.dumps(intervals)
 
 
+#
+# class TimeSegment(models.Model):
+#     start_time = models.DateTimeField(null=True, blank=True)
+#     end_time = models.DateTimeField(null=True, blank=True)
+#     duration = models.DurationField(null=True, blank=True)
+#
+#     def save(self, *args, **kwargs):
+#         if self.start_time and self.end_time:
+#             self.duration = self.end_time - self.start_time
+#         super().save(*args, **kwargs)
+#
+#     def __str__(self):
+#         return f"Segment from {self.start_time} to {self.end_time} with duration {self.duration}"
+
+from django.db import models
+from django.utils import timezone
 
 class TimeSegment(models.Model):
     start_time = models.DateTimeField(null=True, blank=True)
@@ -44,6 +60,11 @@ class TimeSegment(models.Model):
 
     def save(self, *args, **kwargs):
         if self.start_time and self.end_time:
+            # Убедитесь, что оба времени имеют временную зону
+            if self.start_time.tzinfo is None:
+                self.start_time = timezone.make_aware(self.start_time)
+            if self.end_time.tzinfo is None:
+                self.end_time = timezone.make_aware(self.end_time)
             self.duration = self.end_time - self.start_time
         super().save(*args, **kwargs)
 

@@ -1,4 +1,4 @@
-from datetime import time
+from datetime import time, timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import redirect, render
@@ -6,7 +6,8 @@ from django.shortcuts import redirect, render
 from .forms import SignUpForm
 # from django.shortcuts import render, redirect
 
-from .models import Timer
+from .models import Timer, TimeSegment
+
 
 # Create your views here.
 
@@ -202,31 +203,48 @@ def register_total(request):
 #         'intervals': tm.intervals,
 #     })
 #
+# def timer_view(request):
+#     tm, created = Timer.objects.get_or_create(user=request.user)
+#     print(f"Timer object: {tm}, created: {created}")  # Отладочное сообщение
+#
+#     if request.method == "POST":
+#         print("POST request received")  # Отладочное сообщение
+#         if 'start' in request.POST:
+#             print("Start button pressed")  # Отладочное сообщение
+#             tm.start_time = time.time()
+#             tm.intervals = []
+#             tm.save()
+#             print("Timer started")  # Отладочное сообщение
+#         elif 'stop' in request.POST:
+#             print("Stop button pressed")  # Отладочное сообщение
+#             if tm.start_time:
+#                 interval = time.time() - tm.start_time
+#                 tm.elapsed_time += interval
+#                 tm.intervals.append(interval)
+#                 tm.start_time = None
+#                 tm.save()
+#                 print("Timer stopped")  # Отладочное сообщение
+#
+#     total_time = tm.elapsed_time + sum(tm.intervals)
+#     return render(request, 'tim.html', {
+#         'total_time': total_time,
+#         'intervals': tm.intervals,
+#     })
+#
 def timer_view(request):
-    tm, created = Timer.objects.get_or_create(user=request.user)
-    print(f"Timer object: {tm}, created: {created}")  # Отладочное сообщение
-
-    if request.method == "POST":
-        print("POST request received")  # Отладочное сообщение
+    if request.method == 'POST':
         if 'start' in request.POST:
-            print("Start button pressed")  # Отладочное сообщение
-            tm.start_time = time.time()
-            tm.intervals = []
-            tm.save()
-            print("Timer started")  # Отладочное сообщение
+            segment = TimeSegment(start_time=timezone.now())
+            segment.save()
+            request.session['segment_id'] = segment.id
         elif 'stop' in request.POST:
-            print("Stop button pressed")  # Отладочное сообщение
-            if tm.start_time:
-                interval = time.time() - tm.start_time
-                tm.elapsed_time += interval
-                tm.intervals.append(interval)
-                tm.start_time = None
-                tm.save()
-                print("Timer stopped")  # Отладочное сообщение
+            segment_id = request.session.get('segment_id')
+            if segment_id:
+                segment = TimeSegment.objects.get(id=segment_id)
+                segment.end_time = timezone.now()
+                segment.save()
+                del request.session['segment_id']
+            return redirect('timer_view')
 
-    total_time = tm.elapsed_time + sum(tm.intervals)
-    return render(request, 'tim.html', {
-        'total_time': total_time,
-        'intervals': tm.intervals,
-    })
-
+    current_segment = TimeSegment.objects.filter(end_time__isnull=True).first()
+    return render(request, 'timer.html', {'current_segment': current_segment})

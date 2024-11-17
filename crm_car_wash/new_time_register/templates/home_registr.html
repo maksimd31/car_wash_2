@@ -2,7 +2,13 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        {% include 'tim.html' %}
+    <div class="d-grid gap-2">
+        <a href="{% url 'timer_view' %}" class="btn btn-secondary">Жми</a>
+
+
+
+    </div>
+<!--        {% include 'tim.html' %}-->
     {% else %}
         <div class="col-md-6 offset-md-3">
             <h1>Вход</h1>

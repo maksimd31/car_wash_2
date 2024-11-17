@@ -34,3 +34,18 @@ class Timer(models.Model):
 
     def set_intervals(self, intervals):
         self.intervals = json.dumps(intervals)
+
+
+
+class TimeSegment(models.Model):
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    duration = models.DurationField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.start_time and self.end_time:
+            self.duration = self.end_time - self.start_time
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Segment from {self.start_time} to {self.end_time} with duration {self.duration}"

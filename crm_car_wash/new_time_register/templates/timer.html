@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+</head>
+<body>
+    <h1>Timer</h1>
+    {% if current_segment %}
+        <p>Текущий отрезок: {{ current_segment.start_time }} - {% if current_segment.end_time %}{{ current_segment.end_time }}{% else %}в процессе...{% endif %}</p>
+        <p>Продолжительность: {{ current_segment.duration }}</p>
+    {% else %}
+        <p>Нет активного отрезка.</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="start">Старт</button>
+        <button type="submit" name="stop">Стоп</button>
+    </form>
+</body>
+</html>

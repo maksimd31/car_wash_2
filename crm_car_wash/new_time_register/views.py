@@ -7,7 +7,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 # from crm_car_wash.registr_time.forms import SignUpForm
-from crm_car_wash.new_time_register.forms import SignUpForm
+# from crm_car_wash.new_time_register.forms import SignUpForm
+from .forms import SignUpForm
+
 from .models import Timer
 
 

@@ -128,13 +128,41 @@ def register_total(request):
 
 # def home_reg():
 #     return None
+#
+# from django.shortcuts import render, redirect
+# from django.contrib.auth.decorators import login_required
+# from .models import Timer
+# import time
+#
+# @authenticated_user_required
+# def timer_view(request):
+#     timer, created = Timer.objects.get_or_create(user=request.user)
+#
+#     if request.method == "POST":
+#         if 'start' in request.POST:
+#             timer.start_time = time.time()
+#             timer.intervals = []
+#             timer.save()
+#         elif 'stop' in request.POST:
+#             if timer.start_time:
+#                 interval = time.time() - timer.start_time
+#                 timer.elapsed_time += interval
+#                 timer.intervals.append(interval)
+#                 timer.start_time = None
+#                 timer.save()
+#
+#     total_time = timer.elapsed_time + sum(timer.intervals)
+#     return render(request, 'timer.html', {
+#         'total_time': total_time,
+#         'intervals': timer.intervals,
+#     })
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Timer
 import time
 
-@authenticated_user_required
+@login_required
 def timer_view(request):
     timer, created = Timer.objects.get_or_create(user=request.user)
 
@@ -144,7 +172,7 @@ def timer_view(request):
             timer.intervals = []
             timer.save()
         elif 'stop' in request.POST:
-            if timer.start_time:
+            if timer.start_time is not None:  # Проверка на наличие start_time
                 interval = time.time() - timer.start_time
                 timer.elapsed_time += interval
                 timer.intervals.append(interval)

@@ -1,7 +1,7 @@
 <div class="container">
     <h2 class="text-center mt-4">Таймер</h2>
 
-    <form method="post" class="text-center">
+    <form action="{% url 'tim' %}" method="POST">
         {% csrf_token %}
         <button type="submit" name="start" class="btn btn-success btn-lg">Старт</button>
         <button type="submit" name="stop" class="btn btn-danger btn-lg">Стоп</button>

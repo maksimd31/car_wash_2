@@ -45,35 +45,35 @@ class SignUpForm(UserCreationForm):
             'password2'].help_text = '<span class="form-text text-muted"><small>Введите тот же пароль, что и раньше, для проверки.</small></span>'
 
 
-# class AddRecordClientForm(forms.ModelForm):
-#     """
-#         Класс формы для добавления записи.
-#
-#         Атрибуты:
-#         - license_plate: Государственный номер
-#         - full_name: Ф.И.О
-#         - phone_number: Номер телефона
-#         - email: Email адрес
-#         - car_model: Марка/Модель автомобиля
-#
-#         Эта форма исключает из модели 'Client' поле 'user'.
-#     """
-#     license_plate = forms.CharField(required=True, widget=forms.widgets.TextInput(
-#         attrs={"placeholder": "Государственный номер", "class": "form-control"}), label="")
-#     full_name = forms.CharField(required=True, widget=forms.widgets.TextInput(
-#         attrs={"placeholder": "Ф.И.О", "class": "form-control"}), label="")
-#     phone_number = forms.CharField(required=True, widget=forms.widgets.TextInput(
-#         attrs={"placeholder": "Номер телефона", "class": "form-control"}), label="")
-#     email = forms.CharField(required=True, widget=forms.widgets.TextInput(
-#         attrs={"placeholder": "Email", "class": "form-control"}), label="")
-#     car_model = forms.CharField(required=True, widget=forms.widgets.TextInput(
-#         attrs={"placeholder": "Марка/Модель", "class": "form-control"}), label="")
-#
-#     # created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время добавления')
-#
-#     class Meta:
-#         # Из формы AddRecordClientForm исключаю
-#         model = Client
-#         exclude = ('user',)
+class AddRecordClientForm(forms.ModelForm):
+    """
+        Класс формы для добавления записи.
+
+        Атрибуты:
+        - license_plate: Государственный номер
+        - full_name: Ф.И.О
+        - phone_number: Номер телефона
+        - email: Email адрес
+        - car_model: Марка/Модель автомобиля
+
+        Эта форма исключает из модели 'Client' поле 'user'.
+    """
+    license_plate = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Государственный номер", "class": "form-control"}), label="")
+    full_name = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Ф.И.О", "class": "form-control"}), label="")
+    phone_number = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Номер телефона", "class": "form-control"}), label="")
+    email = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Email", "class": "form-control"}), label="")
+    car_model = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Марка/Модель", "class": "form-control"}), label="")
+
+    # created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время добавления')
+
+    # class Meta:
+    #     # Из формы AddRecordClientForm исключаю
+    #     model = Client
+    #     exclude = ('user',)
 
 

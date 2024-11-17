@@ -9,7 +9,11 @@ from django.contrib import messages
 from django.core import management
 import requests
 
-from crm_car_wash.registr_time.forms import SignUpForm
+# from crm_car_wash.registr_time.forms import SignUpForm
+from .forms import SignUpForm
+
+
+# from crm_car_wash.registr_time.forms import SignUpForm
 
 
 # Create your views here.

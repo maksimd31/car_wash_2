@@ -1,18 +1,13 @@
 from datetime import time
 
-from django.shortcuts import render
-from django.contrib.sites import requests
-from django.views.decorators.http import require_http_methods
 # from .models import Client
 # from .forms import SignUpForm, AddRecordClientForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.core import management
-import requests
 
 # from crm_car_wash.registr_time.forms import SignUpForm
-from .forms import SignUpForm
+from crm_car_wash.new_time_register.forms import SignUpForm
 from .models import Timer
 
 

@@ -1,3 +1,6 @@
+from django.db import models
+
+# Create your models here.
 import time  # Добавьте этот импорт
 
 from django.contrib.auth.models import User

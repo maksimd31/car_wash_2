@@ -1,19 +1,28 @@
-<div class="container">
-    <h2 class="text-center mt-4">Таймер</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timer</title>
+</head>
+<body>
+    <div>
+        <h2>Timer</h2>
 
-    <form method="post" class="text-center">
-        {% csrf_token %}
-        <button type="submit" name="start" class="btn btn-success btn-lg">Старт</button>
-        <button type="submit" name="stop" class="btn btn-danger btn-lg">Стоп</button>
-    </form>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="start">Start</button>
+            <button type="submit" name="stop">Stop</button>
+        </form>
 
-    <h2 class="text-center mt-4">Общее время: <span class="text-primary">{{ total_time|floatformat:2 }}</span> секунд</h2>
-    <h3 class="text-center mt-4">Промежуточные интервалы:</h3>
-    <ul class="list-group">
-        {% for interval in intervals %}
-            <li class="list-group-item">{{ interval|floatformat:2 }} секунд</li>
-        {% empty %}
-            <li class="list-group-item">Нет промежуточных интервалов</li>
-        {% endfor %}
-    </ul>
-</div>
+        <h2>Total Time: <span>{{ total_time|floatformat:2 }}</span> seconds</h2>
+        <h3>Lap Times:</h3>
+        <ul>
+            {% for interval in intervals %}
+                <li>{{ interval|floatformat:2 }} seconds</li>
+            {% empty %}
+                <li>No lap times recorded</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

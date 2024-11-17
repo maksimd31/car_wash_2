@@ -22,8 +22,10 @@ urlpatterns = [
     # path('1hfhthtshsth/', include('website.urls')),
     path('', include('website2.urls')),
     path('time/', include('registr_time.urls')),
-
 ]
+
+
+
 
 hendler404 = 'handlers.page_not_found'
 handler400 = 'handlers.handle_bad_request'

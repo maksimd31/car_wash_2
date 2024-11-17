@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таймер</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Таймер</h1>
+        <form method="post" class="text-center">
+            {% csrf_token %}
+            <button type="submit" name="start" class="btn btn-success btn-lg">Старт</button>
+            <button type="submit" name="stop" class="btn btn-danger btn-lg">Стоп</button>
+        </form>
+        <h2 class="text-center mt-4">Общее время: <span class="text-primary">{{ total_time|floatformat:2 }}</span> секунд</h2>
+        <h3 class="text-center mt-4">Промежуточные интервалы:</h3>
+        <ul class="list-group">
+            {% for interval in intervals %}
+                <li class="list-group-item">{{ interval|floatformat:2 }} секунд</li>
+            {% empty %}
+                <li class="list-group-item">Нет промежуточных интервалов</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Подключение Bootstrap JS и jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

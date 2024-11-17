@@ -134,7 +134,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Timer
 import time
 
-@login_required
+@authenticated_user_required
 def timer_view(request):
     timer, created = Timer.objects.get_or_create(user=request.user)
 

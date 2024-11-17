@@ -3,10 +3,16 @@
 {% block content %}
       {% if user.is_authenticated %}
 
-    {% include 'timer.html' %}
+
+
+    {% include 'timer.htmll' %}
+    <div class="d-grid gap-2">
+        <a href="{% url 'client_home' %}" class="btn btn-secondary">База клиентов</a>
+        <a href="{% url 'new_order' %}" class="btn btn-secondary">Новая сделка</a>
 
 
 
+    </div>
 
 {% else %}
 
@@ -14,7 +20,7 @@
     <h1>Вход</h1>
     <br/>
 
-    <form method="POST" action="{% url 'home_registr' %}">
+    <form method="POST" action="{% url 'home' %}">
         {% csrf_token %}
 
         <div class="mb-3">

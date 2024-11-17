@@ -1,3 +1,5 @@
+from datetime import time
+
 from django.shortcuts import render
 from django.contrib.sites import requests
 from django.views.decorators.http import require_http_methods
@@ -11,6 +13,7 @@ import requests
 
 # from crm_car_wash.registr_time.forms import SignUpForm
 from .forms import SignUpForm
+from .models import Timer
 
 
 # from crm_car_wash.registr_time.forms import SignUpForm
@@ -152,7 +155,7 @@ def timer_view(request):
                 timer.save()
 
     total_time = timer.elapsed_time + sum(timer.intervals)
-    return render(request, 'timer.html', {
+    return render(request, 'tim.html', {
         'total_time': total_time,
         'intervals': timer.intervals,
     })
@@ -180,7 +183,7 @@ def timer_view(request):
 #                 timer.save()
 #
 #     total_time = timer.elapsed_time + sum(timer.intervals)
-#     return render(request, 'timer.html', {
+#     return render(request, 'tim.html', {
 #         'total_time': total_time,
 #         'intervals': timer.intervals,
 #     })

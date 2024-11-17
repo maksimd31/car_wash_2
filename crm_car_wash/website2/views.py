@@ -326,3 +326,5 @@ def search_clients(request):
         messages.success(request, 'Не найден номерной знак!')
         # return redirect('message.html')
     return render(request, 'client_home.html', {'clients': clients})
+
+

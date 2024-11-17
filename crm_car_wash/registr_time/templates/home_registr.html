@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+      {% if user.is_authenticated %}
+
+
+
+    <div class="d-grid gap-2">
+        <a href="{% url 'client_home' %}" class="btn btn-secondary">Старт</a>
+        <a href="{% url 'new_order' %}" class="btn btn-secondary">Стоп</a>
+<!--        <a href="{% url 'registr_time' %}" class="btn btn-secondary">Регистрация времени</a>-->
+
+
+    </div>
+
+{% else %}
+
+<div class="col-md-6 offset-md-3">
+    <h1>Вход</h1>
+    <br/>
+
+    <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <input type="text" class="form-control" name="username" , placeholder="Логин" required>
+
+        </div>
+        <br/>
+        <div class="mb-3">
+            <input type="password" class="form-control" name="password" , placeholder="Пароль" required>
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-secondary">Войти</button>
+
+    </form>
+    {% endif %}
+    </div>
+    {% endblock %}

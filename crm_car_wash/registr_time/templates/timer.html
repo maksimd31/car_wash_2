@@ -1,56 +1,14 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таймер</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            max-width: 400px;
-        }
-        h1 {
-            text-align: center;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        h2, h3 {
-            text-align: center;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <h1>Таймер</h1>
-    <form method="post">
+ <form method="post" class="text-center">
         {% csrf_token %}
-        <button type="submit" name="start">Старт</button>
-        <button type="submit" name="stop">Стоп</button>
+        <button type="submit" name="start" class="btn btn-success btn-lg">Старт</button>
+        <button type="submit" name="stop" class="btn btn-danger btn-lg">Стоп</button>
     </form>
-    <h2>Общее время: {{ total_time|floatformat:2 }} секунд</h2>
-    <h3>Промежуточные интервалы:</h3>
-    <ul>
+    <h2 class="text-center mt-4">Общее время: <span class="text-primary">{{ total_time|floatformat:2 }}</span> секунд</h2>
+    <h3 class="text-center mt-4">Промежуточные интервалы:</h3>
+    <ul class="list-group">
         {% for interval in intervals %}
-            <li>{{ interval|floatformat:2 }} секунд</li>
+            <li class="list-group-item">{{ interval|floatformat:2 }} секунд</li>
         {% empty %}
-            <li>Нет промежуточных интервалов</li>
+            <li class="list-group-item">Нет промежуточных интервалов</li>
         {% endfor %}
     </ul>
-</body>
-</html>

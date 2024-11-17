@@ -210,32 +210,73 @@ def register_total(request):
 #         'total_time': total_time,
 #         'intervals': tm.intervals,
 #     })
+#
+# def timer_view(request):
+#     tm, created = Timer.objects.get_or_create(user=request.user)
+#     print(f"Timer object: {tm}, created: {created}")  # Отладочное сообщение
+#
+#     if request.method == "POST":
+#         print("POST request received")  # Отладочное сообщение
+#         if 'start' in request.POST:
+#             print("Start button pressed")  # Отладочное сообщение
+#             tm.start_time = time.time()
+#             tm.intervals = []
+#             tm.save()
+#             print("Timer started")  # Отладочное сообщение
+#         elif 'stop' in request.POST:
+#             print("Stop button pressed")  # Отладочное сообщение
+#             if tm.start_time:
+#                 interval = time.time() - tm.start_time
+#                 tm.elapsed_time += interval
+#                 tm.intervals.append(interval)
+#                 tm.start_time = None
+#                 tm.save()
+#                 print("Timer stopped")  # Отладочное сообщение
+#
+#     total_time = tm.elapsed_time + sum(tm.intervals)
+#     return render(request, 'tim.html', {
+#         'total_time': total_time,
+#         'intervals': tm.intervals,
+#     })
+#
+from django.shortcuts import render, redirect
+from django.utils import timezone
+
+class Timer:
+    def __init__(self):
+        self.start_time = None
+        self.stop_time = None
+        self.intervals = []
+        self.total_time = 0.0
+
+    def start(self):
+        self.start_time = timezone.now()
+
+    def stop(self):
+        self.stop_time = timezone.now()
+        self.total_time = (self.stop_time - self.start_time).total_seconds()
+        self.intervals.append(self.total_time)
+
+    def reset(self):
+        self.start_time = None
+        self.stop_time = None
+        self.intervals = []
+        self.total_time = 0.0
+
+timer = Timer()
 
 def timer_view(request):
-    tm, created = Timer.objects.get_or_create(user=request.user)
-    print(f"Timer object: {tm}, created: {created}")  # Отладочное сообщение
-
-    if request.method == "POST":
-        print("POST request received")  # Отладочное сообщение
+    if request.method == 'POST':
         if 'start' in request.POST:
-            print("Start button pressed")  # Отладочное сообщение
-            tm.start_time = time.time()
-            tm.intervals = []
-            tm.save()
-            print("Timer started")  # Отладочное сообщение
+            timer.start()
         elif 'stop' in request.POST:
-            print("Stop button pressed")  # Отладочное сообщение
-            if tm.start_time:
-                interval = time.time() - tm.start_time
-                tm.elapsed_time += interval
-                tm.intervals.append(interval)
-                tm.start_time = None
-                tm.save()
-                print("Timer stopped")  # Отладочное сообщение
+            timer.stop()
+        elif 'reset' in request.POST:
+            timer.reset()
+        return redirect('timer')
 
-    total_time = tm.elapsed_time + sum(tm.intervals)
-    return render(request, 'tim.html', {
-        'total_time': total_time,
-        'intervals': tm.intervals,
-    })
-
+    context = {
+        'total_time': timer.total_time,
+        'intervals': timer.intervals,
+    }
+    return render(request, 'tim.html', context)

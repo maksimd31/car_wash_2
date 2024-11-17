@@ -43,8 +43,7 @@ def authenticated_user_required(view_func):
 
     return wrapper
 
-
-def home_reg(request):
+def home_registr(request):
     """
         Обрабатывает запрос на главную страницу.
 
@@ -61,12 +60,12 @@ def home_reg(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Вы вошли!")
-            return redirect('home_reg')
+            return redirect('home_registr')
         else:
             messages.success(request, "ERROR ОШИБКА Please Try Again...")
-            return redirect('home_reg')
+            return redirect('home_registr')
     else:
-        return render(request, 'home_reg.html')
+        return render(request, 'home_registr.html')
 
 
 def register_user(request):
@@ -89,7 +88,7 @@ def register_user(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, "Вы Успешно Зарегистрировались! Добро пожаловать!")
-            return redirect('home')
+            return redirect('home_registr')
     else:
         form = SignUpForm()
         return render(request, 'register.html', {'form': form})
@@ -113,7 +112,7 @@ def logout_user(request):
     """
     logout(request)
     messages.success(request, "Вы вышли из системы")
-    return redirect('home')
+    return redirect('home_registr')
 
 
 #Регистрация времени

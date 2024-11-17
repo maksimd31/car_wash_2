@@ -242,7 +242,7 @@ def timer_view(request):
             segment_id = request.session.get('segment_id')
             if segment_id:
                 segment = TimeSegment.objects.get(id=segment_id)
-                segment.end_time = timezone.now()  # Здесь используем timezone.now()
+                segment.end_time = datetime.now()  # Здесь используем timezone.now()
                 segment.save()
                 del request.session['segment_id']
             return redirect('timer_view')

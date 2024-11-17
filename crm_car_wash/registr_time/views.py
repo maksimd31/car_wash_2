@@ -44,7 +44,7 @@ def authenticated_user_required(view_func):
     return wrapper
 
 
-def home(request):
+def home_reg(request):
     """
         Обрабатывает запрос на главную страницу.
 
@@ -127,4 +127,5 @@ def register_total(request):
     pass
 
 
-
+# def home_reg():
+#     return None

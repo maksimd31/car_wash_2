@@ -1,10 +1,13 @@
-from . import views
 # from .views import add_random_client, delete_random_client, update_random_client
 
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('time/', views.home, name='home'),
+    path('', views.home, name='home'),
+]
+# urlpatterns = [
+#     path('time/', views.home, name='home'),
     # path('register/', views.register_user, name='register'),
     # path('logout/', views.logout_user, name='logout'),
     # path('add_client/', views.add_client, name='add_client'),
@@ -22,4 +25,4 @@ urlpatterns = [
     # path('search_clients/', views.search_clients, name='search_clients'),
     # path('registr_time/', views.registr_time, name='registr_time'),
 
-]
+# ]

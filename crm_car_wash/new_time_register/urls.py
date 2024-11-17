@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from crm_car_wash.new_time_register import views
+from . import views
 
 # from crm_car_wash.new_time_register import views
 

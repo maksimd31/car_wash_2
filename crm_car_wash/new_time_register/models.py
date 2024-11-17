@@ -13,6 +13,8 @@ class Timer(models.Model):
     start_time = models.FloatField(null=True, blank=True)
     elapsed_time = models.FloatField(default=0)
     intervals = models.JSONField(default=list)
+    intervals_1 = models.JSONField(default=list)
+
 
     def __str__(self):
         return f'Timer for {self.user.username}'

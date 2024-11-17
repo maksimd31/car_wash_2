@@ -241,10 +241,13 @@ def timer_view(request):
             segment_id = request.session.get('segment_id')
             if segment_id:
                 segment = TimeSegment.objects.get(id=segment_id)
-                segment.end_time = timezone.now()
+                segment.end_time = timezone.now()  # Здесь используем timezone.now()
                 segment.save()
                 del request.session['segment_id']
             return redirect('timer_view')
 
     current_segment = TimeSegment.objects.filter(end_time__isnull=True).first()
     return render(request, 'timer.html', {'current_segment': current_segment})
+
+
+

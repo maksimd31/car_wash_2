@@ -152,7 +152,7 @@ def timer_view(request):
                 timer.save()
 
     total_time = timer.elapsed_time + sum(timer.intervals)
-    return render(request, 'timer_app/timer.html', {
+    return render(request, 'timer.html', {
         'total_time': total_time,
         'intervals': timer.intervals,
     })

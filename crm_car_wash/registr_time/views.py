@@ -62,7 +62,7 @@ def home_registr(request):
             messages.success(request, "Вы вошли!")
             return redirect('home_registr')
         else:
-            # messages.success(request, "ERROR ОШИБКА Please Try Again...")
+            messages.success(request, "ERROR ОШИБКА Please Try Again...")
             return redirect('home_registr')
     else:
         return render(request, 'home_registr.html')

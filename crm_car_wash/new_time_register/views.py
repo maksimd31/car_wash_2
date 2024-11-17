@@ -2,6 +2,7 @@ from datetime import time, timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import redirect, render
+from django.utils.datetime_safe import datetime
 
 from .forms import SignUpForm
 # from django.shortcuts import render, redirect
@@ -234,7 +235,7 @@ def register_total(request):
 def timer_view(request):
     if request.method == 'POST':
         if 'start' in request.POST:
-            segment = TimeSegment(start_time=timezone.now())
+            segment = TimeSegment(start_time=datetime.now())
             segment.save()
             request.session['segment_id'] = segment.id
         elif 'stop' in request.POST:

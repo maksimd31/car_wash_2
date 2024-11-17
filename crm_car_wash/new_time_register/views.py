@@ -136,25 +136,25 @@ def register_total(request):
 #
 @authenticated_user_required
 def timer_view(request):
-    timer, created = Timer.objects.get_or_create(user=request.user)
+    tm, created = Timer.objects.get_or_create(user=request.user)
 
     if request.method == "POST":
         if 'start' in request.POST:
-            timer.start_time = time.time()
-            timer.intervals = []
-            timer.save()
+            tm.start_time = time.time()
+            tm.intervals = []
+            tm.save()
         elif 'stop' in request.POST:
-            if timer.start_time:
-                interval = time.time() - timer.start_time
-                timer.elapsed_time += interval
-                timer.intervals.append(interval)
-                timer.start_time = None
-                timer.save()
+            if tm.start_time:
+                interval = time.time() - tm.start_time
+                tm.elapsed_time += interval
+                tm.intervals.append(interval)
+                tm.start_time = None
+                tm.save()
 
-    total_time = timer.elapsed_time + sum(timer.intervals)
+    total_time = tm.elapsed_time + sum(tm.intervals)
     return render(request, 'tim.html', {
         'total_time': total_time,
-        'intervals': timer.intervals,
+        'intervals': tm.intervals,
     })
 
 # from django.shortcuts import render, redirect

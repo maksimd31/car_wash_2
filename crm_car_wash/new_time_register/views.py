@@ -232,23 +232,36 @@ def register_total(request):
 #         'intervals': tm.intervals,
 #     })
 #
-def timer_view(request):
+# def timer_view(request):
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             segment = TimeSegment(start_time=datetime.now())
+#             segment.save()
+#             request.session['segment_id'] = segment.id
+#         elif 'stop' in request.POST:
+#             segment_id = request.session.get('segment_id')
+#             if segment_id:
+#                 segment = TimeSegment.objects.get(id=segment_id)
+#                 segment.end_time = datetime.now()  # Здесь используем timezone.now()
+#                 segment.save()
+#                 del request.session['segment_id']
+#             return redirect('timer_view')
+#
+#     current_segment = TimeSegment.objects.filter(end_time__isnull=True).first()
+#     return render(request, 'timer.html', {'current_segment': current_segment})
+#
+#
+from django.shortcuts import render, redirect
+from .models import TimeInterval
+
+def time_interval_view(request):
     if request.method == 'POST':
         if 'start' in request.POST:
-            segment = TimeSegment(start_time=datetime.now())
-            segment.save()
-            request.session['segment_id'] = segment.id
+            TimeInterval.objects.create(start_time=timezone.now())
         elif 'stop' in request.POST:
-            segment_id = request.session.get('segment_id')
-            if segment_id:
-                segment = TimeSegment.objects.get(id=segment_id)
-                segment.end_time = datetime.now()  # Здесь используем timezone.now()
-                segment.save()
-                del request.session['segment_id']
-            return redirect('timer_view')
-
-    current_segment = TimeSegment.objects.filter(end_time__isnull=True).first()
-    return render(request, 'timer.html', {'current_segment': current_segment})
-
-
-
+            interval = TimeInterval.objects.order_by('-id').first()
+            if interval and not interval.end_time:
+                interval.end_time = timezone.now()
+                interval.save()
+    intervals = TimeInterval.objects.all()
+    return render(request, 'time_interval.html', {'intervals': intervals})

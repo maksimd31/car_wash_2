@@ -12,6 +12,7 @@ urlpatterns = [
     # path('tim/', views.timer_view, name='tim'),
     # path('timer/', views.time_interval_view, name='time_interval'),
     path('timer/', views.time_interval_view, name='time_interval_view'),  # Убедитесь, что здесь правильный путь
+    path('time-interval/create/', views.create_time_interval, name='create_time_interval'),  # Путь для создания
 
 ]
 

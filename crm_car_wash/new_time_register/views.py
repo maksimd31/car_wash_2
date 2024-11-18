@@ -587,6 +587,7 @@ from datetime import datetime, timedelta
 #     })
 
 #
+
 @authenticated_user_required
 def time_interval_view(request):
     if request.method == 'POST':
@@ -631,16 +632,16 @@ def time_interval_view(request):
             formatted_intervals.append({
                 'start_time': interval.start_time.strftime("%H:%M:%S"),
                 'end_time': interval.end_time.strftime("%H:%M:%S"),
-                'duration': f"{int(minutes)} мин {int(seconds)} сек"
-            })
+                'duration': f"{int(minutes)} мин {int(seconds)} сек"})
 
-    # Получаем сводные данные по дням
+            # Получаем сводные данные по дням
     daily_summary = DailySummary.objects.all()
 
     return render(request, 'time_interval.html', {
         'formatted_intervals': formatted_intervals,
         'daily_summary': daily_summary
     })
+
 
 #Попытка разбить функционал
 #

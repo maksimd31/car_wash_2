@@ -51,11 +51,12 @@
                 <td>{{ summary.interval_count }}</td>
                 <td>
                     {% if summary.total_duration %}
-                        {{ summary.total_duration|duration_format }}  {# Используйте ваш пользовательский фильтр #}
+                        {{ summary.total_duration|duration_format }}
                     {% else %}
                         00:00:00
                     {% endif %}
                 </td>
+
             </tr>
             {% endfor %}
         </tbody>

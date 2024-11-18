@@ -1,7 +1,7 @@
 {% extends 'base_reg.html' %}
 
 {% block content %}<!-- time_interval.html -->
-    <!-- time_interval.html -->
+<!-- time_interval.html -->
     <form method="post">
         {% csrf_token %}
         <button type="submit" name="start">Старт</button>
@@ -9,19 +9,26 @@
     </form>
 
     <h2>Интервалы времени</h2>
-    <table>
-        <tr>
-            <th>Старт</th>
-            <th>Стоп</th>
-            <th>Длительность</th>
-        </tr>
-        {% for interval in formatted_intervals %}
-        <tr>
-            <td>{{ interval.start_time }}</td>
-            <td>{{ interval.end_time }}</td>
-            <td>{{ interval.duration }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Старт</th>
+                <th scope="col">Стоп</th>
+                <th scope="col">Длительность</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for interval in formatted_intervals %}
+            <tr>
+                <td>{{ interval.start_time }}</td>
+                <td>{{ interval.end_time }}</td>
+                <td>{{ interval.duration }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 
 {% endblock %}

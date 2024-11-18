@@ -109,15 +109,7 @@ def logout_user(request):
     return redirect('home_registr')
 
 
-#Регистрация времени
-def register_start(request):
-    pass
 
-def register_stop(request):
-    pass
-
-def register_total(request):
-    pass
 
 
 # def home_reg():
@@ -588,28 +580,84 @@ from datetime import datetime, timedelta
 
 #
 
+# @authenticated_user_required
+# def time_interval_view(request):
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             # Записываем текущее время в start_time
+#             interval = TimeInterval(user=request.user, start_time=timezone.now().time())
+#
+#             # interval = TimeInterval(start_time=timezone.now().time())
+#             interval.save()
+#             return redirect('time_interval_view')
+#
+#         elif 'stop' in request.POST:
+#             # Получаем последний интервал и записываем end_time
+#             interval = TimeInterval.objects.filter(user=request.user).last()
+#
+#             # interval = TimeInterval.objects.last()
+#             if interval:
+#                 interval.end_time = timezone.now().time()
+#                 interval.save()
+#
+#                 # Обновляем DailySummary
+#                 date_key = timezone.now().date()
+#                 daily_summary, created = DailySummary.objects.get_or_create(date=date_key)
+#                 daily_summary.interval_count += 1
+#                 daily_summary.total_duration += interval.duration
+#                 daily_summary.save()
+#
+#             return redirect('time_interval_view')
+#
+#         elif 'reset' in request.POST:
+#             # Удаляем все записи из модели TimeInterval
+#             TimeInterval.objects.all().delete()
+#             return redirect('time_interval_view')
+#
+#     intervals = TimeInterval.objects.all()
+#     formatted_intervals = []
+#
+#     for interval in intervals:
+#         if interval.start_time and interval.end_time:
+#             duration = interval.duration
+#             minutes, seconds = divmod(duration.total_seconds(), 60)
+#             formatted_intervals.append({
+#                 'start_time': interval.start_time.strftime("%H:%M:%S"),
+#                 'end_time': interval.end_time.strftime("%H:%M:%S"),
+#                 'duration': f"{int(minutes)} мин {int(seconds)} сек"})
+#
+#             # Получаем сводные данные по дням
+#     daily_summary = DailySummary.objects.all()
+#
+#     return render(request, 'time_interval.html', {
+#         'formatted_intervals': formatted_intervals,
+#         'daily_summary': daily_summary
+#     })
+
+import pytz
+
+
 @authenticated_user_required
 def time_interval_view(request):
     if request.method == 'POST':
-        if 'start' in request.POST:
-            # Записываем текущее время в start_time
-            interval = TimeInterval(user=request.user, start_time=timezone.now().time())
+        moscow_tz = pytz.timezone('Europe/Moscow')
 
-            # interval = TimeInterval(start_time=timezone.now().time())
+        if 'start' in request.POST:
+            # Записываем текущее московское время в start_time
+            # moscow_tz = pytz.timezone('Europe/Moscow')
+            interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
             interval.save()
             return redirect('time_interval_view')
 
         elif 'stop' in request.POST:
             # Получаем последний интервал и записываем end_time
             interval = TimeInterval.objects.filter(user=request.user).last()
-
-            # interval = TimeInterval.objects.last()
             if interval:
-                interval.end_time = timezone.now().time()
+                interval.end_time = timezone.now().astimezone(moscow_tz).time()
                 interval.save()
 
                 # Обновляем DailySummary
-                date_key = timezone.now().date()
+                date_key = timezone.now().astimezone(moscow_tz).date()
                 daily_summary, created = DailySummary.objects.get_or_create(date=date_key)
                 daily_summary.interval_count += 1
                 daily_summary.total_duration += interval.duration

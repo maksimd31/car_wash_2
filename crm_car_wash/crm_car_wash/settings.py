@@ -146,7 +146,6 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Moscow'
-# USE_TZ = True  # Убедитесь, что использование временных зон включено
 
 # TIME_ZONE = 'UTC'
 

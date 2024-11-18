@@ -1,7 +1,6 @@
 {% extends 'base_reg.html' %}
 
-{% block content %}<!-- time_interval.html -->
-<!-- time_interval.html -->
+{% block content %}
     <form method="post">
         {% csrf_token %}
         <button type="submit" name="start">Старт</button>
@@ -31,5 +30,32 @@
         </table>
     </div>
 
+    <h2>Итоги по дням</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Дата</th>
+                <th scope="col">Количество интервалов</th>
+                <th scope="col">Итоговое время</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for summary in daily_summary %}
+            <tr>
+                <td>{{ summary.date }}</td>
+                <td>{{ summary.interval_count }}</td>
+                <td>
+                    {% if summary.total_duration %}
+                        {{ summary.total_duration|time:"H:i:s" }}
+                    {% else %}
+                        00:00:00
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

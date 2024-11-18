@@ -95,7 +95,22 @@ class Timer(models.Model):
 #         super().save(*args, **kwargs)
 
 
+# from django.db import models
+#
+# class TimeInterval(models.Model):
+#     start_time = models.TimeField(null=True, blank=True, verbose_name='старт')
+#     end_time = models.TimeField(null=True, blank=True, verbose_name='стоп')
+#     duration = models.DurationField(null=True, blank=True, verbose_name='Длительность')
+#
+#     def save(self, *args, **kwargs):
+#         if self.start_time and self.end_time:
+#             self.duration = (datetime.combine(datetime.min, self.end_time) -
+#                              datetime.combine(datetime.min, self.start_time))
+#         super().save(*args, **kwargs)
+
+
 from django.db import models
+from django.utils import timezone
 
 class TimeInterval(models.Model):
     start_time = models.TimeField(null=True, blank=True, verbose_name='старт')
@@ -108,5 +123,10 @@ class TimeInterval(models.Model):
                              datetime.combine(datetime.min, self.start_time))
         super().save(*args, **kwargs)
 
+class DailySummary(models.Model):
+    date = models.DateField(unique=True, verbose_name='Дата')
+    interval_count = models.IntegerField(default=0, verbose_name='Количество интервалов')
+    total_duration = models.DurationField(default=timedelta(), verbose_name='Итоговое время')
 
-
+    def __str__(self):
+        return f"{self.date} - {self.interval_count} интервалов, {self.total_duration}"

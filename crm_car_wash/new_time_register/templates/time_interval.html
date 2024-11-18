@@ -3,8 +3,8 @@
 {% block content %}
     <form method="post" id="timerForm">
         {% csrf_token %}
-        <button type="button" name="start" id="startButton">Старт</button>
-        <button type="button" name="stop" id="stopButton">Стоп</button>
+        <button type="submit" name="start" id="startButton">Старт</button>
+        <button type="submit" name="stop" id="stopButton">Стоп</button>
         <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
         <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
     </form>
@@ -66,8 +66,10 @@
         let seconds = 0;
 
         document.getElementById('startButton').addEventListener('click', function() {
-            // Запускаем таймер
-            clearInterval(timer); // Очищаем предыдущий таймер, если он есть
+            // Сбрасываем время перед началом нового отсчета
+            seconds = 0;
+            document.getElementById('currentTime').textContent = formatTime(seconds);
+            document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
             timer = setInterval(function() {
                 seconds++;
                 document.getElementById('currentTime').textContent = formatTime(seconds);
@@ -76,7 +78,7 @@
         });
 
         document.getElementById('stopButton').addEventListener('click', function() {
-            clearInterval(timer); // Останавливаем таймер
+            clearInterval(timer);
             // Обновляем текущее время в скрытом поле
             document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
         });

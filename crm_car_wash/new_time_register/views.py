@@ -644,3 +644,11 @@ def time_interval_view(request):
                 'end_time': interval.end_time.strftime("%H:%M:%S"),
                 'duration': f"{int(minutes)} мин {int(seconds)} сек"
             })
+
+    # Получаем сводные данные по дням для текущего пользователя
+    daily_summary = DailySummary.objects.filter(user=request.user)
+
+    return render(request, 'time_interval.html', {
+        'formatted_intervals': formatted_intervals,
+        'daily_summary': daily_summary
+    })

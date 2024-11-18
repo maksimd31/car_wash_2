@@ -80,17 +80,17 @@ class AddRecordClientForm(forms.ModelForm):
     #     exclude = ('user',)
 
 
-#
-# class TimeIntervalForm(forms.ModelForm):
-#     class Meta:
-#         model = TimeInterval
-#         fields = ['start_time', 'end_time']
-
-
-from django import forms
-from .models import TimeInterval
 
 class TimeIntervalForm(forms.ModelForm):
     class Meta:
         model = TimeInterval
-        fields = []  # Поля не нужны, так как мы будем использовать только кнопки
+        fields = ['start_time', 'end_time']
+
+
+# from django import forms
+# from .models import TimeInterval
+#
+# class TimeIntervalForm(forms.ModelForm):
+#     class Meta:
+#         model = TimeInterval
+#         fields = []  # Поля не нужны, так как мы будем использовать только кнопки

@@ -1,11 +1,12 @@
-{% extends 'base_reg.html' %}
+{% extends 'base_reg.ht{% extends 'base_reg.html' %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" id="timerForm">
         {% csrf_token %}
         <button type="submit" name="start" id="startButton">Старт</button>
         <button type="submit" name="stop" id="stopButton">Стоп</button>
         <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
+        <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
     </form>
 
     <h2>Текущее время: <span id="currentTime">00:00:00</span></h2>
@@ -64,32 +65,25 @@
         let timer;
         let seconds = 0;
 
-        document.getElementById('startButton').addEventListener('click', function(event) {
-            event.preventDefault(); // предотвращаем отправку формы
-            startTimer();
-        });
-
-        document.getElementById('stopButton').addEventListener('click', function(event) {
-            event.preventDefault(); // предотвращаем отправку формы
-            stopTimer();
-        });
-
-        function startTimer() {
+        document.getElementById('startButton').addEventListener('click', function() {
             // Сбрасываем время перед началом нового отсчета
             seconds = 0;
             document.getElementById('currentTime').textContent = formatTime(seconds);
+            document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
             timer = setInterval(function() {
                 seconds++;
                 document.getElementById('currentTime').textContent = formatTime(seconds);
+                document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
             }, 1000);
-        }
+        });
 
-        function stopTimer() {
+        document.getElementById('stopButton').addEventListener('click', function() {
             clearInterval(timer);
             // Сбрасываем время на 00:00:00
             seconds = 0;
             document.getElementById('currentTime').textContent = formatTime(seconds);
-        }
+            document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
+        });
 
         function formatTime(totalSeconds) {
             const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
@@ -97,6 +91,7 @@
             const seconds = String(totalSeconds % 60).padStart(2, '0');
             return `${hours}:${minutes}:${seconds}`;
         }
+
     </script>
 
 {% endblock %}

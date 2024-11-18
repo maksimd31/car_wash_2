@@ -1,7 +1,7 @@
 {% extends 'base_reg.html' %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" id="timeForm">
         {% csrf_token %}
         <button type="submit" name="start" id="startButton">Старт</button>
         <button type="submit" name="stop" id="stopButton" disabled>Стоп</button>
@@ -64,9 +64,20 @@
         let timerInterval;
         let seconds = 0;
 
-        document.getElementById('startButton').addEventListener('click', function() {
+        document.getElementById('startButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Предотвращаем отправку формы
             this.disabled = true; // Отключаем кнопку "Старт"
             document.getElementById('stopButton').disabled = false; // Включаем кнопку "Стоп"
+
+            // Отправляем запрос на сервер для начала интервала
+            fetch("{% url 'time_interval_view' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'start=1'
+            });
 
             timerInterval = setInterval(function() {
                 seconds++;
@@ -77,11 +88,8 @@
             }, 1000);
         });
 
-        document.getElementById('stopButton').addEventListener('click', function() {
+        document.getElementById('stopButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Предотвращаем отправку формы
             clearInterval(timerInterval);
             this.disabled = true; // Отключаем кнопку "Стоп"
-            document.getElementById('startButton').disabled = false; // Включаем кнопку "Старт"
-        });
-    </script>
-
-{% endblock %}
+            document.getElementById('startButton').disabled =

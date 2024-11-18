@@ -684,10 +684,26 @@ def time_interval_view(request):
 
             # Получаем сводные данные по дням
     daily_summary = DailySummary.objects.all()
+    formatted_summary = []
+
+    for summary in daily_summary:
+        if summary.total_duration:
+            total_seconds = int(summary.total_duration.total_seconds())
+            hours, remainder = divmod(total_seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            formatted_duration = f"{hours:02}:{minutes:02}:{seconds:02}"
+        else:
+            formatted_duration = "00:00:00"
+
+        formatted_summary.append({
+            'date': summary.date,
+            'interval_count': summary.interval_count,
+            'total_duration': formatted_duration,
+        })
 
     return render(request, 'time_interval.html', {
         'formatted_intervals': formatted_intervals,
-        'daily_summary': daily_summary
+        'daily_summary': formatted_summary
     })
 
 

@@ -18,6 +18,7 @@
 #
 #     def __str__(self):
 #         return f'Timer for {self.user.username}'
+from datetime import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -80,17 +81,31 @@ class Timer(models.Model):
 #
 
 
+# from django.db import models
+# from django.utils import timezone
+#
+# class TimeInterval(models.Model):
+#     start_time = models.DateTimeField(null=True, blank=True, verbose_name='старт')
+#     end_time = models.DateTimeField(null=True, blank=True, verbose_name='стоп')
+#     duration = models.DurationField(null=True, blank=True, verbose_name='Длительность')
+#
+#     def save(self, *args, **kwargs):
+#         if self.start_time and self.end_time:
+#             self.duration = self.end_time - self.start_time
+#         super().save(*args, **kwargs)
+
+
 from django.db import models
-from django.utils import timezone
 
 class TimeInterval(models.Model):
-    start_time = models.DateTimeField(null=True, blank=True, verbose_name='старт')
-    end_time = models.DateTimeField(null=True, blank=True, verbose_name='стоп')
+    start_time = models.TimeField(null=True, blank=True, verbose_name='старт')
+    end_time = models.TimeField(null=True, blank=True, verbose_name='стоп')
     duration = models.DurationField(null=True, blank=True, verbose_name='Длительность')
 
     def save(self, *args, **kwargs):
         if self.start_time and self.end_time:
-            self.duration = self.end_time - self.start_time
+            self.duration = (datetime.combine(datetime.min, self.end_time) -
+                             datetime.combine(datetime.min, self.start_time))
         super().save(*args, **kwargs)
 
 

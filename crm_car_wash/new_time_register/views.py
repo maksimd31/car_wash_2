@@ -290,16 +290,95 @@ def register_total(request):
 #     intervals = TimeInterval.objects.all()
 #     form = TimeIntervalForm()
 #     return render(request, 'time_interval.html', {'form': form, 'intervals': intervals})
+# from django.shortcuts import render, redirect
+# from .models import TimeInterval
+# from django.utils import timezone
+#
+#
+# def time_interval_view(request):
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             # Записываем текущее время в start_time
+#             interval = TimeInterval(start_time=timezone.now())
+#             interval.save()
+#             return redirect('time_interval_view')
+#
+#         elif 'stop' in request.POST:
+#             # Получаем последний интервал и записываем end_time
+#             interval = TimeInterval.objects.last()
+#             if interval:
+#                 interval.end_time = timezone.now()
+#                 interval.save()
+#             return redirect('time_interval_view')
+#
+#     intervals = TimeInterval.objects.all()
+#     formatted_intervals = []
+#
+#     for interval in intervals:
+#         if interval.start_time and interval.end_time:
+#             duration = interval.duration
+#             minutes, seconds = divmod(duration.total_seconds(), 60)
+#             formatted_intervals.append({
+#                 'start_time': interval.start_time,
+#                 'end_time': interval.end_time,
+#                 'duration': f"{int(minutes)} мин {int(seconds)} сек"
+#             })
+#
+#     return render(request, 'time_interval.html', {'formatted_intervals': formatted_intervals})
+
+# from django.shortcuts import render, redirect
+# from .models import TimeInterval
+# from django.utils import timezone
+#
+#
+# def time_interval_view(request):
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             # Записываем текущее время в start_time
+#             interval = TimeInterval(start_time=timezone.now())
+#             interval.save()
+#             return redirect('time_interval_view')
+#
+#         elif 'stop' in request.POST:
+#             # Получаем последний интервал и записываем end_time
+#             interval = TimeInterval.objects.last()
+#             if interval:
+#                 interval.end_time = timezone.now()
+#                 interval.save()
+#             return redirect('time_interval_view')
+#
+#         elif 'reset' in request.POST:
+#             # Удаляем все записи из модели TimeInterval
+#             TimeInterval.objects.all().delete()
+#             return redirect('time_interval_view')
+#
+#     intervals = TimeInterval.objects.all()
+#     formatted_intervals = []
+#
+#     for interval in intervals:
+#         if interval.start_time and interval.end_time:
+#             duration = interval.duration
+#             minutes, seconds = divmod(duration.total_seconds(), 60)
+#             formatted_intervals.append({
+#                 'start_time': interval.start_time,
+#                 'end_time': interval.end_time,
+#                 'duration': f"{int(minutes)} мин {int(seconds)} сек"
+#             })
+#
+#     return render(request, 'time_interval.html', {'formatted_intervals': formatted_intervals})
+
+
 from django.shortcuts import render, redirect
 from .models import TimeInterval
 from django.utils import timezone
+from datetime import datetime
 
 
 def time_interval_view(request):
     if request.method == 'POST':
         if 'start' in request.POST:
             # Записываем текущее время в start_time
-            interval = TimeInterval(start_time=timezone.now())
+            interval = TimeInterval(start_time=timezone.now().time())
             interval.save()
             return redirect('time_interval_view')
 
@@ -307,8 +386,13 @@ def time_interval_view(request):
             # Получаем последний интервал и записываем end_time
             interval = TimeInterval.objects.last()
             if interval:
-                interval.end_time = timezone.now()
+                interval.end_time = timezone.now().time()
                 interval.save()
+            return redirect('time_interval_view')
+
+        elif 'reset' in request.POST:
+            # Удаляем все записи из модели TimeInterval
+            TimeInterval.objects.all().delete()
             return redirect('time_interval_view')
 
     intervals = TimeInterval.objects.all()

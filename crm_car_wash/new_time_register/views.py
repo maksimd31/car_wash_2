@@ -534,7 +534,7 @@ from datetime import datetime, timedelta
 #         'formatted_intervals': formatted_intervals,
 #         'daily_summary': daily_summary
 #     })
-
+@authenticated_user_required
 def time_interval_view(request):
     if request.method == 'POST':
         if 'start' in request.POST:

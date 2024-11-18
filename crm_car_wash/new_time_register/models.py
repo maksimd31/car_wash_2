@@ -71,15 +71,24 @@ class Timer(models.Model):
 #
 #     def __str__(self):
 #         return f"Segment from {self.start_time} to {self.end_time} with duration {self.duration}"
+
+
+# class TimeInterval(models.Model):
+#     start_time = models.DateTimeField(auto_now_add=True, verbose_name='старт')
+#     end_time = models.DateTimeField(auto_now_add=True, verbose_name='стоп')
+#     duration = models.CharField('Duration')
+#
+
+
+from django.db import models
+from django.utils import timezone
+
 class TimeInterval(models.Model):
-    start_time = models.DateTimeField('Start Time')
-    end_time = models.DateTimeField('End Time')
-    duration = models.DurationField('Duration')
+    start_time = models.DateTimeField(null=True, blank=True, verbose_name='старт')
+    end_time = models.DateTimeField(null=True, blank=True, verbose_name='стоп')
+    duration = models.DurationField(null=True, blank=True, verbose_name='Длительность')
 
     def save(self, *args, **kwargs):
         if self.start_time and self.end_time:
             self.duration = self.end_time - self.start_time
         super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"Time Interval: {self.start_time} - {self.end_time} ({self.duration})"

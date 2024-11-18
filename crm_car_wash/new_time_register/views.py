@@ -7,7 +7,7 @@ from django.utils.datetime_safe import datetime
 from .forms import SignUpForm
 # from django.shortcuts import render, redirect
 
-from .models import Timer, TimeSegment
+# from .models import Timer, TimeSegment
 
 
 # Create your views here.
@@ -251,17 +251,41 @@ def register_total(request):
 #     return render(request, 'timer.html', {'current_segment': current_segment})
 #
 #
+# from django.shortcuts import render, redirect
+# from .models import TimeInterval
+#
+# def time_interval_view(request):
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             TimeInterval.objects.create(start_time=timezone.now())
+#         elif 'stop' in request.POST:
+#             interval = TimeInterval.objects.order_by('-id').first()
+#             if interval and not interval.end_time:
+#                 interval.end_time = timezone.now()
+#                 interval.save()
+#     intervals = TimeInterval.objects.all()
+#     return render(request, 'time_interval.html', {'intervals': intervals})
 from django.shortcuts import render, redirect
 from .models import TimeInterval
+from .forms import TimeIntervalForm
+from django.utils import timezone
 
 def time_interval_view(request):
     if request.method == 'POST':
         if 'start' in request.POST:
-            TimeInterval.objects.create(start_time=timezone.now())
+            # Записываем текущее время в start_time
+            interval = TimeInterval(start_time=timezone.now())
+            interval.save()
+            return redirect('time_interval_view')  # Перенаправляем на ту же страницу
+
         elif 'stop' in request.POST:
-            interval = TimeInterval.objects.order_by('-id').first()
-            if interval and not interval.end_time:
+            # Получаем последний интервал и записываем end_time
+            interval = TimeInterval.objects.last()
+            if interval:
                 interval.end_time = timezone.now()
                 interval.save()
+            return redirect('time_interval_view')  # Перенаправляем на ту же страницу
+
     intervals = TimeInterval.objects.all()
-    return render(request, 'time_interval.html', {'intervals': intervals})
+    form = TimeIntervalForm()
+    return render(request, 'time_interval.html', {'form': form, 'intervals': intervals})

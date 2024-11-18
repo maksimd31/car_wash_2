@@ -1,32 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Time Interval</title>
-</head>
-<body>
-    <h1>Time Interval</h1>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="start">Start</button>
-        <button type="submit" name="stop">Stop</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Duration</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for interval in intervals %}
-            <tr>
-                <td>{{ interval.start_time }}</td>
-                <td>{{ interval.end_time }}</td>
-                <td>{{ interval.duration }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+<!-- time_interval.html -->
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" name="start">Старт</button>
+    <button type="submit" name="stop">Стоп</button>
+</form>
+
+<h2>Интервалы времени</h2>
+<table>
+    <tr>
+        <th>Старт</th>
+        <th>Стоп</th>
+        <th>Длительность</th>
+    </tr>
+    {% for interval in intervals %}
+    <tr>
+        <td>{{ interval.start_time }}</td>
+        <td>{{ interval.end_time }}</td>
+        <td>{{ interval.duration }}</td>
+    </tr>
+    {% endfor %}
+</table>

@@ -3,10 +3,12 @@
 {% block content %}
     <form method="post" id="timer-form">
         {% csrf_token %}
-        <button type="button" id="start-button">Старт</button>
-        <button type="button" id="stop-button">Стоп</button>
+        <button type="submit" name="start" id="start-button">Старт</button>
+        <button type="submit" name="stop" id="stop-button">Стоп</button>
         <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
     </form>
+
+    <h2>Таймер: <span id="timer-display">00:00:00</span></h2>
 
     <h2>Интервалы времени</h2>
     <div class="table-responsive">
@@ -58,30 +60,40 @@
         </table>
     </div>
 
-    <div id="timer-display" style="font-size: 24px; margin-top: 20px;">00:00:00</div>
-
     <script>
-        let timer;
-        let seconds = 0;
+        let timerInterval;
+        let elapsedTime = 0;
 
-        document.getElementById('start-button').addEventListener('click', function() {
-            // Запуск отсчета времени
-            timer = setInterval(function() {
-                seconds++;
-                document.getElementById('timer-display').textContent = formatTime(seconds);
+        document.getElementById('start-button').addEventListener('click', function(event) {
+            event.preventDefault(); // предотвращаем отправку формы
+            startTimer();
+            document.getElementById('timer-form').submit(); // отправляем форму после запуска таймера
+        });
+
+        document.getElementById('stop-button').addEventListener('click', function(event) {
+            event.preventDefault(); // предотвращаем отправку формы
+            stopTimer();
+            document.getElementById('timer-form').submit(); // отправляем форму после остановки таймера
+        });
+
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                elapsedTime++;
+                document.getElementById('timer-display').textContent = formatTime(elapsedTime);
             }, 1000);
-        });
+        }
 
-        document.getElementById('stop-button').addEventListener('click', function() {
-            // Остановка отсчета времени
-            clearInterval(timer);
-        });
+        function stopTimer() {
+            clearInterval(timerInterval);
+            elapsedTime = 0; // сбрасываем время
+            document.getElementById('timer-display').textContent = formatTime(elapsedTime);
+        }
 
-        function formatTime(totalSeconds) {
-            const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-            const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-            const seconds = String(totalSeconds % 60).padStart(2, '0');
-            return `${hours}:${minutes}:${seconds}`;
+        function formatTime(seconds) {
+            const hours = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(seconds % 60).padStart(2, '0');
+            return `${hours}:${minutes}:${secs}`;
         }
     </script>
 

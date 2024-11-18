@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm, TextInput
 
-from crm_car_wash.new_time_register.models import TimeInterval
+from .models import TimeInterval
 
 
 # from .models import Client
@@ -80,7 +80,6 @@ class AddRecordClientForm(forms.ModelForm):
     #     exclude = ('user',)
 
 
-from django import forms
 
 class TimeIntervalForm(forms.ModelForm):
     class Meta:

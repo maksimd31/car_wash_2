@@ -265,6 +265,7 @@ def register_total(request):
 #                 interval.save()
 #     intervals = TimeInterval.objects.all()
 #     return render(request, 'time_interval.html', {'intervals': intervals})
+
 from django.shortcuts import render, redirect
 from .models import TimeInterval
 from .forms import TimeIntervalForm

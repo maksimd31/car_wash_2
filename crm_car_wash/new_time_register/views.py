@@ -590,6 +590,7 @@ from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from .models import TimeInterval, DailySummary
+
 @authenticated_user_required
 def time_interval_view(request):
     if request.method == 'POST':
@@ -608,12 +609,20 @@ def time_interval_view(request):
 
                 # Обновляем DailySummary для текущего пользователя
                 date_key = timezone.now().date()
-                daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
 
-                # Обновляем данные DailySummary
-                daily_summary.interval_count += 1
-                daily_summary.total_duration += interval.duration
-                daily_summary.save()
+                # Попробуем получить существующую запись
+                daily_summary = DailySummary.objects.filter(user=request.user, date=date_key).first()
+
+                if daily_summary:
+                    # Если запись существует, обновляем её
+                    daily_summary.interval_count += 1
+                    daily_summary.total_duration += interval.duration
+                    daily_summary.save()
+                else:
+                    # Если записи нет, создаем новую
+                    daily_summary = DailySummary(user=request.user, date=date_key, interval_count=1,
+                                                 total_duration=interval.duration)
+                    daily_summary.save()
 
             return redirect('time_interval_view')
 

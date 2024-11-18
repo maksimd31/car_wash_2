@@ -611,12 +611,18 @@ def time_interval_view(request):
                 date_key = timezone.now().date()
 
                 # Попробуем получить существующую запись
-                daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
+                daily_summary = DailySummary.objects.filter(user=request.user, date=date_key).first()
 
-                # Обновляем данные DailySummary
-                daily_summary.interval_count += 1
-                daily_summary.total_duration += interval.duration
-                daily_summary.save()
+                if daily_summary:
+                    # Если запись существует, обновляем её
+                    daily_summary.interval_count += 1
+                    daily_summary.total_duration += interval.duration
+                    daily_summary.save()
+                else:
+                    # Если записи нет, создаем новую
+                    daily_summary = DailySummary(user=request.user, date=date_key, interval_count=1,
+                                                 total_duration=interval.duration)
+                    daily_summary.save()
 
             return redirect('time_interval_view')
 
@@ -638,11 +644,3 @@ def time_interval_view(request):
                 'end_time': interval.end_time.strftime("%H:%M:%S"),
                 'duration': f"{int(minutes)} мин {int(seconds)} сек"
             })
-
-    # Получаем сводные данные по дням для текущего пользователя
-    daily_summary = DailySummary.objects.filter(user=request.user)
-
-    return render(request, 'time_interval.html', {
-        'formatted_intervals': formatted_intervals,
-        'daily_summary': daily_summary
-    })

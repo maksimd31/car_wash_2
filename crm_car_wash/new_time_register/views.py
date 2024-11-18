@@ -662,10 +662,13 @@ def time_interval_view(request):
                 date_key = timezone.now().date()
                 daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
                 daily_summary.interval_count += 1
-                daily_summary.total_duration += interval.duration
+                daily_summary.total_duration += interval.duration  # Убедитесь, что duration существует
                 daily_summary.save()
+            else:
+            # Обработка случая, когда интервал не найден
+            # Например, можно вернуть сообщение об ошибке или просто ничего не делать
 
-            return redirect('time_interval_view')
+                return redirect('time_interval_view')
 
         elif 'reset' in request.POST:
             # Удаляем все записи из модели TimeInterval для текущего пользователя

@@ -3,10 +3,12 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <button type="submit" name="start">Старт</button>
-        <button type="submit" name="stop">Стоп</button>
+        <button type="submit" name="start" id="startButton">Старт</button>
+        <button type="submit" name="stop" id="stopButton" disabled>Стоп</button>
         <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
     </form>
+
+    <h2>Таймер: <span id="timer">00:00:00</span></h2>
 
     <h2>Интервалы времени</h2>
     <div class="table-responsive">
@@ -57,5 +59,29 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        let timerInterval;
+        let seconds = 0;
+
+        document.getElementById('startButton').addEventListener('click', function() {
+            this.disabled = true; // Отключаем кнопку "Старт"
+            document.getElementById('stopButton').disabled = false; // Включаем кнопку "Стоп"
+
+            timerInterval = setInterval(function() {
+                seconds++;
+                const hours = String(Math.floor(seconds / 3600)).padStart(2, '0');
+                const minutes = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+                const secs = String(seconds % 60).padStart(2, '0');
+                document.getElementById('timer').textContent = `${hours}:${minutes}:${secs}`;
+            }, 1000);
+        });
+
+        document.getElementById('stopButton').addEventListener('click', function() {
+            clearInterval(timerInterval);
+            this.disabled = true; // Отключаем кнопку "Стоп"
+            document.getElementById('startButton').disabled = false; // Включаем кнопку "Старт"
+        });
+    </script>
 
 {% endblock %}

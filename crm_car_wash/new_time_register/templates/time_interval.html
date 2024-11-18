@@ -50,7 +50,7 @@
                 <td>{{ summary.interval_count }}</td>
                 <td>
                     {% if summary.total_duration %}
-                        {{ summary.total_duration|time:"H:i:s" }}
+                        {{ summary.total_duration }}
                     {% else %}
                         00:00:00
                     {% endif %}

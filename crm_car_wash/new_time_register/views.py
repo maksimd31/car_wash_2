@@ -265,11 +265,35 @@ def register_total(request):
 #                 interval.save()
 #     intervals = TimeInterval.objects.all()
 #     return render(request, 'time_interval.html', {'intervals': intervals})
-
+#
+# from django.shortcuts import render, redirect
+# from .models import TimeInterval
+# from .forms import TimeIntervalForm
+# from django.utils import timezone
+#
+# def time_interval_view(request):
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             # Записываем текущее время в start_time
+#             interval = TimeInterval(start_time=timezone.now())
+#             interval.save()
+#             return redirect('time_interval_view')  # Перенаправляем на ту же страницу
+#
+#         elif 'stop' in request.POST:
+#             # Получаем последний интервал и записываем end_time
+#             interval = TimeInterval.objects.last()
+#             if interval:
+#                 interval.end_time = timezone.now()
+#                 interval.save()
+#             return redirect('time_interval_view')  # Перенаправляем на ту же страницу
+#
+#     intervals = TimeInterval.objects.all()
+#     form = TimeIntervalForm()
+#     return render(request, 'time_interval.html', {'form': form, 'intervals': intervals})
 from django.shortcuts import render, redirect
 from .models import TimeInterval
-from .forms import TimeIntervalForm
 from django.utils import timezone
+
 
 def time_interval_view(request):
     if request.method == 'POST':
@@ -277,7 +301,7 @@ def time_interval_view(request):
             # Записываем текущее время в start_time
             interval = TimeInterval(start_time=timezone.now())
             interval.save()
-            return redirect('time_interval_view')  # Перенаправляем на ту же страницу
+            return redirect('time_interval_view')
 
         elif 'stop' in request.POST:
             # Получаем последний интервал и записываем end_time
@@ -285,8 +309,19 @@ def time_interval_view(request):
             if interval:
                 interval.end_time = timezone.now()
                 interval.save()
-            return redirect('time_interval_view')  # Перенаправляем на ту же страницу
+            return redirect('time_interval_view')
 
     intervals = TimeInterval.objects.all()
-    form = TimeIntervalForm()
-    return render(request, 'time_interval.html', {'form': form, 'intervals': intervals})
+    formatted_intervals = []
+
+    for interval in intervals:
+        if interval.start_time and interval.end_time:
+            duration = interval.duration
+            minutes, seconds = divmod(duration.total_seconds(), 60)
+            formatted_intervals.append({
+                'start_time': interval.start_time,
+                'end_time': interval.end_time,
+                'duration': f"{int(minutes)} мин {int(seconds)} сек"
+            })
+
+    return render(request, 'time_interval.html', {'formatted_intervals': formatted_intervals})

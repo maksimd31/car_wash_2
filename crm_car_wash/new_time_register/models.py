@@ -92,3 +92,6 @@ class TimeInterval(models.Model):
         if self.start_time and self.end_time:
             self.duration = self.end_time - self.start_time
         super().save(*args, **kwargs)
+
+
+

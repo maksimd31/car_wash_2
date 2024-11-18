@@ -609,6 +609,8 @@ def time_interval_view(request):
                 # Обновляем DailySummary для текущего пользователя
                 date_key = timezone.now().date()
                 daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
+
+                # Обновляем данные DailySummary
                 daily_summary.interval_count += 1
                 daily_summary.total_duration += interval.duration
                 daily_summary.save()

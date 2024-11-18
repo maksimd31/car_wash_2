@@ -1,19 +1,61 @@
-<div class="container">
-    <h2 class="text-center mt-4">Таймер</h2>
+{% extends 'base_reg.html' %}
 
-    <form method="post" class="text-center">
+{% block content %}
+    <form method="post">
         {% csrf_token %}
-        <button type="submit" name="start" class="btn btn-success btn-lg">Старт</button>
-        <button type="submit" name="stop" class="btn btn-danger btn-lg">Стоп</button>
+        <button type="submit" name="start">Старт</button>
+        <button type="submit" name="stop">Стоп</button>
+        <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
     </form>
 
-    <h2 class="text-center mt-4">Общее время: <span class="text-primary">{{ total_time|floatformat:2 }}</span> секунд</h2>
-    <h3 class="text-center mt-4">Промежуточные интервалы:</h3>
-    <ul class="list-group">
-        {% for interval in intervals %}
-            <li class="list-group-item">{{ interval|floatformat:2 }} секунд</li>
-        {% empty %}
-            <li class="list-group-item">Нет промежуточных интервалов</li>
-        {% endfor %}
-    </ul>
-</div>
+    <h2>Интервалы времени</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Старт</th>
+                <th scope="col">Стоп</th>
+                <th scope="col">Длительность</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for interval in formatted_intervals %}
+            <tr>
+                <td>{{ interval.start_time }}</td>
+                <td>{{ interval.end_time }}</td>
+                <td>{{ interval.duration }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Итоги по дням</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Дата</th>
+                <th scope="col">Количество интервалов</th>
+                <th scope="col">Итоговое время</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for summary in daily_summary %}
+            <tr>
+                <td>{{ summary.date }}</td>
+                <td>{{ summary.interval_count }}</td>
+                <td>
+                    {% if summary.total_duration %}
+                        {{ summary.total_duration|time:"H:i:s" }}
+                    {% else %}
+                        00:00:00
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

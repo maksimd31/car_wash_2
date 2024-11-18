@@ -1,12 +1,14 @@
 {% extends 'base_reg.html' %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" id="time-form">
         {% csrf_token %}
-        <button type="submit" name="start">Старт</button>
-        <button type="submit" name="stop">Стоп</button>
+        <button type="submit" name="start" id="start-button">Старт</button>
+        <button type="submit" name="stop" id="stop-button" disabled>Стоп</button>
         <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
     </form>
+
+    <h2>Таймер: <span id="timer">00:00:00</span></h2>
 
     <h2>Интервалы времени</h2>
     <div class="table-responsive">
@@ -57,5 +59,34 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        let timerInterval;
+        let elapsedTime = 0;
+
+        document.getElementById('start-button').addEventListener('click', function(event) {
+            event.preventDefault(); // Предотвращаем отправку формы
+            document.getElementById('stop-button').disabled = false; // Активируем кнопку "Стоп"
+            this.disabled = true; // Деактивируем кнопку "Старт"
+
+            timerInterval = setInterval(function() {
+                elapsedTime++;
+                const hours = String(Math.floor(elapsedTime / 3600)).padStart(2, '0');
+                const minutes = String(Math.floor((elapsedTime % 3600) / 60)).padStart(2, '0');
+                const seconds = String(elapsedTime % 60).padStart(2, '0');
+                document.getElementById('timer').textContent = `${hours}:${minutes}:${seconds}`;
+            }, 1000);
+        });
+
+        document.getElementById('stop-button').addEventListener('click', function(event) {
+            event.preventDefault(); // Предотвращаем отправку формы
+            clearInterval(timerInterval); // Останавливаем таймер
+            this.disabled = true; // Деактивируем кнопку "Стоп"
+            document.getElementById('start-button').disabled = false; // Активируем кнопку "Старт"
+
+            // Отправляем форму для сохранения интервала
+            document.getElementById('time-form').submit();
+        });
+    </script>
 
 {% endblock %}

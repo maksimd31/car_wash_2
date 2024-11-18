@@ -660,7 +660,16 @@ def time_interval_view(request):
 
                 # Обновляем DailySummary
                 date_key = timezone.now().date()
-                daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
+
+                # Пытаемся получить существующую запись DailySummary
+                daily_summary = DailySummary.objects.filter(user=request.user, date=date_key).first()
+
+                if daily_summary is None:
+                    # Если записи нет, создаем новую
+                    daily_summary = DailySummary(user=request.user, date=date_key, interval_count=0,
+                                                 total_duration=timedelta())
+
+                # Обновляем данные
                 daily_summary.interval_count += 1
                 daily_summary.total_duration += interval.duration  # Убедитесь, что duration существует
                 daily_summary.save()

@@ -137,7 +137,8 @@ from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 
 class TimeInterval(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='time_intervals')
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='time_intervals')
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='time_intervals')
     start_time = models.TimeField(null=True, blank=True, verbose_name='старт')
     end_time = models.TimeField(null=True, blank=True, verbose_name='стоп')
     duration = models.DurationField(null=True, blank=True, verbose_name='Длительность')
@@ -149,7 +150,8 @@ class TimeInterval(models.Model):
         super().save(*args, **kwargs)
 
 class DailySummary(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_summaries')
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_summaries')
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='daily_summaries')
     date = models.DateField(unique=True, verbose_name='Дата')
     interval_count = models.IntegerField(default=0, verbose_name='Количество интервалов')
     total_duration = models.DurationField(default=timedelta(), verbose_name='Итоговое время')

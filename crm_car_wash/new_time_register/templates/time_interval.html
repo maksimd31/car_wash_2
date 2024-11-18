@@ -64,31 +64,40 @@
     <script>
         let timer;
         let seconds = 0;
+        let lastTimestamp = performance.now();
+        const targetFrameRate = 60; // 60 кадров в секунду
 
         document.getElementById('startButton').addEventListener('click', function() {
             // Сбрасываем время перед началом нового отсчета
             seconds = 0;
             document.getElementById('currentTime').textContent = formatTime(seconds);
             document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
-            timer = setInterval(function() {
-                seconds++;
-                document.getElementById('currentTime').textContent = formatTime(seconds);
-                document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
-            }, 1000);
+            lastTimestamp = performance.now();
+            timer = requestAnimationFrame(updateTimer);
         });
 
         document.getElementById('stopButton').addEventListener('click', function() {
-            clearInterval(timer);
+            cancelAnimationFrame(timer);
             // Обновляем текущее время в скрытом поле
             document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
         });
 
+        function updateTimer(timestamp) {
+            const elapsedTime = timestamp - lastTimestamp;
+            lastTimestamp = timestamp;
+            seconds += elapsedTime / 1000;
+            document.getElementById('currentTime').textContent = formatTime(seconds);
+            document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
+            timer = requestAnimationFrame(updateTimer);
+        }
+
         function formatTime(totalSeconds) {
             const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
             const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-            const seconds = String(totalSeconds % 60).padStart(2, '0');
+            const seconds = String(Math.floor(totalSeconds % 60)).padStart(2, '0');
             return `${hours}:${minutes}:${seconds}`;
         }
+
     </script>
 
 {% endblock %}

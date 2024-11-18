@@ -79,9 +79,7 @@
 
         document.getElementById('stopButton').addEventListener('click', function() {
             clearInterval(timer);
-            // Сбрасываем время на 00:00:00
-            seconds = 0;
-            document.getElementById('currentTime').textContent = formatTime(seconds);
+            // Обновляем текущее время в скрытом поле
             document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
         });
 
@@ -91,7 +89,6 @@
             const seconds = String(totalSeconds % 60).padStart(2, '0');
             return `${hours}:${minutes}:${seconds}`;
         }
-
     </script>
 
 {% endblock %}

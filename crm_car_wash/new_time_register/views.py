@@ -190,60 +190,32 @@ import pytz
 
 import pytz
 from django.utils import timezone
-from django.shortcuts import render, redirect
-from .models import TimeInterval, DailySummary
-
+# from django.contrib.auth.decorators import login_required
 
 @authenticated_user_required
 def time_interval_view(request):
-    if request.method == 'POST':
-        moscow_tz = pytz.timezone('Europe/Moscow')
+    moscow_tz = pytz.timezone('Europe/Moscow')
 
+    if request.method == 'POST':
         if 'start' in request.POST:
             # Записываем текущее московское время в start_time
             interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
             interval.save()
             return redirect('time_interval_view')
 
-
-
-
         elif 'stop' in request.POST:
-
             # Получаем последний интервал и записываем end_time
-
             interval = TimeInterval.objects.filter(user=request.user).last()
-
             if interval:
-
                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
-
                 interval.save()
 
                 # Обновляем DailySummary
-
                 date_key = timezone.now().astimezone(moscow_tz).date()
-
-                # Попробуем получить существующую запись DailySummary
-
-                try:
-
-                    daily_summary = DailySummary.objects.get(user=request.user, date=date_key)
-
-                    # Если запись уже существует, обновляем её
-
-                    daily_summary.interval_count += 1
-
-                    daily_summary.total_duration += interval.duration
-
-                except DailySummary.DoesNotExist:
-
-                    # Если записи не существует, создаем новую
-
-                    daily_summary = DailySummary(user=request.user, date=date_key, interval_count=1,
-                                                 total_duration=interval.duration)
-
-                daily_summary.save()  # Сохраняем изменения
+                daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
+                daily_summary.interval_count += 1
+                daily_summary.total_duration += interval.duration
+                daily_summary.save()
 
             return redirect('time_interval_view')
 
@@ -252,7 +224,6 @@ def time_interval_view(request):
             TimeInterval.objects.filter(user=request.user).delete()
             return redirect('time_interval_view')
 
-    # Получаем интервалы только для текущего пользователя
     intervals = TimeInterval.objects.filter(user=request.user)
     formatted_intervals = []
 
@@ -265,7 +236,6 @@ def time_interval_view(request):
                 'end_time': interval.end_time.strftime("%H:%M:%S"),
                 'duration': f"{int(minutes)} мин {int(seconds)} сек"})
 
-    # Получаем сводные данные по дням только для текущего пользователя
     daily_summary = DailySummary.objects.filter(user=request.user)
     formatted_summary = []
 

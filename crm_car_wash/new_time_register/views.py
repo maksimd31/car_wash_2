@@ -5,6 +5,8 @@ from django.shortcuts import redirect, render
 from django.utils.datetime_safe import datetime
 
 from .forms import SignUpForm
+
+
 # from django.shortcuts import render, redirect
 
 # from .models import Timer, TimeSegment
@@ -36,6 +38,7 @@ def authenticated_user_required(view_func):
             return redirect('home_registr')
 
     return wrapper
+
 
 def home_registr(request):
     """
@@ -109,12 +112,9 @@ def logout_user(request):
     return redirect('home_registr')
 
 
-
-
 from django.shortcuts import render, redirect
 from .models import TimeInterval, DailySummary
 from django.utils import timezone
-
 
 import pytz
 
@@ -193,6 +193,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from .models import TimeInterval, DailySummary
 
+
 @authenticated_user_required
 def time_interval_view(request):
     if request.method == 'POST':
@@ -204,9 +205,13 @@ def time_interval_view(request):
             interval.save()
             return redirect('time_interval_view')
 
+
         elif 'stop' in request.POST:
+
             # Получаем последний интервал и записываем end_time
+
             interval = TimeInterval.objects.filter(user=request.user).last()
+
             if interval:
                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
                 interval.save()
@@ -214,9 +219,17 @@ def time_interval_view(request):
                 # Обновляем DailySummary
                 date_key = timezone.now().astimezone(moscow_tz).date()
                 daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
-                daily_summary.interval_count += 1
-                daily_summary.total_duration += interval.duration
-                daily_summary.save()
+
+                # Если запись уже существует, обновляем её
+                if not created:
+                    daily_summary.interval_count += 1
+                    daily_summary.total_duration += interval.duration
+                    daily_summary.save()
+                else:
+                    # Если запись была создана, устанавливаем начальные значения
+                    daily_summary.interval_count = 1
+                    daily_summary.total_duration = interval.duration
+                    daily_summary.save()
 
             return redirect('time_interval_view')
 

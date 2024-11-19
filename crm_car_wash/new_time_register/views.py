@@ -318,6 +318,7 @@ def time_interval_view(request):
 
     if request.method == 'POST':
         if 'start' in request.POST:
+            messages.success(request, "Вы Нажали кнопу СТАРТ 'идет запись' ")
             # Записываем текущее московское время в start_time
             interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
             interval.save()

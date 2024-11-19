@@ -163,7 +163,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class DailySummary(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
     interval_count = models.PositiveIntegerField(default=0)
     total_time = models.DurationField(default=timezone.timedelta())

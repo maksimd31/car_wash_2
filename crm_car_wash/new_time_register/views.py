@@ -211,11 +211,11 @@ def time_interval_view(request):
                 interval.save()
 
                 # Обновляем DailySummary
-                date_key = timezone.now().astimezone(moscow_tz).date()
-                daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
-                daily_summary.interval_count += 1
-                daily_summary.total_duration += interval.duration
-                daily_summary.save()
+                # date_key = timezone.now().astimezone(moscow_tz).date()
+                # daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
+                # daily_summary.interval_count += 1
+                # daily_summary.total_duration += interval.duration
+                # daily_summary.save()
 
             return redirect('time_interval_view')
 

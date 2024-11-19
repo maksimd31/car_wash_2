@@ -207,28 +207,42 @@ def time_interval_view(request):
 
 
 
+
         elif 'stop' in request.POST:
 
             # Получаем последний интервал и записываем end_time
+
             interval = TimeInterval.objects.filter(user=request.user).last()
+
             if interval:
+
                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
+
                 interval.save()
 
                 # Обновляем DailySummary
+
                 date_key = timezone.now().astimezone(moscow_tz).date()
 
                 # Попробуем получить существующую запись DailySummary
-                daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
 
-                # Если запись уже существует, обновляем её
-                if not created:
+                try:
+
+                    daily_summary = DailySummary.objects.get(user=request.user, date=date_key)
+
+                    # Если запись уже существует, обновляем её
+
                     daily_summary.interval_count += 1
+
                     daily_summary.total_duration += interval.duration
-                else:
-                    # Если запись была создана, устанавливаем начальные значения
-                    daily_summary.interval_count = 1
-                    daily_summary.total_duration = interval.duration
+
+                except DailySummary.DoesNotExist:
+
+                    # Если записи не существует, создаем новую
+
+                    daily_summary = DailySummary(user=request.user, date=date_key, interval_count=1,
+                                                 total_duration=interval.duration)
+
                 daily_summary.save()  # Сохраняем изменения
 
             return redirect('time_interval_view')

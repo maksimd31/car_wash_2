@@ -260,12 +260,9 @@ import pytz
 #     })
 
 
-from datetime import timedelta
 import pytz
 from django.utils import timezone
-from django.shortcuts import redirect, render
-from .models import TimeInterval, DailySummary
-# from .decorators import authenticated_user_required
+# from django.contrib.auth.decorators import login_required
 
 @authenticated_user_required
 def time_interval_view(request):
@@ -278,31 +275,12 @@ def time_interval_view(request):
             interval.save()
             return redirect('time_interval_view')
 
-
         elif 'stop' in request.POST:
-
             # Получаем последний интервал и записываем end_time
-
             interval = TimeInterval.objects.filter(user=request.user).last()
-
             if interval:
                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
-
                 interval.save()
-
-                # Обновляем DailySummary
-
-                date_key = timezone.now().astimezone(moscow_tz).date()
-
-                daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=date_key)
-
-                # Обновляем значения
-
-                daily_summary.interval_count += 1
-
-                daily_summary.total_duration += interval.duration
-
-                daily_summary.save()
 
             return redirect('time_interval_view')
 
@@ -323,25 +301,3 @@ def time_interval_view(request):
                 'end_time': interval.end_time.strftime("%H:%M:%S"),
                 'duration': f"{int(minutes)} мин {int(seconds)} сек"})
 
-    daily_summary = DailySummary.objects.filter(user=request.user)
-    formatted_summary = []
-
-    for summary in daily_summary:
-        if summary.total_duration:
-            total_seconds = int(summary.total_duration.total_seconds())
-            hours, remainder = divmod(total_seconds, 3600)
-            minutes, seconds = divmod(remainder, 60)
-            formatted_duration = f"{hours:02}:{minutes:02}:{seconds:02}"
-        else:
-            formatted_duration = "00:00:00"
-
-        formatted_summary.append({
-            'date': summary.date,
-            'interval_count': summary.interval_count,
-            'total_duration': formatted_duration,
-        })
-
-    return render(request, 'time_interval.html', {
-        'formatted_intervals': formatted_intervals,
-        'daily_summary': formatted_summary
-    })

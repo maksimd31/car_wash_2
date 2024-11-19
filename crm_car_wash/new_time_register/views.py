@@ -259,7 +259,55 @@ import pytz
 #         'daily_summary': formatted_summary
 #     })
 
+#Без итогов
+# import pytz
+# from django.utils import timezone
+# # from django.contrib.auth.decorators import login_required
+#
+# @authenticated_user_required
+# def time_interval_view(request):
+#     moscow_tz = pytz.timezone('Europe/Moscow')
+#
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             # Записываем текущее московское время в start_time
+#             interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
+#             interval.save()
+#             return redirect('time_interval_view')
+#
+#         elif 'stop' in request.POST:
+#             # Получаем последний интервал и записываем end_time
+#             interval = TimeInterval.objects.filter(user=request.user).last()
+#             if interval:
+#                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
+#                 interval.save()
+#
+#             return redirect('time_interval_view')
+#
+#         elif 'reset' in request.POST:
+#             # Удаляем все записи из модели TimeInterval для текущего пользователя
+#             TimeInterval.objects.filter(user=request.user).delete()
+#             return redirect('time_interval_view')
+#
+#     intervals = TimeInterval.objects.filter(user=request.user)
+#     formatted_intervals = []
+#
+#     for interval in intervals:
+#         if interval.start_time and interval.end_time:
+#             duration = interval.duration
+#             minutes, seconds = divmod(duration.total_seconds(), 60)
+#             formatted_intervals.append({
+#                 'start_time': interval.start_time.strftime("%H:%M:%S"),
+#                 'end_time': interval.end_time.strftime("%H:%M:%S"),
+#                 'duration': f"{int(minutes)} мин {int(seconds)} сек"})
+#
+#     return render(request, 'time_interval.html', {
+#         'formatted_intervals': formatted_intervals,
+#     })
 
+
+
+#Без итогов
 import pytz
 from django.utils import timezone
 # from django.contrib.auth.decorators import login_required
@@ -292,15 +340,25 @@ def time_interval_view(request):
     intervals = TimeInterval.objects.filter(user=request.user)
     formatted_intervals = []
 
+    total_duration = timezone.timedelta()
     for interval in intervals:
         if interval.start_time and interval.end_time:
             duration = interval.duration
+            total_duration += duration
             minutes, seconds = divmod(duration.total_seconds(), 60)
             formatted_intervals.append({
                 'start_time': interval.start_time.strftime("%H:%M:%S"),
                 'end_time': interval.end_time.strftime("%H:%M:%S"),
                 'duration': f"{int(minutes)} мин {int(seconds)} сек"})
 
+    # Обновление или создание DailySummary
+    today = timezone.now().date()
+    daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
+    daily_summary.interval_count = intervals.count()
+    daily_summary.total_time = total_duration
+    daily_summary.save()
+
     return render(request, 'time_interval.html', {
         'formatted_intervals': formatted_intervals,
+        'daily_summary': daily_summary,  # Передаем итоговые данные в шаблон
     })

@@ -149,12 +149,24 @@ class TimeInterval(models.Model):
                              datetime.combine(datetime.min, self.start_time))
         super().save(*args, **kwargs)
 
+# class DailySummary(models.Model):
+#     # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_summaries')
+#     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='daily_summaries')
+#     date = models.DateField(unique=True, verbose_name='Дата')
+#     interval_count = models.IntegerField(default=0, verbose_name='Количество интервалов')
+#     total_duration = models.DurationField(default=timedelta(), verbose_name='Итоговое время')
+#
+#     def __str__(self):
+#         return f"{self.date} - {self.interval_count} интервалов, {self.total_duration}"
+
+from django.db import models
+from django.contrib.auth.models import User
+
 class DailySummary(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_summaries')
-    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='daily_summaries')
-    date = models.DateField(unique=True, verbose_name='Дата')
-    interval_count = models.IntegerField(default=0, verbose_name='Количество интервалов')
-    total_duration = models.DurationField(default=timedelta(), verbose_name='Итоговое время')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    interval_count = models.PositiveIntegerField(default=0)
+    total_time = models.DurationField(default=timezone.timedelta())
 
     def __str__(self):
-        return f"{self.date} - {self.interval_count} интервалов, {self.total_duration}"
+        return f"{self.date} - {self.user.username}"

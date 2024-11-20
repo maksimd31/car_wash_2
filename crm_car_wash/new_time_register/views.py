@@ -149,7 +149,6 @@ def logout_user(request):
 #         'formatted_intervals': formatted_intervals,
 #     })
 
-
 import pytz
 from django.utils import timezone
 from django.shortcuts import render, redirect
@@ -175,16 +174,16 @@ def time_interval_view(request):
             return redirect('time_interval_view')
 
         elif 'reset' in request.POST:
+            # Удаляем все записи из модели TimeInterval для текущего пользователя
             TimeInterval.objects.filter(user=request.user).delete()
+            messages.success(request, "Все интервалы успешно сброшены.")
             return redirect('time_interval_view')
 
-        elif 'reset_summary' in request.POST:
-            # Обнуляем итоговое время и количество интервалов для текущего пользователя
-            daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=timezone.now().date())
-            daily_summary.interval_count = 0
-            daily_summary.total_time = timezone.timedelta()
-            daily_summary.save()
-            messages.success(request, "Итоговое время успешно обнулено.")
+        elif 'reset_all' in request.POST:
+            # Удаляем все записи из модели TimeInterval и DailySummary для текущего пользователя
+            TimeInterval.objects.filter(user=request.user).delete()
+            DailySummary.objects.filter(user=request.user).delete()
+            messages.success(request, "Все данные успешно сброшены.")
             return redirect('time_interval_view')
 
     intervals = TimeInterval.objects.filter(user=request.user)
@@ -217,4 +216,3 @@ def time_interval_view(request):
         'formatted_intervals': formatted_intervals,
         'daily_summary': daily_summary,
     })
-

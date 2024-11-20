@@ -155,24 +155,37 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import TimeInterval, DailySummary
 
+
 @authenticated_user_required
 def time_interval_view(request):
     moscow_tz = pytz.timezone('Europe/Moscow')
 
     if request.method == 'POST':
         if 'start' in request.POST:
-            messages.success(request, "Вы Нажали кнопку СТАРТ 'идет запись' ")
-            # Создаем новый интервал только при нажатии "СТАРТ"
-            interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
-            interval.save()
+            # Проверяем, есть ли активный интервал
+            active_interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).first()
+            if active_interval:
+                messages.warning(request, "У вас уже есть активный интервал. Завершите его перед началом нового.")
+            else:
+                messages.success(request, "Вы Нажали кнопку СТАРТ 'идет запись' ")
+                # Создаем новый интервал только при нажатии "СТАРТ"
+                interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
+                interval.save()
             return redirect('time_interval_view')
 
         elif 'stop' in request.POST:
-            # Получаем последний интервал и записываем end_time
-            interval = TimeInterval.objects.filter(user=request.user).last()
-            if interval and not interval.end_time:  # Проверяем, что интервал существует и не завершен
+            # Получаем последний активный интервал и записываем end_time
+            interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).last()
+            if interval:
                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
                 interval.save()
+
+                # Увеличиваем количество интервалов в DailySummary
+                today = timezone.now().date()
+                daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
+                daily_summary.interval_count += 1  # Увеличиваем количество интервалов на 1
+                daily_summary.save()
+
                 messages.success(request, "Интервал успешно завершен.")
             else:
                 messages.warning(request, "Нет активного интервала для завершения.")
@@ -208,7 +221,6 @@ def time_interval_view(request):
     daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
 
     if not created:
-        daily_summary.interval_count += 1
         daily_summary.total_time += total_duration
     else:
         daily_summary.interval_count = intervals.count()

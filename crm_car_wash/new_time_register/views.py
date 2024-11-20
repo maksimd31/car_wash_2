@@ -161,16 +161,21 @@ def time_interval_view(request):
 
     if request.method == 'POST':
         if 'start' in request.POST:
-            messages.success(request, "Вы Нажали кнопу СТАРТ 'идет запись' ")
+            messages.success(request, "Вы Нажали кнопку СТАРТ 'идет запись' ")
+            # Создаем новый интервал только при нажатии "СТАРТ"
             interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
             interval.save()
             return redirect('time_interval_view')
 
         elif 'stop' in request.POST:
+            # Получаем последний интервал и записываем end_time
             interval = TimeInterval.objects.filter(user=request.user).last()
-            if interval:
+            if interval and not interval.end_time:  # Проверяем, что интервал существует и не завершен
                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
                 interval.save()
+                messages.success(request, "Интервал успешно завершен.")
+            else:
+                messages.warning(request, "Нет активного интервала для завершения.")
             return redirect('time_interval_view')
 
         elif 'reset' in request.POST:
@@ -215,4 +220,5 @@ def time_interval_view(request):
         'formatted_intervals': formatted_intervals,
         'daily_summary': daily_summary,
     })
+
 

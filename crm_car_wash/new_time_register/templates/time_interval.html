@@ -89,7 +89,7 @@
 
 <script>
     let timer = document.getElementById('timer');
-        let seconds = 0;
+    let seconds = 0;
     let minutes = 0;
     let hours = 0;
     let interval;
@@ -112,18 +112,15 @@
         if (event.submitter.name === 'start') {
             event.preventDefault(); // Отменяем стандартное поведение формы
             interval = setInterval(updateTime, 1000); // Запускаем таймер
-            this.submit(); // Отправляем форму
+            // Здесь можно добавить AJAX-запрос для отправки данных на сервер
         } else if (event.submitter.name === 'stop') {
             event.preventDefault(); // Отменяем стандартное поведение формы
             clearInterval(interval); // Останавливаем таймер
-            seconds = 0; // Сбрасываем время
-            minutes = 0;
-            hours = 0;
-            timer.textContent = '00:00:00'; // Обновляем отображение таймера
-            this.submit(); // Отправляем форму
+            // Здесь можно добавить AJAX-запрос для отправки данных на сервер
         }
     });
 </script>
+
 {% endblock %}
 
 

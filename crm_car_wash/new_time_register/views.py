@@ -148,6 +148,11 @@ def logout_user(request):
 #     return render(request, 'time_interval.html', {
 #         'formatted_intervals': formatted_intervals,
 #     })
+import pytz
+from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import TimeInterval, DailySummary
 
 @authenticated_user_required
 def time_interval_view(request):

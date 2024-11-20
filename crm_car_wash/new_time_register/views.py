@@ -149,41 +149,30 @@ def logout_user(request):
 #         'formatted_intervals': formatted_intervals,
 #     })
 
-import pytz
-from django.utils import timezone
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import TimeInterval, DailySummary
-
-
 @authenticated_user_required
 def time_interval_view(request):
     moscow_tz = pytz.timezone('Europe/Moscow')
 
     if request.method == 'POST':
         if 'start' in request.POST:
-            # Проверяем, есть ли активный интервал
             active_interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).first()
             if active_interval:
                 messages.warning(request, "У вас уже есть активный интервал. Завершите его перед началом нового.")
             else:
                 messages.success(request, "Вы Нажали кнопку СТАРТ 'идет запись' ")
-                # Создаем новый интервал только при нажатии "СТАРТ"
-                interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
+                interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz))
                 interval.save()
             return redirect('time_interval_view')
 
         elif 'stop' in request.POST:
-            # Получаем последний активный интервал и записываем end_time
             interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).last()
             if interval:
-                interval.end_time = timezone.now().astimezone(moscow_tz).time()
+                interval.end_time = timezone.now().astimezone(moscow_tz)
                 interval.save()
 
-                # Увеличиваем количество интервалов в DailySummary
                 today = timezone.now().date()
                 daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
-                daily_summary.interval_count += 1  # Увеличиваем количество интервалов на 1
+                daily_summary.interval_count += 1
                 daily_summary.save()
 
                 messages.success(request, "Интервал успешно завершен.")
@@ -192,24 +181,22 @@ def time_interval_view(request):
             return redirect('time_interval_view')
 
         elif 'reset' in request.POST:
-            # Удаляем все записи из модели TimeInterval для текущего пользователя
             TimeInterval.objects.filter(user=request.user).delete()
             messages.success(request, "Все интервалы успешно сброшены.")
             return redirect('time_interval_view')
 
         elif 'delete_summary' in request.POST:
-            # Удаляем все записи из модели DailySummary для текущего пользователя
             DailySummary.objects.filter(user=request.user).delete()
             messages.success(request, "Все итоговые данные успешно удалены.")
             return redirect('time_interval_view')
 
     intervals = TimeInterval.objects.filter(user=request.user)
     formatted_intervals = []
-
     total_duration = timezone.timedelta()
+
     for interval in intervals:
         if interval.start_time and interval.end_time:
-            duration = interval.duration
+            duration = interval.end_time - interval.start_time  # Вычисляем продолжительность
             total_duration += duration
             minutes, seconds = divmod(duration.total_seconds(), 60)
             formatted_intervals.append({
@@ -220,17 +207,15 @@ def time_interval_view(request):
     today = timezone.now().date()
     daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
 
-    if not created:
-        daily_summary.total_time += total_duration
-    else:
-        daily_summary.interval_count = intervals.count()
-        daily_summary.total_time = total_duration
-
+    # Обновляем итоговое время
+    daily_summary.total_time = total_duration
+    daily_summary.interval_count = intervals.count()  # Обновляем количество интервалов
     daily_summary.save()
 
     return render(request, 'time_interval.html', {
         'formatted_intervals': formatted_intervals,
         'daily_summary': daily_summary,
     })
+
 
 

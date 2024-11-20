@@ -90,6 +90,7 @@
 <script>
     let timer = document.getElementById('timer');
     let startBtn = document.getElementById('startButton');
+<!--    let pauseBtn = document.getElementById('pauseBtn');-->
     let resetBtn = document.getElementById('stopButton');
 
     let seconds = 0;
@@ -110,21 +111,27 @@
       timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 
-    startBtn.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent the form from submitting
+    startBtn.addEventListener('click', () => {
       interval = setInterval(updateTime, 1000);
       startBtn.disabled = true;
+      pauseBtn.disabled = false;
       resetBtn.disabled = false;
     });
 
-    resetBtn.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent the form from submitting
+    pauseBtn.addEventListener('click', () => {
+      clearInterval(interval);
+      startBtn.disabled = false;
+      pauseBtn.disabled = true;
+    });
+
+    resetBtn.addEventListener('click', () => {
       clearInterval(interval);
       seconds = 0;
       minutes = 0;
       hours = 0;
       timer.textContent = '00:00:00';
       startBtn.disabled = false;
+      pauseBtn.disabled = true;
       resetBtn.disabled = true;
     });
 </script>

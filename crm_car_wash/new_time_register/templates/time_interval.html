@@ -2,102 +2,118 @@
 <!--{% load custom_filters %}-->
 
 {% block content %}
-    <form method="post" id="timerForm">
-        {% csrf_token %}
-        <button type="submit" name="start" id="startButton">Старт</button>
-        <button type="submit" name="stop" id="stopButton">Стоп</button>
-        <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
-        <button type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
 
-        <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
-    </form>
-
-    <h2>Текущее время: <span id="currentTime">00:00:00</span></h2>
-
-    <h2>Интервалы времени</h2>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-bordered">
-            <thead class="table-dark">
-            <tr>
-                <th scope="col">Старт</th>
-                <th scope="col">Стоп</th>
-                <th scope="col">Длительность</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for interval in formatted_intervals %}
-            <tr>
-                <td>{{ interval.start_time }}</td>
-                <td>{{ interval.end_time }}</td>
-                <td>{{ interval.duration }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+<body data-bs-spy="scroll" data-bs-target="#navbar-example">
+    <div id="navbar-example">
+        <ul class="nav nav-tabs" role="tablist">
+            <h4 class="alert-heading">Информация</h4>
+            <p>Текущий пользователь: {{ request.user.username }}</p>
+            <p>Дата: {{ daily_summary.date }}</p>
+            <p>Общее время за сегодня:
+                {{ daily_summary.total_time|default:"00:00:00"|duration_format }}
+            </p>
+            <p>Могут присутствовать баги, если что-то заметили, просьба написать мне в телегу @The_Chef12</p>
+            <p>Развивать сервис не планируется, если у кого-то есть заинтересованность, пишите.</p>
+            <p>20.11.24 добавлен функционал "удаление итогов" для отладки, будьте осторожны.</p>
+        </ul>
     </div>
+</body>
+<form method="post" id="timerForm">
+    {% csrf_token %}
+    <button type="submit" name="start" id="startButton">Старт</button>
+    <button type="submit" name="stop" id="stopButton">Стоп</button>
+    <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
+    <button type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
 
-    <h2>Итоги дня</h2>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">Дата</th>
-                    <th scope="col">Количество интервалов</th>
-                    <th scope="col">Итоговое время</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ daily_summary.date }}</td>
-                    <td>{{ daily_summary.interval_count }}</td>
-                    <td>
-                        {% if daily_summary.total_time %}
-                            {{ daily_summary.total_time|duration_format }}
-                        {% else %}
-                            00:00:00
-                        {% endif %}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
+</form>
 
-    <script>
-        let timer;
-        let seconds = 0;
-        let lastTimestamp = performance.now();
-        const targetFrameRate = 60; // 60 кадров в секунду
+<h2>Текущее время: <span id="currentTime">00:00:00</span></h2>
 
-        document.getElementById('startButton').addEventListener('click', function() {
-            // Сбрасываем время перед началом нового отсчета
-            seconds = 0;
-            document.getElementById('currentTime').textContent = formatTime(seconds);
-            document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
-            lastTimestamp = performance.now();
-            timer = requestAnimationFrame(updateTimer);
-        });
+<h2>Интервалы времени</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Старт</th>
+            <th scope="col">Стоп</th>
+            <th scope="col">Длительность</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for interval in formatted_intervals %}
+        <tr>
+            <td>{{ interval.start_time }}</td>
+            <td>{{ interval.end_time }}</td>
+            <td>{{ interval.duration }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-        document.getElementById('stopButton').addEventListener('click', function() {
-            cancelAnimationFrame(timer);
-            // Обновляем текущее время в скрытом поле
-            document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
-        });
+<h2>Итоги дня</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Дата</th>
+            <th scope="col">Количество интервалов</th>
+            <th scope="col">Итоговое время</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ daily_summary.date }}</td>
+            <td>{{ daily_summary.interval_count }}</td>
+            <td>
+                {% if daily_summary.total_time %}
+                {{ daily_summary.total_time|duration_format }}
+                {% else %}
+                00:00:00
+                {% endif %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
-        function updateTimer(timestamp) {
-            const elapsedTime = timestamp - lastTimestamp;
-            lastTimestamp = timestamp;
-            seconds += elapsedTime / 1000;
-            document.getElementById('currentTime').textContent = formatTime(seconds);
-            document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
-            timer = requestAnimationFrame(updateTimer);
-        }
+<script>
+    let timer;
+    let seconds = 0;
+    let lastTimestamp = performance.now();
+    const targetFrameRate = 60; // 60 кадров в секунду
 
-        function formatTime(totalSeconds) {
-            const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-            const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-            const seconds = String(Math.floor(totalSeconds % 60)).padStart(2, '0');
-            return `${hours}:${minutes}:${seconds}`;
-        }
-    </script>
+    document.getElementById('startButton').addEventListener('click', function() {
+        // Сбрасываем время перед началом нового отсчета
+        seconds = 0;
+        document.getElementById('currentTime').textContent = formatTime(seconds);
+        document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
+        lastTimestamp = performance.now();
+        timer = requestAnimationFrame(updateTimer);
+    });
+
+    document.getElementById('stopButton').addEventListener('click', function() {
+        cancelAnimationFrame(timer);
+        // Обновляем текущее время в скрытом поле
+        document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
+    });
+
+    function updateTimer(timestamp) {
+        const elapsedTime = timestamp - lastTimestamp;
+        lastTimestamp = timestamp;
+        seconds += elapsedTime / 1000;
+        document.getElementById('currentTime').textContent = formatTime(seconds);
+        document.getElementById('currentSeconds').value = seconds; // Обновляем скрытое поле
+        timer = requestAnimationFrame(updateTimer);
+    }
+
+    function formatTime(totalSeconds) {
+        const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+        const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+        const seconds = String(Math.floor(totalSeconds % 60)).padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    }
+</script>
 
 {% endblock %}

@@ -179,11 +179,10 @@ def time_interval_view(request):
             messages.success(request, "Все интервалы успешно сброшены.")
             return redirect('time_interval_view')
 
-        elif 'reset_all' in request.POST:
-            # Удаляем все записи из модели TimeInterval и DailySummary для текущего пользователя
-            TimeInterval.objects.filter(user=request.user).delete()
+        elif 'delete_summary' in request.POST:
+            # Удаляем все записи из модели DailySummary для текущего пользователя
             DailySummary.objects.filter(user=request.user).delete()
-            messages.success(request, "Все данные успешно сброшены.")
+            messages.success(request, "Все итоговые данные успешно удалены.")
             return redirect('time_interval_view')
 
     intervals = TimeInterval.objects.filter(user=request.user)
@@ -216,3 +215,4 @@ def time_interval_view(request):
         'formatted_intervals': formatted_intervals,
         'daily_summary': daily_summary,
     })
+

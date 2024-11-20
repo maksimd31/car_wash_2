@@ -5,6 +5,7 @@ from .forms import SignUpForm
 from django.shortcuts import render, redirect
 from .models import TimeInterval, DailySummary
 
+
 def authenticated_user_required(view_func):
     """
         Декоратор, требующий аутентификацию пользователя.
@@ -103,7 +104,7 @@ def logout_user(request):
     return redirect('home_registr')
 
 
-#Без итогов
+# Без итогов
 # import pytz
 # from django.utils import timezone
 # # from django.contrib.auth.decorators import login_required
@@ -148,6 +149,92 @@ def logout_user(request):
 #     return render(request, 'time_interval.html', {
 #         'formatted_intervals': formatted_intervals,
 #     })
+# import pytz
+# from django.utils import timezone
+# from django.shortcuts import render, redirect
+# from django.contrib import messages
+# from .models import TimeInterval, DailySummary
+#
+#
+# @authenticated_user_required
+# def time_interval_view(request):
+#     moscow_tz = pytz.timezone('Europe/Moscow')
+#
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             # Проверяем, есть ли активный интервал
+#             active_interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).first()
+#             if active_interval:
+#                 messages.warning(request, "У вас уже есть активный интервал. Завершите его перед началом нового.")
+#             else:
+#                 messages.success(request, "Вы Нажали кнопку СТАРТ 'идет запись' ")
+#                 # Создаем новый интервал только при нажатии "СТАРТ"
+#                 interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
+#                 interval.save()
+#             return redirect('time_interval_view')
+#
+#         elif 'stop' in request.POST:
+#             # Получаем последний активный интервал и записываем end_time
+#             interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).last()
+#             if interval:
+#                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
+#                 interval.save()
+#
+#                 # Увеличиваем количество интервалов в DailySummary
+#                 today = timezone.now().date()
+#                 daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
+#                 daily_summary.interval_count += 1  # Увеличиваем количество интервалов на 1
+#                 daily_summary.save()
+#
+#                 messages.success(request, "Интервал успешно завершен.")
+#             else:
+#                 messages.warning(request, "Нет активного интервала для завершения.")
+#             return redirect('time_interval_view')
+#
+#         elif 'reset' in request.POST:
+#             # Удаляем все записи из модели TimeInterval для текущего пользователя
+#             TimeInterval.objects.filter(user=request.user).delete()
+#             messages.success(request, "Все интервалы успешно сброшены.")
+#             return redirect('time_interval_view')
+#
+#         elif 'delete_summary' in request.POST:
+#             # Удаляем все записи из модели DailySummary для текущего пользователя
+#             DailySummary.objects.filter(user=request.user).delete()
+#             messages.success(request, "Все итоговые данные успешно удалены.")
+#             return redirect('time_interval_view')
+#
+#     # Получение всех интервалов для текущего пользователя
+#     intervals = TimeInterval.objects.filter(user=request.user)
+#     formatted_intervals = []
+#
+#     total_duration = timezone.timedelta()  # Инициализация общей продолжительности
+#     for interval in intervals:
+#         if interval.start_time and interval.end_time:
+#             duration = interval.duration  # Предполагается, что duration правильно вычисляется
+#             total_duration += duration  # Суммируем продолжительность
+#             minutes, seconds = divmod(duration.total_seconds(), 60)
+#             formatted_intervals.append({
+#                 'start_time': interval.start_time.strftime("%H:%M:%S"),
+#                 'end_time': interval.end_time.strftime("%H:%M:%S"),
+#                 'duration': f"{int(minutes)} мин {int(seconds)} сек"
+#             })
+#
+#     # Обновление или создание DailySummary
+#     today = timezone.now().date()
+#     daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
+#
+#     # Обновление total_time
+#     daily_summary.total_time = total_duration  # Устанавливаем общее время
+#     daily_summary.interval_count = intervals.count()  # Устанавливаем количество интервалов
+#     daily_summary.save()  # Сохраняем изменения
+#
+#     return render(request, 'time_interval.html', {
+#         'formatted_intervals': formatted_intervals,
+#         'daily_summary': daily_summary,
+#     })
+#
+
+
 import pytz
 from django.utils import timezone
 from django.shortcuts import render, redirect
@@ -202,6 +289,11 @@ def time_interval_view(request):
             messages.success(request, "Все итоговые данные успешно удалены.")
             return redirect('time_interval_view')
 
+        # Обработка значения current_seconds
+        if 'current_seconds' in request.POST:
+            current_seconds = int(request.POST['current_seconds'])
+            # Здесь вы можете сохранить current_seconds в базе данных или использовать его по вашему усмотрению
+
     # Получение всех интервалов для текущего пользователя
     intervals = TimeInterval.objects.filter(user=request.user)
     formatted_intervals = []
@@ -231,4 +323,3 @@ def time_interval_view(request):
         'formatted_intervals': formatted_intervals,
         'daily_summary': daily_summary,
     })
-

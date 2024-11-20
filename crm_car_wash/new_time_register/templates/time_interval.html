@@ -25,7 +25,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 
-<form method="post" id="timerForm">
+ <title>Секундомер</title>
+  <style>
+    /* Скрываем блок с кнопками таймера */
+    #timerControls {
+      display: none; /* Скрываем элемент */
+    }
+  </style>
+</head>
+<body>
+  <h1 id="timer">00:00:00</h1>
+  <div id="timerControls"> <!-- Добавляем контейнер для кнопок -->
+    <button id="startBtn">Старт</button>
+    <button id="pauseBtn" disabled>Пауза</button>
+    <button id="resetBtn" disabled>Сброс</button>
+  </div>
+
+  <form method="post" id="timerForm">
     {% csrf_token %}
     <button type="submit" name="start" id="startButton">Старт</button>
     <button type="submit" name="stop" id="stopButton">Стоп</button>
@@ -33,55 +49,120 @@
     <button type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
 
     <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
-</form>
+  </form>
 
+  <h2>Интервалы времени</h2>
+  <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered">
+          <thead class="table-dark">
+          <tr>
+              <th scope="col">Старт</th>
+              <th scope="col">Стоп</th>
+              <th scope="col">Длительность</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for interval in formatted_intervals %}
+          <tr>
+              <td>{{ interval.start_time }}</td>
+              <td>{{ interval.end_time }}</td>
+              <td>{{ interval.duration }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+  </div>
 
+  <h2>Итоги дня</h2>
+  <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered">
+          <thead class="table-dark">
+          <tr>
+              <th scope="col">Дата</th>
+              <th scope="col">Количество интервалов</th>
+              <th scope="col">Итоговое время</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+              <td>{{ daily_summary.date }}</td>
+              <td>{{ daily_summary.interval_count }}</td>
+              <td>
+                  {% if daily_summary.total_time %}
+                  {{ daily_summary.total_time|duration_format }}
+                  {% else %}
+                  00:00:00
+                  {% endif %}
+              </td>
+          </tr>
+          </tbody>
+      </table>
+  </div>
 
-<h2>Интервалы времени</h2>
-<div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th scope="col">Старт</th>
-            <th scope="col">Стоп</th>
-            <th scope="col">Длительность</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for interval in formatted_intervals %}
-        <tr>
-            <td>{{ interval.start_time }}</td>
-            <td>{{ interval.end_time }}</td>
-            <td>{{ interval.duration }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+<script>
+    // Ваш существующий код для таймера
+    let timer = document.getElementById('timer');
+    let startBtn = document.getElementById('startBtn');
+    let pauseBtn = document.getElementById('pauseBtn');
+    let resetBtn = document.getElementById('resetBtn');
 
-<h2>Итоги дня</h2>
-<div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th scope="col">Дата</th>
-            <th scope="col">Количество интервалов</th>
-            <th scope="col">Итоговое время</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>{{ daily_summary.date }}</td>
-            <td>{{ daily_summary.interval_count }}</td>
-            <td>
-                {% if daily_summary.total_time %}
-                {{ daily_summary.total_time|duration_format }}
-                {% else %}
-                00:00:00
-                {% endif %}
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+    let interval;
+
+    function updateTime() {
+        seconds++;
+        if (seconds === 60) {
+            minutes++;
+            seconds = 0;
+        }
+        if (minutes === 60) {
+            hours++;
+            minutes = 0;
+        }
+        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    startBtn.addEventListener('click', () => {
+        interval = setInterval(updateTime, 1000);
+        startBtn.disabled = true;
+        pauseBtn.disabled = false;
+        resetBtn.disabled = false;
+    });
+
+    pauseBtn.addEventListener('click', () => {
+        clearInterval(interval);
+        startBtn.disabled = false;
+        pauseBtn.disabled = true;
+    });
+
+    resetBtn.addEventListener('click', () => {
+        clearInterval(interval);
+        seconds = 0;
+        minutes = 0;
+        hours = 0;
+        timer.textContent = '00:00:00';
+        startBtn.disabled = false;
+        pauseBtn.disabled = true;
+        resetBtn.disabled = true;
+    });
+
+    // Обработчик события для кнопки отправки формы
+    document.getElementById('timerForm').addEventListener('submit', function(event) {
+        if (event.submitter.name === 'start') {
+            event.preventDefault(); // Отменяем стандартное поведение формы
+            startBtn.click(); // Вызываем клик на кнопке таймера
+            this.submit(); // Отправляем форму
+        } else if (event.submitter.name === 'stop') {
+            event.preventDefault(); // Отменяем стандартное поведение формы
+            resetBtn.click(); // Вызываем клик на кнопке сброса
+            this.submit(); // Отправляем форму
+        } else if (event.submitter.name === 'reset') {
+            event.preventDefault(); // Отменяем стандартное поведение формы
+            resetBtn.click(); // Вызываем клик на кнопке сброса
+            this.submit(); // Отправляем форму
+        }
+    });
+</script>
 {% endblock %}

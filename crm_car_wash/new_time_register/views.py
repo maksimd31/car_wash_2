@@ -150,9 +150,11 @@ def logout_user(request):
 #     })
 
 
-
 import pytz
 from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import TimeInterval, DailySummary
 
 @authenticated_user_required
 def time_interval_view(request):
@@ -197,8 +199,15 @@ def time_interval_view(request):
     # Обновление или создание DailySummary
     today = timezone.now().date()
     daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
-    daily_summary.interval_count = intervals.count()
-    daily_summary.total_time = total_duration
+
+    # Если запись уже существует, обновляем только количество интервалов и общее время
+    if not created:
+        daily_summary.interval_count += intervals.count()
+        daily_summary.total_time += total_duration
+    else:
+        daily_summary.interval_count = intervals.count()
+        daily_summary.total_time = total_duration
+
     daily_summary.save()
 
     return render(request, 'time_interval.html', {

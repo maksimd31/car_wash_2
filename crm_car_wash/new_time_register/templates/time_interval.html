@@ -19,23 +19,44 @@
 <!--    </div>-->
 <!--</body>-->
 
+<!--<body data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-offset="70" tabindex="0">-->
+<!--    <div id="navbar-example" class="navbar">-->
+<!--        <ul class="nav nav-tabs" role="tablist">-->
+<!--            <h4 class="alert-heading">Информация</h4>-->
+<!--            <p>Текущий пользователь: {{ request.user.username }}</p>-->
+<!--            <p>Дата: {{ daily_summary.date }}</p>-->
+<!--            <p>Общее время за сегодня:-->
+<!--                {{ daily_summary.total_time|default:"00:00:00"|duration_format }}-->
+
+<!--        </ul>-->
+<!--    </div>-->
+<!--    <div class="content">-->
+<!--        Могут присутствовать баги, если что-то заметили, просьба написать мне в телегу @The_Chef12-->
+<!--        Развивать сервис не планируется, если у кого-то есть заинтересованность, пишите.-->
+<!--        20.11.24 добавлен функционал "удаление итогов" для отладки, будьте осторожны.-->
+<!--    </div>-->
+<!--</body>-->
+
 <body data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-offset="70" tabindex="0">
     <div id="navbar-example" class="navbar">
         <ul class="nav nav-tabs" role="tablist">
-            <h4 class="alert-heading">Информация</h4>
-            <p>Текущий пользователь: {{ request.user.username }}</p>
-            <p>Дата: {{ daily_summary.date }}</p>
-            <p>Общее время за сегодня:
-                {{ daily_summary.total_time|default:"00:00:00"|duration_format }}
-
+            <li class="nav-item"><a class="nav-link" href="#section1">Секция 1</a></li>
+            <li class="nav-item"><a class="nav-link" href="#section2">Секция 2</a></li>
+            <li class="nav-item"><a class="nav-link" href="#section3">Секция 3</a></li>
         </ul>
     </div>
-    <div class="content">
-        Могут присутствовать баги, если что-то заметили, просьба написать мне в телегу @The_Chef12
-        Развивать сервис не планируется, если у кого-то есть заинтересованность, пишите.
-        20.11.24 добавлен функционал "удаление итогов" для отладки, будьте осторожны.
+    <div class="content" style="height: 2000px;">
+        <h2 id="section1">Секция 1</h2>
+        <p>Контент секции 1...</p>
+        <h2 id="section2">Секция 2</h2>
+        <p>Контент секции 2...</p>
+        <h2 id="section3">Секция 3</h2>
+        <p>Контент секции 3...</p>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
+
 
 <form method="post" id="timerForm">
     {% csrf_token %}

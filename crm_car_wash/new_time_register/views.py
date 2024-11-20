@@ -208,7 +208,7 @@ def time_interval_view(request):
     daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
 
     if not created:
-        daily_summary.interval_count += intervals.count()
+        daily_summary.interval_count += 1
         daily_summary.total_time += total_duration
     else:
         daily_summary.interval_count = intervals.count()

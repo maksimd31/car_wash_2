@@ -5,7 +5,6 @@ from .forms import SignUpForm
 from django.shortcuts import render, redirect
 from .models import TimeInterval, DailySummary
 
-
 def authenticated_user_required(view_func):
     """
         Декоратор, требующий аутентификацию пользователя.
@@ -104,7 +103,7 @@ def logout_user(request):
     return redirect('home_registr')
 
 
-# Без итогов
+#Без итогов
 # import pytz
 # from django.utils import timezone
 # # from django.contrib.auth.decorators import login_required
@@ -289,11 +288,6 @@ def time_interval_view(request):
             messages.success(request, "Все итоговые данные успешно удалены.")
             return redirect('time_interval_view')
 
-        # Обработка значения current_seconds
-        if 'current_seconds' in request.POST:
-            current_seconds = int(request.POST['current_seconds'])
-            # Здесь вы можете сохранить current_seconds в базе данных или использовать его по вашему усмотрению
-
     # Получение всех интервалов для текущего пользователя
     intervals = TimeInterval.objects.filter(user=request.user)
     formatted_intervals = []
@@ -323,3 +317,4 @@ def time_interval_view(request):
         'formatted_intervals': formatted_intervals,
         'daily_summary': daily_summary,
     })
+

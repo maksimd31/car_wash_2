@@ -109,17 +109,28 @@
 
     // Обработчик события для кнопки отправки формы
     document.getElementById('timerForm').addEventListener('submit', function(event) {
-        if (event.submitter.name === 'start') {
+        // Определяем, какая кнопка была нажата
+        const buttonName = event.submitter.name;
+
+        if (buttonName === 'start') {
             event.preventDefault(); // Отменяем стандартное поведение формы
             interval = setInterval(updateTime, 1000); // Запускаем таймер
             // Здесь можно добавить AJAX-запрос для отправки данных на сервер
-        } else if (event.submitter.name === 'stop') {
+            // Например, отправить текущие значения таймера
+            // $.post('/your-url/', { current_seconds: seconds });
+        } else if (buttonName === 'stop') {
             event.preventDefault(); // Отменяем стандартное поведение формы
             clearInterval(interval); // Останавливаем таймер
             // Здесь можно добавить AJAX-запрос для отправки данных на сервер
+            // Например, отправить текущие значения таймера
+            // $.post('/your-url/', { current_seconds: seconds });
         }
+
+        // После обработки кнопки, отправляем форму
+        this.submit(); // Отправляем форму
     });
 </script>
+
 
 {% endblock %}
 

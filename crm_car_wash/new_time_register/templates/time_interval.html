@@ -33,8 +33,8 @@
 <form method="post" id="timerForm">
     {% csrf_token %}
     <button type="submit" name="start" id="startButton">Старт</button>
-    <button type="submit" name="stop" id="stopButton" >Стоп</button>
-<!--    <button type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>-->
+    <button type="submit" name="stop" id="stopButton">Стоп</button>
+    <!--    <button type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>-->
 
     <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
 </form>
@@ -89,45 +89,50 @@
 
 <script>
     let timer = document.getElementById('timer');
+    let startBtn = document.getElementById('startButton');
+    let pauseBtn = document.getElementById('pauseBtn');
+    let resetBtn = document.getElementById('stopButton');
+
     let seconds = 0;
     let minutes = 0;
     let hours = 0;
     let interval;
 
     function updateTime() {
-        seconds++;
-        if (seconds === 60) {
-            minutes++;
-            seconds = 0;
-        }
-        if (minutes === 60) {
-            hours++;
-            minutes = 0;
-        }
-        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      seconds++;
+      if (seconds === 60) {
+        minutes++;
+        seconds = 0;
+      }
+      if (minutes === 60) {
+        hours++;
+        minutes = 0;
+      }
+      timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 
-    // Обработчик события для кнопки отправки формы
-    document.getElementById('timerForm').addEventListener('submit', function(event) {
-        // Определяем, какая кнопка была нажата
-        const buttonName = event.submitter.name;
+    startBtn.addEventListener('click', () => {
+      interval = setInterval(updateTime, 1000);
+      startBtn.disabled = true;
+      pauseBtn.disabled = false;
+      resetBtn.disabled = false;
+    });
 
-        if (buttonName === 'start') {
-            event.preventDefault(); // Отменяем стандартное поведение формы
-            interval = setInterval(updateTime, 1000); // Запускаем таймер
-            // Здесь можно добавить AJAX-запрос для отправки данных на сервер
-            // Например, отправить текущие значения таймера
-            // $.post('/your-url/', { current_seconds: seconds });
-        } else if (buttonName === 'stop') {
-            event.preventDefault(); // Отменяем стандартное поведение формы
-            clearInterval(interval); // Останавливаем таймер
-            // Здесь можно добавить AJAX-запрос для отправки данных на сервер
-            // Например, отправить текущие значения таймера
-            // $.post('/your-url/', { current_seconds: seconds });
-        }
+    pauseBtn.addEventListener('click', () => {
+      clearInterval(interval);
+      startBtn.disabled = false;
+      pauseBtn.disabled = true;
+    });
 
-        // После обработки кнопки, отправляем форму
-        this.submit(); // Отправляем форму
+    resetBtn.addEventListener('click', () => {
+      clearInterval(interval);
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      timer.textContent = '00:00:00';
+      startBtn.disabled = false;
+      pauseBtn.disabled = true;
+      resetBtn.disabled = true;
     });
 </script>
 

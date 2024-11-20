@@ -153,6 +153,8 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import TimeInterval, DailySummary
+from django.utils import timezone
+from datetime import timedelta
 
 @authenticated_user_required
 def time_interval_view(request):
@@ -165,6 +167,7 @@ def time_interval_view(request):
                 messages.warning(request, "У вас уже есть активный интервал. Завершите его перед началом нового.")
             else:
                 messages.success(request, "Вы Нажали кнопку СТАРТ 'идет запись' ")
+                # Сохраняем текущее время с учетом даты
                 interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz))
                 interval.save()
             return redirect('time_interval_view')
@@ -172,6 +175,7 @@ def time_interval_view(request):
         elif 'stop' in request.POST:
             interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).last()
             if interval:
+                # Сохраняем текущее время с учетом даты
                 interval.end_time = timezone.now().astimezone(moscow_tz)
                 interval.save()
 
@@ -197,11 +201,12 @@ def time_interval_view(request):
 
     intervals = TimeInterval.objects.filter(user=request.user)
     formatted_intervals = []
-    total_duration = timezone.timedelta()
+    total_duration = timedelta()
 
     for interval in intervals:
         if interval.start_time and interval.end_time:
-            duration = interval.end_time - interval.start_time  # Вычисляем продолжительность
+            # Вычисляем продолжительность как разницу между datetime
+            duration = interval.end_time - interval.start_time
             total_duration += duration
             minutes, seconds = divmod(duration.total_seconds(), 60)
             formatted_intervals.append({
@@ -221,6 +226,5 @@ def time_interval_view(request):
         'formatted_intervals': formatted_intervals,
         'daily_summary': daily_summary,
     })
-
 
 

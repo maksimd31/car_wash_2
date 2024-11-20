@@ -74,7 +74,7 @@
             <td>{{ daily_summary.interval_count }}</td>
             <td>
                 {% if daily_summary.total_time %}
-                    {{ daily_summary.total_time|duration_format }}
+                {{ daily_summary.total_time|duration_format }}
                 {% else %}
                 00:00:00
                 {% endif %}

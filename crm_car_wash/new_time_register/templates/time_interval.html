@@ -3,21 +3,40 @@
 
 {% block content %}
 
-<body data-bs-spy="scroll" data-bs-target="#navbar-example">
-    <div id="navbar-example">
+<!--<body data-bs-spy="scroll" data-bs-target="#navbar-example">-->
+<!--    <div id="navbar-example">-->
+<!--        <ul class="nav nav-tabs" role="tablist">-->
+<!--            <h4 class="alert-heading">Информация</h4>-->
+<!--            <p>Текущий пользователь: {{ request.user.username }}</p>-->
+<!--            <p>Дата: {{ daily_summary.date }}</p>-->
+<!--            <p>Общее время за сегодня:-->
+<!--                {{ daily_summary.total_time|default:"00:00:00"|duration_format }}-->
+<!--            </p>-->
+<!--            <p>Могут присутствовать баги, если что-то заметили, просьба написать мне в телегу @The_Chef12</p>-->
+<!--            <p>Развивать сервис не планируется, если у кого-то есть заинтересованность, пишите.</p>-->
+<!--            <p>20.11.24 добавлен функционал "удаление итогов" для отладки, будьте осторожны.</p>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</body>-->
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-offset="70" tabindex="0">
+    <div id="navbar-example" class="navbar">
         <ul class="nav nav-tabs" role="tablist">
             <h4 class="alert-heading">Информация</h4>
             <p>Текущий пользователь: {{ request.user.username }}</p>
             <p>Дата: {{ daily_summary.date }}</p>
             <p>Общее время за сегодня:
                 {{ daily_summary.total_time|default:"00:00:00"|duration_format }}
-            </p>
-            <p>Могут присутствовать баги, если что-то заметили, просьба написать мне в телегу @The_Chef12</p>
-            <p>Развивать сервис не планируется, если у кого-то есть заинтересованность, пишите.</p>
-            <p>20.11.24 добавлен функционал "удаление итогов" для отладки, будьте осторожны.</p>
+
         </ul>
     </div>
+    <div class="content">
+        Могут присутствовать баги, если что-то заметили, просьба написать мне в телегу @The_Chef12
+        Развивать сервис не планируется, если у кого-то есть заинтересованность, пишите.
+        20.11.24 добавлен функционал "удаление итогов" для отладки, будьте осторожны.
+    </div>
 </body>
+
 <form method="post" id="timerForm">
     {% csrf_token %}
     <button type="submit" name="start" id="startButton">Старт</button>

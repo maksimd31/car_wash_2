@@ -163,23 +163,28 @@ def time_interval_view(request):
     if request.method == 'POST':
         if 'start' in request.POST:
             messages.success(request, "Вы Нажали кнопу СТАРТ 'идет запись' ")
-            # Записываем текущее московское время в start_time
             interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
             interval.save()
             return redirect('time_interval_view')
 
         elif 'stop' in request.POST:
-            # Получаем последний интервал и записываем end_time
             interval = TimeInterval.objects.filter(user=request.user).last()
             if interval:
                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
                 interval.save()
-
             return redirect('time_interval_view')
 
         elif 'reset' in request.POST:
-            # Удаляем все записи из модели TimeInterval для текущего пользователя
             TimeInterval.objects.filter(user=request.user).delete()
+            return redirect('time_interval_view')
+
+        elif 'reset_summary' in request.POST:
+            # Обнуляем итоговое время и количество интервалов для текущего пользователя
+            daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=timezone.now().date())
+            daily_summary.interval_count = 0
+            daily_summary.total_time = timezone.timedelta()
+            daily_summary.save()
+            messages.success(request, "Итоговое время успешно обнулено.")
             return redirect('time_interval_view')
 
     intervals = TimeInterval.objects.filter(user=request.user)
@@ -196,11 +201,9 @@ def time_interval_view(request):
                 'end_time': interval.end_time.strftime("%H:%M:%S"),
                 'duration': f"{int(minutes)} мин {int(seconds)} сек"})
 
-    # Обновление или создание DailySummary
     today = timezone.now().date()
     daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
 
-    # Если запись уже существует, обновляем только количество интервалов и общее время
     if not created:
         daily_summary.interval_count += intervals.count()
         daily_summary.total_time += total_duration
@@ -212,5 +215,6 @@ def time_interval_view(request):
 
     return render(request, 'time_interval.html', {
         'formatted_intervals': formatted_intervals,
-        'daily_summary': daily_summary,  # Передаем итоговые данные в шаблон
+        'daily_summary': daily_summary,
     })
+

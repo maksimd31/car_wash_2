@@ -232,6 +232,25 @@ def logout_user(request):
 #         'daily_summary': daily_summary,
 #     })
 
+# def add_manual_interval(user, start_time_str, end_time_str):
+#     """Добавляет новый интервал вручную."""
+#     moscow_tz = pytz.timezone('Europe/Moscow')
+#
+#     # Преобразуем строки времени в объекты времени
+#     start_time = timezone.datetime.strptime(start_time_str, "%H:%M").time()
+#     end_time = timezone.datetime.strptime(end_time_str, "%H:%M").time()
+#
+#     # Создаем новый интервал
+#     interval = TimeInterval(user=user, start_time=start_time, end_time=end_time)
+#     interval.save()
+#
+#     # Вычисляем продолжительность интервала
+#     duration = timezone.datetime.combine(timezone.now().date(), end_time) - timezone.datetime.combine(
+#         timezone.now().date(), start_time)
+#     interval.duration = duration
+#     interval.save()
+
+
 def add_manual_interval(user, start_time_str, end_time_str):
     """Добавляет новый интервал вручную."""
     moscow_tz = pytz.timezone('Europe/Moscow')
@@ -239,6 +258,10 @@ def add_manual_interval(user, start_time_str, end_time_str):
     # Преобразуем строки времени в объекты времени
     start_time = timezone.datetime.strptime(start_time_str, "%H:%M").time()
     end_time = timezone.datetime.strptime(end_time_str, "%H:%M").time()
+
+    # Проверка, что время окончания позже времени начала
+    if end_time <= start_time:
+        raise ValueError("Время окончания должно быть позже времени начала.")
 
     # Создаем новый интервал
     interval = TimeInterval(user=user, start_time=start_time, end_time=end_time)

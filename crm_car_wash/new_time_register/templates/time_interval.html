@@ -43,14 +43,31 @@
 
 <form method="POST">
     {% csrf_token %}
-    <label for="start_time">Начало (HH:MM):</label>
-    <input type="time" id="start_time" name="start_time" required>
+    <h2>Добавить новый интервал вручную</h2>
 
-    <label for="end_time">Конец (HH:MM):</label>
-    <input type="time" id="end_time" name="end_time" required>
+    <div>
+        <label for="start_time">Начало (HH:MM):</label>
+        <input type="time" id="start_time" name="start_time" required>
+    </div>
 
-    <button type="submit" name="add_manual_interval">Добавить интервал вручную</button>
+    <div>
+        <label for="end_time">Конец (HH:MM):</label>
+        <input type="time" id="end_time" name="end_time" required>
+    </div>
+
+    <div>
+        <button type="submit" name="add_manual_interval">Добавить интервал вручную</button>
+    </div>
 </form>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 
 
 

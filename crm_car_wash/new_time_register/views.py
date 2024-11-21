@@ -231,7 +231,8 @@ def logout_user(request):
 #         'formatted_intervals': formatted_intervals,
 #         'daily_summary': daily_summary,
 #     })
-#
+
+
 
 
 import pytz
@@ -239,7 +240,6 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import TimeInterval, DailySummary
-
 
 @authenticated_user_required
 def time_interval_view(request):
@@ -264,12 +264,6 @@ def time_interval_view(request):
             if interval:
                 interval.end_time = timezone.now().astimezone(moscow_tz).time()
                 interval.save()
-
-                # Увеличиваем количество интервалов в DailySummary
-                today = timezone.now().date()
-                daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
-                daily_summary.interval_count += 1  # Увеличиваем количество интервалов на 1
-                daily_summary.save()
 
                 messages.success(request, "Интервал успешно завершен.")
             else:
@@ -309,15 +303,14 @@ def time_interval_view(request):
     daily_summary, created = DailySummary.objects.get_or_create(user=request.user, date=today)
 
     # Обнуляем interval_count и total_time для новой записи
-    if created:
-        daily_summary.interval_count = 0
-        daily_summary.total_time = timezone.timedelta()
-    else:
-        daily_summary.interval_count = 0  # Обнуляем количество интервалов
-        daily_summary.total_time = timezone.timedelta()  # Обнуляем общее время
+    daily_summary.interval_count = 0
+    daily_summary.total_time = timezone.timedelta()  # Обнуляем общее время
+    daily_summary.save()  # Сохраняем изменения
 
-    # Сохраняем изменения
-    daily_summary.save()
+    # Увеличиваем количество интервалов в DailySummary
+    daily_summary.interval_count += intervals.count()  # Устанавливаем количество интервалов
+    daily_summary.total_time += total_duration  # Устанавливаем общее время
+    daily_summary.save()  # Сохраняем изменения
 
     return render(request, 'time_interval.html', {
         'formatted_intervals': formatted_intervals,

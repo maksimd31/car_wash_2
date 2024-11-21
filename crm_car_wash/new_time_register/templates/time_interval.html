@@ -41,6 +41,19 @@
     <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
 </form>
 
+<form method="POST">
+    {% csrf_token %}
+    <label for="start_time">Начало (HH:MM):</label>
+    <input type="time" id="start_time" name="start_time" required>
+
+    <label for="end_time">Конец (HH:MM):</label>
+    <input type="time" id="end_time" name="end_time" required>
+
+    <button type="submit" name="add_manual_interval">Добавить интервал вручную</button>
+</form>
+
+
+
 <h2>Интервалы времени</h2>
 <div class="table-responsive">
     <table class="table table-striped table-hover table-bordered">

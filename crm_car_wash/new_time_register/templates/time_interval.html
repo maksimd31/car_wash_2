@@ -33,18 +33,18 @@
 </head>
 <body>
 <h1 id="timer">00:00:00</h1>
-<!--<button id="startBtn">Старт</button>-->
-<!--<button id="pauseBtn" disabled>Пауза</button>-->
-<!--<button id="resetBtn" disabled>Сброс</button>-->
+<button id="startBtn">Старт</button>
+<button id="pauseBtn" disabled>Пауза</button>
+<button id="resetBtn" disabled>Сброс</button>
 
 
 <form method="post" id="timerForm">
     {% csrf_token %}
-<!--    <button type="submit" name="start" id="startButton">Старт</button>-->
-<!--    <button type="submit" name="stop" id="stopButton">Стоп</button>-->
-<!--    <button type="button" name="start" id="startBtn">Старт</button>-->
-    <button type="button" id="startButton">Старт</button>
-    <button type="button" name="stop" id="resetBtn">Стоп</button>
+    <button type="submit" name="start" id="startButton">Старт</button>
+    <button type="submit" name="stop" id="stopButton">Стоп</button>
+    <!--    <button type="button" name="start" id="startBtn">Старт</button>-->
+    <!--    <button type="button" id="startButton">Старт</button>-->
+    <!--    <button type="button" name="stop" id="resetBtn">Стоп</button>-->
     <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
     <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ
     </button>
@@ -131,101 +131,11 @@
     </table>
 </div>
 
-<!--<script>-->
-<!--    let timer = document.getElementById('timer');-->
-<!--    let startBtn = document.getElementById('startBtn');-->
-<!--    <button type="submit" name="start" id="startButton">Старт</button>-->
-<!--    <button type="submit" name="stop" id="stopButton">Стоп</button>-->
-
-<!--    let seconds = 0;-->
-<!--    let minutes = 0;-->
-<!--    let hours = 0;-->
-<!--    let interval;-->
-
-<!--    function updateTime() {-->
-<!--        seconds++;-->
-<!--        if (seconds === 60) {-->
-<!--            minutes++;-->
-<!--            seconds = 0;-->
-<!--        }-->
-<!--        if (minutes === 60) {-->
-<!--            hours++;-->
-<!--            minutes = 0;-->
-<!--        }-->
-<!--        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;-->
-<!--    }-->
-
-<!--    startBtn.addEventListener('click', () => {-->
-<!--        interval = setInterval(updateTime, 1000);-->
-<!--        startBtn.disabled = true; // Отключаем кнопку "Старт"-->
-<!--        stopBtn.disabled = false; // Включаем кнопку "Стоп"-->
-
-<!--    });-->
-
-<!--    stopBtn.addEventListener('click', () => {-->
-<!--        clearInterval(interval);-->
-<!--        seconds = 0;-->
-<!--        minutes = 0;-->
-<!--        hours = 0;-->
-<!--        timer.textContent = '00:00:00';-->
-<!--        startBtn.disabled = false; // Включаем кнопку "Старт"-->
-<!--        stopBtn.disabled = true; // Отключаем кнопку "Стоп"-->
-<!--    });-->
-
-
-<!--</script>-->
-
-<!--<script>-->
-<!--    let timer = document.getElementById('timer');-->
-<!--    let startBtn = document.getElementById('startBtn');-->
-<!--    let startButton = document.getElementById('startButton'); // Получаем элемент кнопки "Старт"-->
-<!--    let stopButton = document.getElementById('stopButton'); // Получаем элемент кнопки "Старт"-->
-<!--    let stopBtn = document.getElementById('resetBtn'); // Получаем элемент кнопки "Стоп"-->
-
-<!--    let seconds = 0;-->
-<!--    let minutes = 0;-->
-<!--    let hours = 0;-->
-<!--    let interval;-->
-
-<!--    function updateTime() {-->
-<!--        seconds++;-->
-<!--        if (seconds === 60) {-->
-<!--            minutes++;-->
-<!--            seconds = 0;-->
-<!--        }-->
-<!--        if (minutes === 60) {-->
-<!--            hours++;-->
-<!--            minutes = 0;-->
-<!--        }-->
-<!--        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;-->
-<!--    }-->
-
-<!--    startBtn.addEventListener('click', () => {-->
-<!--        interval = setInterval(updateTime, 1000);-->
-<!--        startBtn.disabled = true; // Отключаем кнопку "Старт"-->
-<!--        stopBtn.disabled = false; // Включаем кнопку "Стоп"-->
-<!--    });-->
-
-<!--    startButton.addEventListener('click', (event) => {-->
-<!--        event.preventDefault(); // Предотвращаем отправку формы-->
-<!--        startBtn.click(); // Вызываем клик на кнопке "Старт"-->
-<!--    });-->
-
-<!--    stopBtn.addEventListener('click', () => {-->
-<!--        clearInterval(interval);-->
-<!--        seconds = 0;-->
-<!--        minutes = 0;-->
-<!--        hours = 0;-->
-<!--        timer.textContent = '00:00:00';-->
-<!--        startBtn.disabled = false; // Включаем кнопку "Старт"-->
-<!--        stopBtn.disabled = true; // Отключаем кнопку "Стоп"-->
-<!--    });-->
-<!--</script>-->
-
 <script>
     let timer = document.getElementById('timer');
-    let startButton = document.getElementById('startButton'); // Объединенная кнопка
-    let stopBtn = document.getElementById('resetBtn'); // Кнопка "Стоп"
+    let startBtn = document.getElementById('startBtn');
+    let pauseBtn = document.getElementById('pauseBtn');
+    let resetBtn = document.getElementById('resetBtn');
 
     let seconds = 0;
     let minutes = 0;
@@ -233,37 +143,42 @@
     let interval;
 
     function updateTime() {
-        seconds++;
-        if (seconds === 60) {
-            minutes++;
-            seconds = 0;
-        }
-        if (minutes === 60) {
-            hours++;
-            minutes = 0;
-        }
-        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      seconds++;
+      if (seconds === 60) {
+        minutes++;
+        seconds = 0;
+      }
+      if (minutes === 60) {
+        hours++;
+        minutes = 0;
+      }
+      timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 
-    startButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Предотвращаем отправку формы, если это необходимо
-        interval = setInterval(updateTime, 1000); // Запускаем таймер
-        startButton.disabled = true; // Отключаем кнопку "Старт"
-        stopBtn.disabled = false; // Включаем кнопку "Стоп"
-
-        // Если нужно отправить форму, добавьте здесь код для отправки
-        // Например, если у вас есть форма с id "timerForm":
-        // document.getElementById('timerForm').submit();
+    startBtn.addEventListener('click', () => {
+      interval = setInterval(updateTime, 1000);
+      startBtn.disabled = true;
+      pauseBtn.disabled = false;
+      resetBtn.disabled = false;
     });
 
-    stopBtn.addEventListener('click', () => {
-        clearInterval(interval); // Останавливаем таймер
-        startButton.disabled = false; // Включаем кнопку "Старт"
-        stopBtn.disabled = true; // Отключаем кнопку "Стоп"
+    pauseBtn.addEventListener('click', () => {
+      clearInterval(interval);
+      startBtn.disabled = false;
+      pauseBtn.disabled = true;
+    });
+
+    resetBtn.addEventListener('click', () => {
+      clearInterval(interval);
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      timer.textContent = '00:00:00';
+      startBtn.disabled = false;
+      pauseBtn.disabled = true;
+      resetBtn.disabled = true;
     });
 </script>
-
-
 
 
 {% endblock %}

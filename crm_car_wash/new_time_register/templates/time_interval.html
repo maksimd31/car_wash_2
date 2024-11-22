@@ -107,8 +107,14 @@
 
 <h1 id="timer">00:00:00</h1>
 
+<style>
+    #startBtn {
+        display: none; /* Скрываем кнопку startBtn */
+    }
+</style>
+
 <!--<button class="badge rounded-pill bg-primary" id="startBtn">Старт</button>-->
-<button class="btn btn-primary btn-lg" id="startBtn">Старт</button>
+<!--<button class="btn btn-primary btn-lg" id="startBtn">Старт</button>-->
 
 <!--<button id="pauseBtn" disabled>Пауза</button>-->
 <!--<button id="resetBtn" disabled>Сброс</button>-->
@@ -216,6 +222,11 @@
     let resetBtn = document.getElementById('resetBtn');
     let currentSecondsInput = document.getElementById('currentSeconds');
 
+
+    document.getElementById('startButton').addEventListener('click', function() {
+        // Имитация нажатия на кнопку startBtn
+        document.getElementById('startBtn').c
+
     let seconds = 0;
     let interval;
 
@@ -263,6 +274,7 @@
         pauseBtn.disabled = true;
         resetBtn.disabled = true;
     });
+
 </script>
 
 <!--<script>-->

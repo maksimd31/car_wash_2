@@ -333,7 +333,7 @@ def handle_start_interval(request, moscow_tz):
     if active_interval:
         messages.warning(request, "У вас уже есть активный интервал. Завершите его перед началом нового.")
     else:
-        messages.success(request, "Вы Нажали кнопку СТАРТ 'идет запись' ")
+        messages.success(request, "Вы Нажали кнопку СТАРТ 'идет запись' \n Не забудьте нажать кнопку старт на секундомере")
         interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
         interval.save()
     return redirect('time_interval_view')

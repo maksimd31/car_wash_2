@@ -34,17 +34,15 @@
 <body>
 <h1 id="timer">00:00:00</h1>
 
-
 <form method="post" id="timerForm">
     {% csrf_token %}
-    <button type="submit" name="start" id="startButton">Старт</button>
-    <button type="submit" name="stop" id="stopButton">Стоп</button>
+    <button type="button" id="startButton">Старт</button>
+    <button type="button" id="stopButton">Стоп</button>
     <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
     <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
-    <!--    <button type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>-->
-
     <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
 </form>
+
 
 <form method="POST">
     {% csrf_token %}

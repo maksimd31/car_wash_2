@@ -123,7 +123,6 @@
         </tbody>
     </table>
 </div>
-
 <script>
     let timer = document.getElementById('timer');
     let startBtn = document.getElementById('startButton');
@@ -154,6 +153,36 @@
         stopBtn.disabled = true; // Disable stop button
     });
 </script>
+<!--<script>-->
+<!--    let timer = document.getElementById('timer');-->
+<!--    let startBtn = document.getElementById('startButton');-->
+<!--    let stopBtn = document.getElementById('stopButton');-->
+
+<!--    let seconds = 0;-->
+<!--    let interval;-->
+
+<!--    function updateTime() {-->
+<!--        seconds++;-->
+<!--        let hours = Math.floor(seconds / 3600);-->
+<!--        let minutes = Math.floor((seconds % 3600) / 60);-->
+<!--        let secs = seconds % 60;-->
+<!--        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;-->
+<!--    }-->
+
+<!--    startBtn.addEventListener('click', () => {-->
+<!--        interval = setInterval(updateTime, 1000);-->
+<!--        startBtn.disabled = true; // Disable start button-->
+<!--        stopBtn.disabled = false; // Enable stop button-->
+<!--    });-->
+
+<!--    stopBtn.addEventListener('click', () => {-->
+<!--        clearInterval(interval);-->
+<!--        seconds = 0; // Reset seconds-->
+<!--        timer.textContent = '00:00:00'; // Reset display-->
+<!--        startBtn.disabled = false; // Enable start button-->
+<!--        stopBtn.disabled = true; // Disable stop button-->
+<!--    });-->
+<!--</script>-->
 
 {% endblock %}
 

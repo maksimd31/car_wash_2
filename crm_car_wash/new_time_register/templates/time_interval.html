@@ -213,7 +213,12 @@
     </table>
 </div>
 </body>
-
+<script>
+    document.getElementById('startButton').addEventListener('click', function() {
+        // Имитация нажатия на кнопку startBtn
+        document.getElementById('startBtn').click();
+    });
+</script>
 <script>
     let timer = document.getElementById('timer');
     let startBtn = document.getElementById('startBtn');
@@ -221,12 +226,6 @@
     let pauseBtn = document.getElementById('pauseBtn');
     let resetBtn = document.getElementById('resetBtn');
     let currentSecondsInput = document.getElementById('currentSeconds');
-
-
-    document.getElementById('startButton').addEventListener('click', function() {
-        // Имитация нажатия на кнопку startBtn
-        document.getElementById('startBtn').click();
-    });
 
     let seconds = 0;
     let interval;

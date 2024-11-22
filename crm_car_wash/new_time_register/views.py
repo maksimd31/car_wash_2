@@ -274,6 +274,7 @@ import pytz
 from .forms import StartIntervalForm, StopIntervalForm, ResetIntervalsForm, DeleteSummaryForm, AddManualIntervalForm
 from .models import TimeInterval, DailySummary
 
+
 def add_manual_interval(user, start_time_str, end_time_str):
     """Добавляет новый интервал вручную."""
     moscow_tz = pytz.timezone('Europe/Moscow')
@@ -297,6 +298,39 @@ def add_manual_interval(user, start_time_str, end_time_str):
     interval.save()
 
 
+# @authenticated_user_required
+# def time_interval_view(request):
+#     moscow_tz = pytz.timezone('Europe/Moscow')
+#
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             return handle_start_interval(request, moscow_tz)
+#         elif 'stop' in request.POST:
+#             return handle_stop_interval(request, moscow_tz)
+#         elif 'reset' in request.POST:
+#             return handle_reset_intervals(request)
+#         elif 'delete_summary' in request.POST:
+#             return handle_delete_summary(request)
+#         elif 'add_manual_interval' in request.POST:
+#             return handle_add_manual_interval(request)
+#
+#     intervals = TimeInterval.objects.filter(user=request.user)
+#     formatted_intervals, total_duration = format_intervals(intervals)
+#
+#     # Обновление или создание DailySummary
+#     update_daily_summary(request.user, intervals, total_duration)
+#
+#     daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
+#
+#     return render(request, 'time_interval.html', {
+#         'formatted_intervals': formatted_intervals,
+#         'daily_summaries': daily_summaries,
+#     })
+
+# new
+from .models import StopwatchRecord
+
+
 @authenticated_user_required
 def time_interval_view(request):
     moscow_tz = pytz.timezone('Europe/Moscow')
@@ -313,6 +347,19 @@ def time_interval_view(request):
         elif 'add_manual_interval' in request.POST:
             return handle_add_manual_interval(request)
 
+            # Внутри функции time_interval_view, замените обработку секундомера на:
+        elif 'current_seconds' in request.POST:
+            current_seconds = int(request.POST.get('current_seconds', 0))
+            duration = timezone.timedelta(seconds=current_seconds)
+
+            # Сохраняем запись секундомера
+            StopwatchRecord.objects.create(user=request.user, duration=duration)
+
+            messages.success(request, f"Секундомер остановлен на {current_seconds} секунд.")
+            return redirect('time_interval_view')
+
+    intervals = TimeInterval.objects.filter(user=request.user)
+    formatted_intervals, total_duration = format_intervals
     intervals = TimeInterval.objects.filter(user=request.user)
     formatted_intervals, total_duration = format_intervals(intervals)
 
@@ -359,7 +406,6 @@ def handle_delete_summary(request):
     DailySummary.objects.filter(user=request.user).delete()
     messages.success(request, "Все итоговые данные успешно удалены.")
     return redirect('time_interval_view')
-
 
 
 def handle_add_manual_interval(request):

@@ -150,27 +150,27 @@ def logout_user(request):
 #     })
 
 
-def add_manual_interval(user, start_time_str, end_time_str):
-    """Добавляет новый интервал вручную."""
-    moscow_tz = pytz.timezone('Europe/Moscow')
-
-    # Преобразуем строки времени в объекты времени
-    start_time = timezone.datetime.strptime(start_time_str, "%H:%M").time()
-    end_time = timezone.datetime.strptime(end_time_str, "%H:%M").time()
-
-    # Проверка, что время окончания позже времени начала
-    if end_time <= start_time:
-        raise ValueError("Время окончания должно быть позже времени начала.")
-
-    # Создаем новый интервал
-    interval = TimeInterval(user=user, start_time=start_time, end_time=end_time)
-    interval.save()
-
-    # Вычисляем продолжительность интервала
-    duration = timezone.datetime.combine(timezone.now().date(), end_time) - timezone.datetime.combine(
-        timezone.now().date(), start_time)
-    interval.duration = duration
-    interval.save()
+# def add_manual_interval(user, start_time_str, end_time_str):
+#     """Добавляет новый интервал вручную."""
+#     moscow_tz = pytz.timezone('Europe/Moscow')
+#
+#     # Преобразуем строки времени в объекты времени
+#     start_time = timezone.datetime.strptime(start_time_str, "%H:%M").time()
+#     end_time = timezone.datetime.strptime(end_time_str, "%H:%M").time()
+#
+#     # Проверка, что время окончания позже времени начала
+#     if end_time <= start_time:
+#         raise ValueError("Время окончания должно быть позже времени начала.")
+#
+#     # Создаем новый интервал
+#     interval = TimeInterval(user=user, start_time=start_time, end_time=end_time)
+#     interval.save()
+#
+#     # Вычисляем продолжительность интервала
+#     duration = timezone.datetime.combine(timezone.now().date(), end_time) - timezone.datetime.combine(
+#         timezone.now().date(), start_time)
+#     interval.duration = duration
+#     interval.save()
 
 
 import pytz
@@ -272,6 +272,29 @@ from django.contrib import messages
 import pytz
 from .forms import StartIntervalForm, StopIntervalForm, ResetIntervalsForm, DeleteSummaryForm, AddManualIntervalForm
 from .models import TimeInterval, DailySummary
+
+
+def add_manual_interval(user, start_time_str, end_time_str):
+    """Добавляет новый интервал вручную."""
+    moscow_tz = pytz.timezone('Europe/Moscow')
+
+    # Преобразуем строки времени в объекты времени
+    start_time = timezone.datetime.strptime(start_time_str, "%H:%M").time()
+    end_time = timezone.datetime.strptime(end_time_str, "%H:%M").time()
+
+    # Проверка, что время окончания позже времени начала
+    if end_time <= start_time:
+        raise ValueError("Время окончания должно быть позже времени начала.")
+
+    # Создаем новый интервал
+    interval = TimeInterval(user=user, start_time=start_time, end_time=end_time)
+    interval.save()
+
+    # Вычисляем продолжительность интервала
+    duration = timezone.datetime.combine(timezone.now().date(), end_time) - timezone.datetime.combine(
+        timezone.now().date(), start_time)
+    interval.duration = duration
+    interval.save()
 
 @authenticated_user_required
 def time_interval_view(request):

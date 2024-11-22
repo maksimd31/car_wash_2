@@ -310,7 +310,7 @@ def handle_start_interval(request, moscow_tz):
         messages.success(request, "Вы Нажали кнопку СТАРТ 'идет запись' ")
         interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
         interval.save()
-    return redirect('time_interval_view')
+    # return redirect('time_interval_view')
 
 def handle_stop_interval(request, moscow_tz):
     interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).last()
@@ -320,17 +320,17 @@ def handle_stop_interval(request, moscow_tz):
         messages.success(request, "Интервал успешно завершен.")
     else:
         messages.warning(request, "Нет активного интервала для завершения.")
-    return redirect('time_interval_view')
+    # return redirect('time_interval_view')
 
 def handle_reset_intervals(request):
     TimeInterval.objects.filter(user=request.user).delete()
     messages.success(request, "Все интервалы успешно сброшены.")
-    return redirect('time_interval_view')
+    # return redirect('time_interval_view')
 
 def handle_delete_summary(request):
     DailySummary.objects.filter(user=request.user).delete()
     messages.success(request, "Все итоговые данные успешно удалены.")
-    return redirect('time_interval_view')
+    # return redirect('time_interval_view')
 
 def handle_add_manual_interval(request):
     form = AddManualIntervalForm(request.POST)
@@ -339,7 +339,7 @@ def handle_add_manual_interval(request):
         end_time = form.cleaned_data['end_time']
         add_manual_interval(request.user, start_time, end_time)
         messages.success(request, "Новый интервал успешно добавлен.")
-    return redirect('time_interval_view')
+    # return redirect('time_interval_view')
 
 def format_intervals(intervals):
     formatted_intervals = []

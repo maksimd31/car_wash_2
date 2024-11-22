@@ -5,6 +5,7 @@ from .forms import SignUpForm
 from django.shortcuts import render, redirect
 from .models import TimeInterval, DailySummary
 
+
 def authenticated_user_required(view_func):
     """
         Декоратор, требующий аутентификацию пользователя.
@@ -103,7 +104,7 @@ def logout_user(request):
     return redirect('home_registr')
 
 
-#Без итогов
+# Без итогов
 # import pytz
 # from django.utils import timezone
 # # from django.contrib.auth.decorators import login_required
@@ -295,6 +296,8 @@ def add_manual_interval(user, start_time_str, end_time_str):
         timezone.now().date(), start_time)
     interval.duration = duration
     interval.save()
+    return redirect('time_interval_view')
+
 
 @authenticated_user_required
 def time_interval_view(request):
@@ -325,6 +328,7 @@ def time_interval_view(request):
         'daily_summaries': daily_summaries,
     })
 
+
 def handle_start_interval(request, moscow_tz):
     active_interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).first()
     if active_interval:
@@ -334,6 +338,7 @@ def handle_start_interval(request, moscow_tz):
         interval = TimeInterval(user=request.user, start_time=timezone.now().astimezone(moscow_tz).time())
         interval.save()
     return redirect('time_interval_view')
+
 
 def handle_stop_interval(request, moscow_tz):
     interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).last()
@@ -345,15 +350,18 @@ def handle_stop_interval(request, moscow_tz):
         messages.warning(request, "Нет активного интервала для завершения.")
     return redirect('time_interval_view')
 
+
 def handle_reset_intervals(request):
     TimeInterval.objects.filter(user=request.user).delete()
     messages.success(request, "Все интервалы успешно сброшены.")
     return redirect('time_interval_view')
 
+
 def handle_delete_summary(request):
     DailySummary.objects.filter(user=request.user).delete()
     messages.success(request, "Все итоговые данные успешно удалены.")
     return redirect('time_interval_view')
+
 
 def handle_add_manual_interval(request):
     form = AddManualIntervalForm(request.POST)
@@ -363,6 +371,7 @@ def handle_add_manual_interval(request):
         add_manual_interval(request.user, start_time, end_time)
         messages.success(request, "Новый интервал успешно добавлен.")
     return redirect('time_interval_view')
+
 
 def format_intervals(intervals):
     formatted_intervals = []
@@ -378,6 +387,7 @@ def format_intervals(intervals):
                 'duration': f"{int(minutes)} мин {int(seconds)} сек"
             })
     return formatted_intervals, total_duration
+
 
 def update_daily_summary(user, intervals, total_duration):
     today = timezone.now().date()

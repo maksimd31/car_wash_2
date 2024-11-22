@@ -107,8 +107,8 @@
 
 <h1 id="timer">00:00:00</h1>
 
-<button class="badge rounded-pill bg-primary" id="startBtn">Старт</button>
-<!--<button class="badge bg-primary" id="startBtn">Старт</button>-->
+<!--<button class="badge rounded-pill bg-primary" id="startBtn">Старт</button>-->
+<button class="btn btn-primary btn-lg" id="startBtn">Старт</button>
 
 <!--<button id="pauseBtn" disabled>Пауза</button>-->
 <!--<button id="resetBtn" disabled>Сброс</button>-->
@@ -116,10 +116,10 @@
 
 <form method="post" id="timerForm">
     {% csrf_token %}
-    <button class="badge bg-secondary" type="submit" name="start" id="startButton">Старт</button>
-    <button class="badge bg-secondary" type="submit" name="stop" id="stopButton">Стоп</button>
-    <button class="badge bg-danger" type="submit" name="reset"  >Обнулить данные</button>
-    <button class="badge bg-warning text-dark" type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
+    <button class="btn btn-secondary btn-lg" type="submit" name="start" id="startButton">Старт</button>
+    <button class="btn btn-secondary btn-lg" type="submit" name="stop" id="stopButton">Стоп</button>
+    <button class="btn btn-danger btn-lg" type="submit" name="reset"  >Обнулить данные</button>
+    <button class="btn btn-warning btn-lg" type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
 
 <!--    <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>-->
 <!--    <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ-->

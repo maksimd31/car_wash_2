@@ -33,15 +33,17 @@
 </head>
 <body>
 <h1 id="timer">00:00:00</h1>
-<button id="startBtn">Старт</button>
-<button id="pauseBtn" disabled>Пауза</button>
-<button id="resetBtn" disabled>Сброс</button>
+<!--<button id="startBtn">Старт</button>-->
+<!--<button id="pauseBtn" disabled>Пауза</button>-->
+<!--<button id="resetBtn" disabled>Сброс</button>-->
 
 
 <form method="post" id="timerForm">
     {% csrf_token %}
-    <button type="submit" name="start" id="startButton">Старт</button>
-    <button type="submit" name="stop" id="stopButton">Стоп</button>
+<!--    <button type="submit" name="start" id="startButton">Старт</button>-->
+<!--    <button type="submit" name="stop" id="stopButton">Стоп</button>-->
+    <button type="button" name="start" id="startBtn">Старт</button>
+    <button type="button" name="stop" id="resetBtn">Стоп</button>
     <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
     <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ
     </button>
@@ -131,8 +133,14 @@
 <script>
     let timer = document.getElementById('timer');
     let startBtn = document.getElementById('startBtn');
-    let pauseBtn = document.getElementById('pauseBtn');
+    let startButton = document.getElementById('getElementById')
+    let stopButton = document.getElementById('stopButton')
+
+<!--    let pauseBtn = document.getElementById('pauseBtn');-->
     let resetBtn = document.getElementById('resetBtn');
+
+    <!--    <button type="submit" name="start" id="startButton">Старт</button>-->
+<!--    <button type="submit" name="stop" id="stopButton">Стоп</button>-->
 
     let seconds = 0;
     let minutes = 0;
@@ -154,6 +162,7 @@
 
     startBtn.addEventListener('click', () => {
       interval = setInterval(updateTime, 1000);
+      startButton.disabled = true;
       startBtn.disabled = true;
       pauseBtn.disabled = false;
       resetBtn.disabled = false;
@@ -174,6 +183,7 @@
       startBtn.disabled = false;
       pauseBtn.disabled = true;
       resetBtn.disabled = true;
+      stopButton.disabled = true;
     });
 </script>
 

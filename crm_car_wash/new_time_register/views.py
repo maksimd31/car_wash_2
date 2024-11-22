@@ -361,15 +361,6 @@ def handle_delete_summary(request):
     return redirect('time_interval_view')
 
 
-# def handle_add_manual_interval(request):
-#     form = AddManualIntervalForm(request.POST)
-#     if form.is_valid():
-#         start_time = form.cleaned_data['start_time']
-#         end_time = form.cleaned_data['end_time']
-#         add_manual_interval(request.user, start_time, end_time)
-#         messages.success(request, "Новый интервал успешно добавлен.")
-#     return redirect('time_interval_view')
-
 
 def handle_add_manual_interval(request):
     if request.method == 'POST' and 'add_manual_interval' in request.POST:

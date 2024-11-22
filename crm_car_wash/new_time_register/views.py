@@ -274,7 +274,6 @@ import pytz
 from .forms import StartIntervalForm, StopIntervalForm, ResetIntervalsForm, DeleteSummaryForm, AddManualIntervalForm
 from .models import TimeInterval, DailySummary
 
-
 def add_manual_interval(user, start_time_str, end_time_str):
     """Добавляет новый интервал вручную."""
     moscow_tz = pytz.timezone('Europe/Moscow')
@@ -296,7 +295,6 @@ def add_manual_interval(user, start_time_str, end_time_str):
         timezone.now().date(), start_time)
     interval.duration = duration
     interval.save()
-    return redirect('time_interval_view')
 
 
 @authenticated_user_required
@@ -363,13 +361,29 @@ def handle_delete_summary(request):
     return redirect('time_interval_view')
 
 
+# def handle_add_manual_interval(request):
+#     form = AddManualIntervalForm(request.POST)
+#     if form.is_valid():
+#         start_time = form.cleaned_data['start_time']
+#         end_time = form.cleaned_data['end_time']
+#         add_manual_interval(request.user, start_time, end_time)
+#         messages.success(request, "Новый интервал успешно добавлен.")
+#     return redirect('time_interval_view')
+
+
 def handle_add_manual_interval(request):
-    form = AddManualIntervalForm(request.POST)
-    if form.is_valid():
-        start_time = form.cleaned_data['start_time']
-        end_time = form.cleaned_data['end_time']
-        add_manual_interval(request.user, start_time, end_time)
-        messages.success(request, "Новый интервал успешно добавлен.")
+    if request.method == 'POST' and 'add_manual_interval' in request.POST:
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+
+        if start_time and end_time:
+            try:
+                add_manual_interval(request.user, start_time, end_time)
+                messages.success(request, "Новый интервал успешно добавлен.")
+            except ValueError as e:
+                messages.error(request, str(e))
+        else:
+            messages.error(request, "Пожалуйста, заполните все поля.")
     return redirect('time_interval_view')
 
 

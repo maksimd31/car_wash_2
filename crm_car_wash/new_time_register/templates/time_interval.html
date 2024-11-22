@@ -4,7 +4,7 @@
 {% block content %}
 
 
-<div class="accordion" id="accordionExample" >
+<div class="accordion" id="accordionExample">
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
@@ -73,7 +73,10 @@
 <!--</style>-->
 
 <!--<button class="badge rounded-pill bg-primary" id="startBtn">Старт</button>-->
-<button class="btn btn-primary btn-lg full-width" id="startBtn">Старт</button>
+<div class="d-grid gap-2">
+    <button class="btn btn-primary btn-lg full-width" id="startBtn">Старт</button>
+</div>
+
 
 <!--<button id="pauseBtn" disabled>Пауза</button>-->
 <!--<button id="resetBtn" disabled>Сброс</button>-->
@@ -91,14 +94,14 @@
     <div class="d-grid gap-2">
         <button class="btn btn-secondary full-width" type="submit" name="start" id="startButton">Старт</button>
         <button class="btn btn-secondary full-width" type="submit" name="stop" id="stopButton">Стоп</button>
-        <button class="btn btn-danger full-width" type="submit" name="reset"  >Обнулить данные</button>
+        <button class="btn btn-danger full-width" type="submit" name="reset">Обнулить данные</button>
         <button class="btn btn-warning full-width" type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
     </div>
 
 
-<!--    <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>-->
-<!--    <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ-->
-<!--    </button>-->
+    <!--    <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>-->
+    <!--    <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ-->
+    <!--    </button>-->
 
     <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
 </form>
@@ -111,15 +114,20 @@
     <div>
         <label for="start_time">Начало (HH:MM):</label>
         <input type="time" id="start_time" name="start_time" required>
-    </div>
 
-    <div>
         <label for="end_time">Конец (HH:MM):</label>
         <input type="time" id="end_time" name="end_time" required>
     </div>
 
+<!--    <div>-->
+<!--        <label for="end_time">Конец (HH:MM):</label>-->
+<!--        <input type="time" id="end_time" name="end_time" required>-->
+<!--    </div>-->
+
     <div>
-        <button class="btn btn-success" type="submit" name="add_manual_interval">Добавить интервал вручную</button>
+        <div class="d-grid gap-2">
+            <button class="btn btn-success" type="submit" name="add_manual_interval">Добавить интервал вручную</button>
+        </div>
     </div>
 </form>
 

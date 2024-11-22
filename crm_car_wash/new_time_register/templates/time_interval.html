@@ -94,6 +94,7 @@
         </tbody>
     </table>
 </div>
+
 <h2>Итоги дня</h2>
 <div class="table-responsive">
     <table class="table table-striped table-hover table-bordered">
@@ -105,16 +106,15 @@
         </tr>
         </thead>
         <tbody>
-        {% for daily_summary in daily_summaries %}
+        {% for summary in daily_summaries %}
         <tr>
-            <td>{{ daily_summary.date }}</td>
-            <td>{{ daily_summary.interval_count }}</td>
+            <td>{{ summary.date }}</td>
+            <td>{{ summary.interval_count }}</td>
             <td>
-                {% if daily_summary.total_time %}
-                {{ daily_summary.total_time}}
-<!--                    {{ daily_summary.total_time|duration_format }}-->
+                {% if summary.total_time %}
+                {{ summary.total_time|duration_format }}
                 {% else %}
-                    00:00:00
+                00:00:00
                 {% endif %}
             </td>
         </tr>

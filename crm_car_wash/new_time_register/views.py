@@ -358,10 +358,12 @@ def time_interval_view(request):
     daily_summary.interval_count += intervals.count()  # Устанавливаем количество интервалов
     daily_summary.total_time += total_duration  # Устанавливаем общее время
     daily_summary.save()  # Сохраняем изменения
+    # Получение всех итогов для текущего пользователя
+    daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
 
     return render(request, 'time_interval.html', {
         'formatted_intervals': formatted_intervals,
-        'daily_summary': daily_summary,
+        'daily_summaries': daily_summaries,  # Передаем все итоги
     })
 
 

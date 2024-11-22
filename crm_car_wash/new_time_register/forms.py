@@ -94,3 +94,21 @@ class TimeIntervalForm(forms.ModelForm):
 #     class Meta:
 #         model = TimeInterval
 #         fields = []  # Поля не нужны, так как мы будем использовать только кнопки
+
+from django import forms
+
+class StartIntervalForm(forms.Form):
+    pass  #  добавить дополнительные поля, если нужно
+
+class StopIntervalForm(forms.Form):
+    pass  #  добавить дополнительные поля, если нужно
+
+class ResetIntervalsForm(forms.Form):
+    pass  #  добавить дополнительные поля, если нужно
+
+class DeleteSummaryForm(forms.Form):
+    pass  #  добавить дополнительные поля, если нужно
+
+class AddManualIntervalForm(forms.Form):
+    start_time = forms.TimeField(required=True)
+    end_time = forms.TimeField(required=True)

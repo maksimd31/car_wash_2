@@ -38,39 +38,27 @@
     </div>
 </div>
 
-<!--<h1>Секундомер</h1>-->
-
-
-<!--<h1 id="timer">00:00:00</h1>-->
-<!--<button id="startBtn">Старт</button>-->
-<!--<button id="pauseBtn" disabled>Пауза</button>-->
-<!--<button id="resetBtn" disabled>Сброс</button>-->
-
-
-<!--<form method="post" id="timerForm">-->
-<!--    {% csrf_token %}-->
-<!--    <button type="submit" name="start" id="startButton">Старт</button>-->
-<!--    <button type="submit" name="stop" id="stopButton">Стоп</button>-->
-
-<!--    <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>-->
-<!--    <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ-->
-<!--    </button>-->
-
-<!--    <input type="hidden" id="currentSeconds" name="current_seconds" value="0">-->
-<!--</form>-->
 <h1>Секундомер</h1>
+
+
 <h1 id="timer">00:00:00</h1>
 <button id="startBtn">Старт</button>
 <button id="pauseBtn" disabled>Пауза</button>
 <button id="resetBtn" disabled>Сброс</button>
 
+
 <form method="post" id="timerForm">
     {% csrf_token %}
-    <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
-    <button type="submit" name="stop" id="stopBtn" disabled>Стоп</button>
+    <button type="submit" name="start" id="startButton">Старт</button>
+    <button type="submit" name="stop" id="stopButton">Стоп</button>
+
     <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>
-    <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
+    <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ
+    </button>
+
+    <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
 </form>
+
 
 
 <form method="POST">

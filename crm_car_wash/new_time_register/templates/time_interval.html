@@ -77,9 +77,13 @@
 
 <!--<button id="pauseBtn" disabled>Пауза</button>-->
 <!--<button id="resetBtn" disabled>Сброс</button>-->
-<div class="d-flex" style="height: 20px;">
-  <div class="vr"></div>
-</div>
+<!--<div class="d-flex" style="height: 20px;">-->
+<!--  <div class="vr"></div>-->
+<!--</div>-->
+
+.ms-1 {
+  margin-left: ($spacer * .25) !important;
+}
 
 <form method="post" id="timerForm">
     {% csrf_token %}

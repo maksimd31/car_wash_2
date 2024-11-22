@@ -3,31 +3,60 @@
 
 {% block content %}
 
-<body data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-offset="10" tabindex="0">
-<div id="navbar-example" class="navbar">
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item"><a class="nav-link" href="#section1">Информация</a></li>
-        <li class="nav-item"><a class="nav-link" href="#section2">update</a></li>
-        <li class="nav-item"><a class="nav-link" href="#section3">Bug-fix</a></li>
-    </ul>
-</div>
-<div class="content" style="height: 400px;">
-    <h2 id="section1">Информация</h2>
-    <p>Могут присутствовать баги, если что-то заметили, просьба написать мне в телегу @The_Chef12</p>
-    <p> Развивать сервис не планируется, если у кого-то есть заинтересованность, пишите.</p>
-    <h2 id="section2">update</h2>
-    <p> 20.11.24 - добавлен функционал "удаление итогов" для отладки, будьте осторожны </p>
-    <p> 21.11.24 - добавлен функционал "Внесения времени вручную" </p>
+<!--<body data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-offset="10" tabindex="50">-->
+<!--<div id="navbar-example" class="navbar">-->
+<!--    <ul class="nav nav-tabs" role="tablist">-->
+<!--        <li class="nav-item"><a class="nav-link" href="#section1">Информация</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#section2">update</a></li>-->
+<!--        <li class="nav-item"><a class="nav-link" href="#section3">Bug-fix</a></li>-->
+<!--    </ul>-->
+<!--</div>-->
+<!--<div class="content" style="height: 400px;">-->
+<!--    <h2 id="section1">Информация</h2>-->
+<!--    <p>Могут присутствовать баги, если что-то заметили, просьба написать мне в телегу @The_Chef12</p>-->
+<!--    <p> Развивать сервис не планируется, если у кого-то есть заинтересованность, пишите.</p>-->
+<!--    <h2 id="section2">update</h2>-->
+<!--    <p> 20.11.24 - добавлен функционал "удаление итогов" для отладки, будьте осторожны </p>-->
+<!--    <p> 21.11.24 - добавлен функционал "Внесения времени вручную" </p>-->
 
-    <h2 id="section3">Bug-fix</h2>
-    <p> 20.11.24 - Исправлен не правильный подсчет итогового времени </p>
-    <p> 22.11.24 - Исправлено отображение итогов дня, теперь передается вся информация</p>
+<!--    <h2 id="section3">Bug-fix</h2>-->
+<!--    <p> 20.11.24 - Исправлен не правильный подсчет итогового времени </p>-->
+<!--    <p> 22.11.24 - Исправлено отображение итогов дня, теперь передается вся информация</p>-->
 
-</div>
+<!--</div>-->
 <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
 <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>-->
 
+<p>
+  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Информация
+  </a>
+  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample">
+    update
+  </button>
 
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+    Bug-fix
+  </button>
+</p>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    Могут присутствовать баги, если что-то заметили, просьба написать мне в телегу @The_Chef12
+    Развивать сервис не планируется, если у кого-то есть заинтересованность, пишите.
+  </div>
+</div>
+<div class="collapse" id="collapseExample1">
+  <div class="card card-body">
+    20.11.24 - добавлен функционал "удаление итогов" для отладки, будьте осторожны
+      21.11.24 - добавлен функционал "Внесения времени вручную"
+  </div>
+</div>
+<div class="collapse" id="collapseExample2">
+  <div class="card card-body">
+    20.11.24 - Исправлен не правильный подсчет итогового времени.
+    22.11.24 - Исправлено отображение итогов дня, теперь передается вся информация.
+  </div>
+</div>
 
     <h1>Секундомер</h1>
 

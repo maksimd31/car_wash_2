@@ -60,20 +60,11 @@
     </div>
 </div>
 
+
 <h1>Секундомер</h1>
+
+
 <h1 id="timer">00:00:00</h1>
-
-<button class="btn btn-secondary btn-lg" type="submit" name="start" id="startButton">Старт</button>
-<button class="btn btn-secondary btn-lg" type="submit" name="stop" id="stopButton">Стоп</button>
-<button class="btn btn-danger btn-lg" type="submit" name="reset">Обнулить данные</button>
-<button class="btn btn-warning btn-lg" type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
-
-<input type="hidden" id="currentSeconds" name="current_seconds" value="0">
-
-<!--<h1>Секундомер</h1>-->
-
-
-<!--<h1 id="timer">00:00:00</h1>-->
 
 <!--<style>-->
 <!--    #startBtn {-->
@@ -81,26 +72,26 @@
 <!--    }-->
 <!--</style>-->
 
-<!--&lt;!&ndash;<button class="badge rounded-pill bg-primary" id="startBtn">Старт</button>&ndash;&gt;-->
-<!--<button class="btn btn-primary btn-lg" id="startBtn">Старт</button>-->
+<!--<button class="badge rounded-pill bg-primary" id="startBtn">Старт</button>-->
+<button class="btn btn-primary btn-lg" id="startBtn">Старт</button>
 
-<!--&lt;!&ndash;<button id="pauseBtn" disabled>Пауза</button>&ndash;&gt;-->
-<!--&lt;!&ndash;<button id="resetBtn" disabled>Сброс</button>&ndash;&gt;-->
+<!--<button id="pauseBtn" disabled>Пауза</button>-->
+<!--<button id="resetBtn" disabled>Сброс</button>-->
 
 
-<!--<form method="post" id="timerForm">-->
-<!--    {% csrf_token %}-->
-<!--    <button class="btn btn-secondary btn-lg" type="submit" name="start" id="startButton">Старт</button>-->
-<!--    <button class="btn btn-secondary btn-lg" type="submit" name="stop" id="stopButton">Стоп</button>-->
-<!--    <button class="btn btn-danger btn-lg" type="submit" name="reset"  >Обнулить данные</button>-->
-<!--    <button class="btn btn-warning btn-lg" type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>-->
+<form method="post" id="timerForm">
+    {% csrf_token %}
+    <button class="btn btn-secondary btn-lg" type="submit" name="start" id="startButton">Старт</button>
+    <button class="btn btn-secondary btn-lg" type="submit" name="stop" id="stopButton">Стоп</button>
+    <button class="btn btn-danger btn-lg" type="submit" name="reset"  >Обнулить данные</button>
+    <button class="btn btn-warning btn-lg" type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
 
-<!--&lt;!&ndash;    <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>&ndash;&gt;-->
-<!--&lt;!&ndash;    <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ&ndash;&gt;-->
-<!--&lt;!&ndash;    </button>&ndash;&gt;-->
+<!--    <button type="submit" name="reset" style="background-color: red; color: white;">Обнулить данные</button>-->
+<!--    <button type="submit" name="delete_summary" style="background-color: red; color: white;">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ-->
+<!--    </button>-->
 
-<!--    <input type="hidden" id="currentSeconds" name="current_seconds" value="0">-->
-<!--</form>-->
+    <input type="hidden" id="currentSeconds" name="current_seconds" value="0">
+</form>
 
 
 <form method="POST">
@@ -182,60 +173,8 @@
 </div>
 </body>
 
-<script>
-    let timer = document.getElementById('timer');
-    let currentSecondsInput = document.getElementById('currentSeconds');
-
-    let seconds = 0;
-    let interval;
-
-    function updateTime() {
-        seconds++;
-        let hours = Math.floor(seconds / 3600);
-        let minutes = Math.floor((seconds % 3600) / 60);
-        let secs = seconds % 60;
-        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        currentSecondsInput.value = seconds; // Обновляем скрытое поле с текущими секундами
-    }
-
-    document.getElementById('startButton').addEventListener('click', function(event) {
-        event.preventDefault(); // Предотвращаем отправку формы
-        interval = setInterval(updateTime, 1000);
-        this.disabled = true; // Деактивируем кнопку "Старт"
-        document.getElementById('stopButton').disabled = false; // Активируем кнопку "Стоп"
-    });
-
-    document.getElementById('stopButton').addEventListener('click', function(event) {
-        event.preventDefault(); // Предотвращаем отправку формы
-        clearInterval(interval);
-        document.getElementById('startButton').disabled = false; // Активируем кнопку "Старт"
-        this.disabled = true; // Деактивируем кнопку "Стоп"
-    });
-
-    // Обработчик для кнопки "Обнулить данные"
-    document.querySelector('button[name="reset"]').addEventListener('click', function(event) {
-        event.preventDefault(); // Предотвращаем отправку формы
-        clearInterval(interval);
-        seconds = 0;
-        timer.textContent = '00:00:00';
-        currentSecondsInput.value = 0; // Сбрасываем скрытое поле
-        document.getElementById('startButton').disabled = false; // Активируем кнопку "Старт"
-        document.getElementById('stopButton').disabled = true; // Деактивируем кнопку "Стоп"
-    });
-</script>
-
-<!--<script>-->
-<!--    document.getElementById('startButton').addEventListener('click', function() {-->
-<!--        // Имитация нажатия на кнопку startBtn-->
-<!--        document.getElementById('startBtn').click();-->
-<!--    });-->
-<!--</script>-->
 <!--<script>-->
 <!--    let timer = document.getElementById('timer');-->
-<!--    let startBtn = document.getElementById('startBtn');-->
-<!--    let stopBtn = document.getElementById('stopBtn');-->
-<!--    let pauseBtn = document.getElementById('pauseBtn');-->
-<!--    let resetBtn = document.getElementById('resetBtn');-->
 <!--    let currentSecondsInput = document.getElementById('currentSeconds');-->
 
 <!--    let seconds = 0;-->
@@ -250,43 +189,95 @@
 <!--        currentSecondsInput.value = seconds; // Обновляем скрытое поле с текущими секундами-->
 <!--    }-->
 
-<!--    startBtn.addEventListener('click', () => {-->
+<!--    document.getElementById('startButton').addEventListener('click', function(event) {-->
+<!--        event.preventDefault(); // Предотвращаем отправку формы-->
 <!--        interval = setInterval(updateTime, 1000);-->
-<!--        startBtn.disabled = true;-->
-<!--        stopBtn.disabled = false; // Активируем кнопку "Стоп"-->
-<!--        pauseBtn.disabled = false;-->
-<!--        resetBtn.disabled = false;-->
+<!--        this.disabled = true; // Деактивируем кнопку "Старт"-->
+<!--        document.getElementById('stopButton').disabled = false; // Активируем кнопку "Стоп"-->
 <!--    });-->
 
-<!--    stopBtn.addEventListener('click', () => {-->
+<!--    document.getElementById('stopButton').addEventListener('click', function(event) {-->
+<!--        event.preventDefault(); // Предотвращаем отправку формы-->
 <!--        clearInterval(interval);-->
-<!--        startBtn.disabled = false;-->
-<!--        stopBtn.disabled = true; // Деактивируем кнопку "Стоп"-->
-<!--        pauseBtn.disabled = true;-->
-
-<!--        // Отправляем форму при нажатии на кнопку "Стоп"-->
-<!--        document.getElementById('timerForm').submit(); // Отправляем форму-->
+<!--        document.getElementById('startButton').disabled = false; // Активируем кнопку "Старт"-->
+<!--        this.disabled = true; // Деактивируем кнопку "Стоп"-->
 <!--    });-->
 
-<!--    pauseBtn.addEventListener('click', () => {-->
-<!--        clearInterval(interval);-->
-<!--        startBtn.disabled = false;-->
-<!--        stopBtn.disabled = true; // Деактивируем кнопку "Стоп"-->
-<!--        pauseBtn.disabled = true;-->
-<!--    });-->
-
-<!--    resetBtn.addEventListener('click', () => {-->
+<!--    // Обработчик для кнопки "Обнулить данные"-->
+<!--    document.querySelector('button[name="reset"]').addEventListener('click', function(event) {-->
+<!--        event.preventDefault(); // Предотвращаем отправку формы-->
 <!--        clearInterval(interval);-->
 <!--        seconds = 0;-->
 <!--        timer.textContent = '00:00:00';-->
 <!--        currentSecondsInput.value = 0; // Сбрасываем скрытое поле-->
-<!--        startBtn.disabled = false;-->
-<!--        stopBtn.disabled = true; // Деактивируем кнопку "Стоп"-->
-<!--        pauseBtn.disabled = true;-->
-<!--        resetBtn.disabled = true;-->
+<!--        document.getElementById('startButton').disabled = false; // Активируем кнопку "Старт"-->
+<!--        document.getElementById('stopButton').disabled = true; // Деактивируем кнопку "Стоп"-->
 <!--    });-->
-
 <!--</script>-->
+
+<script>
+    document.getElementById('startButton').addEventListener('click', function() {
+        // Имитация нажатия на кнопку startBtn
+        document.getElementById('startBtn').click();
+    });
+</script>
+<script>
+    let timer = document.getElementById('timer');
+    let startBtn = document.getElementById('startBtn');
+    let stopBtn = document.getElementById('stopBtn');
+    let pauseBtn = document.getElementById('pauseBtn');
+    let resetBtn = document.getElementById('resetBtn');
+    let currentSecondsInput = document.getElementById('currentSeconds');
+
+    let seconds = 0;
+    let interval;
+
+    function updateTime() {
+        seconds++;
+        let hours = Math.floor(seconds / 3600);
+        let minutes = Math.floor((seconds % 3600) / 60);
+        let secs = seconds % 60;
+        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        currentSecondsInput.value = seconds; // Обновляем скрытое поле с текущими секундами
+    }
+
+    startBtn.addEventListener('click', () => {
+        interval = setInterval(updateTime, 1000);
+        startBtn.disabled = true;
+        stopBtn.disabled = false; // Активируем кнопку "Стоп"
+        pauseBtn.disabled = false;
+        resetBtn.disabled = false;
+    });
+
+    stopBtn.addEventListener('click', () => {
+        clearInterval(interval);
+        startBtn.disabled = false;
+        stopBtn.disabled = true; // Деактивируем кнопку "Стоп"
+        pauseBtn.disabled = true;
+
+        // Отправляем форму при нажатии на кнопку "Стоп"
+        document.getElementById('timerForm').submit(); // Отправляем форму
+    });
+
+    pauseBtn.addEventListener('click', () => {
+        clearInterval(interval);
+        startBtn.disabled = false;
+        stopBtn.disabled = true; // Деактивируем кнопку "Стоп"
+        pauseBtn.disabled = true;
+    });
+
+    resetBtn.addEventListener('click', () => {
+        clearInterval(interval);
+        seconds = 0;
+        timer.textContent = '00:00:00';
+        currentSecondsInput.value = 0; // Сбрасываем скрытое поле
+        startBtn.disabled = false;
+        stopBtn.disabled = true; // Деактивируем кнопку "Стоп"
+        pauseBtn.disabled = true;
+        resetBtn.disabled = true;
+    });
+
+</script>
 
 <!--<script>-->
 <!--    let timer = document.getElementById('timer');-->

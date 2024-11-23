@@ -1,8 +1,10 @@
-from datetime import time, timezone
+from datetime import timezone
 from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
 from .forms import SignUpForm
+import pytz
+from django.utils import timezone
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import TimeInterval, DailySummary
 
 
@@ -174,11 +176,6 @@ def logout_user(request):
 #     interval.save()
 
 
-import pytz
-from django.utils import timezone
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import TimeInterval, DailySummary
 
 # @authenticated_user_required
 # def time_interval_view(request):
@@ -267,12 +264,6 @@ from .models import TimeInterval, DailySummary
 #     })
 #
 
-from django.shortcuts import render, redirect
-from django.utils import timezone
-from django.contrib import messages
-import pytz
-from .forms import StartIntervalForm, StopIntervalForm, ResetIntervalsForm, DeleteSummaryForm, AddManualIntervalForm
-from .models import TimeInterval, DailySummary
 
 
 def add_manual_interval(user, start_time_str, end_time_str):
@@ -407,3 +398,5 @@ def update_daily_summary(user, intervals, total_duration):
     daily_summary.interval_count += intervals.count()  # Устанавливаем количество интервалов
     daily_summary.total_time += total_duration  # Устанавливаем общее время
     daily_summary.save()  # Сохраняем изменения
+
+

@@ -405,4 +405,12 @@ def intervals_for_date(request, date):
     # intervals = TimeInterval.objects.filter(date_create=date_obj)
     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj)
 
-    return render(request, 'your_template.html', {'intervals': intervals})
+    # intervals = TimeInterval.objects.filter(user=request.user)
+    formatted_intervals, total_duration = format_intervals(intervals)
+
+    # Обновление или создание DailySummary
+    update_daily_summary(request.user, intervals, total_duration)
+
+    daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
+
+    return render(request, 'your_template.html', {'intervals': intervals,'daily_summaries': daily_summaries,})

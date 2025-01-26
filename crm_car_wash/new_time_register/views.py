@@ -402,8 +402,8 @@ def update_daily_summary(user, intervals, total_duration):
 
 def intervals_for_date(request, date):
     # Преобразуем строку даты в объект даты
-    # date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
+    date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
     # Получаем все интервалы для данного пользователя и даты
     # intervals = TimeInterval.objects.filter(user=request.user, start_time=date_obj)
-    intervals = TimeInterval.objects.filter(date_create=date)
+    intervals = TimeInterval.objects.filter(date_create=date_obj)
     return render(request, 'your_template.html', {'intervals': intervals})

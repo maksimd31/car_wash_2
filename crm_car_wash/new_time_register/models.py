@@ -23,6 +23,8 @@ class DailySummary(models.Model):
     date = models.DateField()
     interval_count = models.PositiveIntegerField(default=0)
     total_time = models.DurationField(default=timezone.timedelta())
+    date_create = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+
 
     def __str__(self):
         return f"{self.date} - {self.user.username}"

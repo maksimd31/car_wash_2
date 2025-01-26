@@ -411,6 +411,6 @@ def intervals_for_date(request, date):
     # Обновление или создание DailySummary
     update_daily_summary(request.user, intervals, total_duration)
 
-    daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
+    daily_summaries = DailySummary.objects.filter(user=request.user, date__date=date_obj)
 
     return render(request, 'your_template.html', {'intervals': intervals,'daily_summaries': daily_summaries,})

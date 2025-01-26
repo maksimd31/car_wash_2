@@ -175,9 +175,6 @@
         <tbody>
         {% for summary in daily_summaries %}
         <tr>
-            <!-- <li><a href="{%url 'index_one_movie' mo.id %}">{{mo.name}} </a>, Рейтинг - {{mo.rating|default:"Неизвестен"}}</li> -->
-
-<!--            <td>{{ summary.date }}</td>-->
             <td><a href="{%url 'intervals_for_date'%}">{{summary.date}}</a></td>
             <td>{{ summary.interval_count }}</td>
             <td>

@@ -178,14 +178,14 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # CELERY_BROKER_URL = "redis://localhost:6379"
 # CELERY_RESULT_BACKEND = "redis://localhost:6379"
 # your_project/settings.py
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-
-
-from celery.schedules import crontab
-
-CELERY_BEAT_SCHEDULE = {
-    'reset-intervals-every-day-at-midnight': {
-        'task': 'your_app.tasks.reset_intervals',
-        'schedule': crontab(hour=0, minute=0),  # Каждый день в полночь
-    },
-}
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+#
+#
+# from celery.schedules import crontab
+#
+# CELERY_BEAT_SCHEDULE = {
+#     'reset-intervals-every-day-at-midnight': {
+#         'task': 'your_app.tasks.reset_intervals',
+#         'schedule': crontab(hour=0, minute=0),  # Каждый день в полночь
+#     },
+# }

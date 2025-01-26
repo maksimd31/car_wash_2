@@ -1,0 +1,35 @@
+{% extends 'base_reg.html' %}
+<!--{% load custom_filters %}-->
+
+{% block content %}
+
+ <title>Интервалы для {{ date }}</title>
+</head>
+<body>
+    <h1>Интервалы для {{ date }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Старт</th>
+                <th>Стоп</th>
+                <th>Длительность</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for interval in intervals %}
+                <tr>
+                    <td>{{ interval.start_time }}</td>
+                    <td>{{ interval.end_time }}</td>
+                    <td>{{ interval.duration }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">Нет интервалов для этой даты.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+
+{% endblock %}

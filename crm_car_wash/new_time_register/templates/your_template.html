@@ -41,6 +41,7 @@
         </thead>
         <tbody>
         {% for summary in daily_summaries %}
+        {% if summary.date_create %}
         <tr>
             <td>{{summary.date}}</td>
             <td>{{ summary.interval_count }}</td>
@@ -51,8 +52,10 @@
                 00:00:00
                 {% endif %}
             </td>
+            {%endif%}
         </tr>
         {% endfor %}
+
         </tbody>
     </table>
 

@@ -9,7 +9,7 @@ class TimeInterval(models.Model):
     start_time = models.TimeField(null=True, blank=True, verbose_name='старт')
     end_time = models.TimeField(null=True, blank=True, verbose_name='стоп')
     duration = models.DurationField(null=True, blank=True, verbose_name='Длительность')
-    date_create = models.DateTimeField(auto_now_add=True)
+    date_create = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 
     def save(self, *args, **kwargs):
         if self.start_time and self.end_time:

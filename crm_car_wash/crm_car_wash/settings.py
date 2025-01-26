@@ -175,8 +175,11 @@ CSRF_COOKIE_SECURE = True
 SECRET_KEY = os.getenv('SECRET_KEY')
 # SECRET_KEY = 'django-insecure-g@7swncjword96e!16+wj1no&dk1pfo1ah_)^_p*#i!0_$cv_v'
 # Celery settings
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+# CELERY_BROKER_URL = "redis://localhost:6379"
+# CELERY_RESULT_BACKEND = "redis://localhost:6379"
+# your_project/settings.py
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
 
 from celery.schedules import crontab
 

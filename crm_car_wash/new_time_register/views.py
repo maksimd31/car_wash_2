@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import timezone, datetime, timedelta
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm
 import pytz
@@ -400,18 +400,47 @@ def update_daily_summary(user, intervals, total_duration):
     daily_summary.save()  # Сохраняем изменения
 
 
+# def intervals_for_date(request, date):
+#     date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
+#     # intervals = TimeInterval.objects.filter(date_create=date_obj)
+#     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj)
+#     # intervals = TimeInterval.objects.filter(user=request.user)
+#     formatted_intervals, total_duration = format_intervals(intervals)
+#     # Обновление или создание DailySummary
+#     update_daily_summary(request.user, intervals, total_duration)
+#     # daily_summaries = DailySummary.objects.filter(user=request.user, date_create__date=date_obj)
+#     daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
+#
+#     return render(request, 'your_template.html', {'intervals': intervals,'daily_summaries': daily_summaries,})
+
+
+
 def intervals_for_date(request, date):
     date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
-    # intervals = TimeInterval.objects.filter(date_create=date_obj)
-    intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj)
+    intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj).order_by('start_time')
 
-    # intervals = TimeInterval.objects.filter(user=request.user)
     formatted_intervals, total_duration = format_intervals(intervals)
-
-    # Обновление или создание DailySummary
     update_daily_summary(request.user, intervals, total_duration)
-
-    # daily_summaries = DailySummary.objects.filter(user=request.user, date_create__date=date_obj)
     daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
 
-    return render(request, 'your_template.html', {'intervals': intervals,'daily_summaries': daily_summaries,})
+    break_times = []  # Список для хранения времени перерывов
+
+    # Проходим по всем интервалам и считаем время перерывов
+    for i in range(1, len(intervals)):
+        previous_interval = intervals[i - 1]
+        current_interval = intervals[i]
+
+        # Вычисляем время перерыва между предыдущим и текущим интервалом
+        break_time = (datetime.combine(datetime.min, current_interval.start_time) -
+                      datetime.combine(datetime.min, previous_interval.end_time)).total_seconds()
+
+        if break_time > 0:
+            break_times.append(timedelta(seconds=break_time))
+        else:
+            break_times.append(timedelta(seconds=0))  # Если перерыв отрицательный, добавляем 0
+
+    return render(request, 'your_template.html', {
+        'intervals': intervals,
+        'daily_summaries': daily_summaries,
+        'break_times': break_times,  # Передаем список перерывов в контекст
+    })

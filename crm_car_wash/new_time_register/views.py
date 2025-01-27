@@ -401,8 +401,6 @@ def time_interval_view(request):
         'daily_summaries': daily_summaries,
         'selected_date': selected_date,
         'intervals': intervals,
-
-
     })
 
 def handle_start_interval(request, moscow_tz):

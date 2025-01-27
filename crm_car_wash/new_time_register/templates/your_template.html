@@ -63,30 +63,6 @@
     </table>
 
 
-    <h2>Итоги дня по дню</h2>
-<div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered">
-        <thead class="table-dark">
-            <tr>
-                 <th scope="col">вот</th>
-
-            </tr>
-        </thead>
-            {% for interval in day_one_records %}
-                <tr>
-                    <td>{{ interval.time_intervals}}</td>
-
-                </tr>
-
-            {% empty %}
-                <tr>
-                    <td colspan="3">Нет интервалов для этой даты.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-
 
     </div>
 

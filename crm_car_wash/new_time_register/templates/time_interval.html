@@ -159,8 +159,8 @@
         <tbody>
         {% for interval in intervals %}
         <tr>
-                    <td>{{ interval.start_time |duration_format }}</td>
-                    <td>{{ interval.end_time |duration_format }}</td>
+                    <td>{{ interval.start_time }}</td>
+                    <td>{{ interval.end_time }}</td>
                     <td>{{ interval.duration |duration_format }}</td>
                 </tr>
         {% empty %}

@@ -383,18 +383,19 @@ def time_interval_view(request):
         elif 'add_manual_interval' in request.POST:
             return handle_add_manual_interval(request)
 
-    # Фильтрация интервалов по выбранной дате
     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=selected_date)
     formatted_intervals, total_duration = format_intervals(intervals)
-
-    # Обновление или создание DailySummary
     update_daily_summary(request.user, intervals, total_duration)
-
-    # daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
-    # date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
-
-    # daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
     daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
+
+    #
+    # intervals = TimeInterval.objects.filter(user=request.user, date_create__date=selected_date)
+    # formatted_intervals, total_duration = format_intervals(intervals)
+    # update_daily_summary(request.user, intervals, total_duration)
+    # daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
+
+
+
 
     return render(request, 'time_interval.html', {
         'formatted_intervals': formatted_intervals,

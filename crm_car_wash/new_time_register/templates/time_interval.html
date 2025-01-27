@@ -159,10 +159,11 @@
         <tbody>
         {% for interval in formatted_intervals %}
         <tr>
-            <td>{{ interval.start_time }}</td>
-            <td>{{ interval.end_time }}</td>
-            <td>{{ interval.duration | duration_format }}</td>
-        </tr>
+                    <td>{{ interval.start_time }}</td>
+                    <td>{{ interval.end_time }}</td>
+                    <td>{{ interval.duration |duration_format }}</td>
+                    <td>{{ interval.break_duration |duration_format }}</td>
+                </tr>
         {% empty %}
         <tr>
             <td colspan="3">Нет интервалов для этой даты.</td>

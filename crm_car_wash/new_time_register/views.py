@@ -6,6 +6,12 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import TimeInterval, DailySummary, DayOne
+import pytz
+from django.shortcuts import render
+from django.utils import timezone
+from datetime import datetime  # Добавьте этот импорт
+from .models import TimeInterval, DailySummary  # Импортируйте ваши модели
+# Импортируйте другие необходимые модули и функции
 
 
 def authenticated_user_required(view_func):

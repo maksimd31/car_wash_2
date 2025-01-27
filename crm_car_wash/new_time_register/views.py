@@ -435,25 +435,77 @@ def update_daily_summary(user, intervals, total_duration):
 #     day_one.time_intervals.set(time_intervals)
 #     day_one.save()
 
-def intervals_for_date(request, date):
+# def intervals_for_date(request, date):
+#     date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
+#
+#     # Fetch TimeInterval records for the user on the specified date
+#     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj)
+#     formatted_intervals, total_duration = format_intervals(intervals)
+#
+#     # Update DailySummary for the user
+#     update_daily_summary(request.user, intervals, total_duration)
+#
+#     # Fetch DailySummary records for the user on the specified date
+#     daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
+#
+#     # Fetch Day_one records for the user on the specified date
+#     day_one_records = DayOne.objects.filter(user=request.user, date=date_obj)
+#
+#     # Pass all the data to the template context
+#     return render(request, 'your_template.html', {
+#         'intervals': intervals,
+#         'daily_summaries': daily_summaries,
+#         'day_one_records': day_one_records,  # Add Day_one records to context
+#     })
+
+# def intervals_for_date(request, date):
+#     date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
+#
+#     # Fetch TimeInterval records for the user on the specified date
+#     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj)
+#     formatted_intervals, total_duration = format_intervals(intervals)
+#
+#     # Update DailySummary for the user
+#     update_daily_summary(request.user, intervals, total_duration)
+#
+#     # Fetch DailySummary records for the user on the specified date
+#     daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
+#
+#     # Fetch Day_one records for the user on the specified date
+#     day_one_records = DayOne.objects.filter(user=request.user, date=date_obj)
+#
+#     # Pass all the data to the template context
+#     return render(request, 'your_template.html', {
+#         'intervals': intervals,
+#         'formatted_intervals': formatted_intervals,
+#         'daily_summaries': daily_summaries,
+#         'day_one_records': day_one_records,
+#         'selected_date': date_obj,  # Pass the selected date to the template
+#     })
+
+def intervals_for_date(request):
+    date = request.GET.get('date',
+                           timezone.now().date().strftime('%Y-%m-%d'))  # По умолчанию - сегодня, если дата не указана
     date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
 
-    # Fetch TimeInterval records for the user on the specified date
+    # Получение записей TimeInterval для пользователя на указанную дату
     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj)
     formatted_intervals, total_duration = format_intervals(intervals)
 
-    # Update DailySummary for the user
+    # Обновление DailySummary для пользователя
     update_daily_summary(request.user, intervals, total_duration)
 
-    # Fetch DailySummary records for the user on the specified date
+    # Получение записей DailySummary для пользователя на указанную дату
     daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
 
-    # Fetch Day_one records for the user on the specified date
-    day_one_records = DayOne.objects.filter(user=request.user, date=date_obj)
+    # Получение записей Day_one для пользователя на указанную дату
+    day_one_records = Day_one.objects.filter(user=request.user, date=date_obj)
 
-    # Pass all the data to the template context
+    # Передача всех данных в контекст шаблона
     return render(request, 'your_template.html', {
         'intervals': intervals,
+        'formatted_intervals': formatted_intervals,
         'daily_summaries': daily_summaries,
-        'day_one_records': day_one_records,  # Add Day_one records to context
+        'day_one_records': day_one_records,
+        'selected_date': date_obj,  # Передача выбранной даты в шаблон
     })

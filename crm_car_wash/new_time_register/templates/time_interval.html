@@ -74,7 +74,7 @@
 
 <!--<button class="badge rounded-pill bg-primary" id="startBtn">Старт</button>-->
 <div class="d-grid gap-2">
-    <button class="btn btn-primary btn-lg full-width" id="startBtn">Старт</button>
+<!--    <button class="btn btn-primary btn-lg full-width" id="startBtn">Старт</button>-->
 </div>
 
 
@@ -88,14 +88,16 @@
 <p style="text-indent: 40px;">
 </p>
 
+<p>Дата (день/месяц/год) - {% now 'j/m/Y' %}</p>
+<p>Время (час:мин:сек) - {% now 'H:i:s' %}</p>
 
 <form method="post" id="timerForm">
     {% csrf_token %}
     <div class="d-grid gap-2">
         <button class="btn btn-secondary full-width" type="submit" name="start" id="startButton">Старт</button>
         <button class="btn btn-secondary full-width" type="submit" name="stop" id="stopButton">Стоп</button>
-        <button class="btn btn-danger full-width" type="submit" name="reset">Обнулить данные</button>
-        <button class="btn btn-warning full-width" type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>
+<!--        <button class="btn btn-danger full-width" type="submit" name="reset">Обнулить данные</button>-->
+<!--        <button class="btn btn-warning full-width" type="submit" name="delete_summary">УДАЛИТЬ ИТОГОВЫЕ ДАННЫЕ</button>-->
     </div>
 
 

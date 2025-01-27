@@ -5,7 +5,7 @@ import pytz
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import TimeInterval, DailySummary
+from .models import TimeInterval, DailySummary, DayOne
 
 
 def authenticated_user_required(view_func):
@@ -415,12 +415,45 @@ def update_daily_summary(user, intervals, total_duration):
 #
 #     return render(request, 'your_template.html', {'intervals': intervals,'daily_summaries': daily_summaries,})
 
+#
+# def intervals_for_date(request, date):
+#     date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
+#     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj)
+#     formatted_intervals, total_duration = format_intervals(intervals)
+#     update_daily_summary(request.user, intervals, total_duration)
+#     daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
+#
+#     return render(request, 'your_template.html', {'intervals': intervals, 'daily_summaries': daily_summaries})
+
+
+# def create_or_update_day_one(user, date):
+#     daily_summary, created = DailySummary.objects.get_or_create(user=user, date=date)
+#     time_intervals = TimeInterval.objects.filter(user=user, date_create__date=date)
+#
+#     day_one, created = Day_one.objects.get_or_create(user=user, date=date)
+#     day_one.daily_summary = daily_summary
+#     day_one.time_intervals.set(time_intervals)
+#     day_one.save()
 
 def intervals_for_date(request, date):
     date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
+
+    # Fetch TimeInterval records for the user on the specified date
     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj)
     formatted_intervals, total_duration = format_intervals(intervals)
+
+    # Update DailySummary for the user
     update_daily_summary(request.user, intervals, total_duration)
+
+    # Fetch DailySummary records for the user on the specified date
     daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
 
-    return render(request, 'your_template.html', {'intervals': intervals, 'daily_summaries': daily_summaries})
+    # Fetch Day_one records for the user on the specified date
+    day_one_records = DayOne.objects.filter(user=request.user, date=date_obj)
+
+    # Pass all the data to the template context
+    return render(request, 'your_template.html', {
+        'intervals': intervals,
+        'daily_summaries': daily_summaries,
+        'day_one_records': day_one_records,  # Add Day_one records to context
+    })

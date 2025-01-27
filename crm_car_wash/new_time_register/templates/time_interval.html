@@ -139,13 +139,14 @@
 </ul>
 {% endif %}
 
-<form method="GET" action="{% url 'your_view_name' %}">
-    <label for="date">Выберите дату:</label>
-    <input type="date" id="date" name="date" value="{{ selected_date|date:'Y-m-d' }}" required>
+
+<h2>Интервалы времени для {{ selected_date }}</h2>
+
+<form method="get" action="{% url 'your_view_name' %}">
+    <input type="date" name="date" value="{{ selected_date|date:'Y-m-d' }}">
     <button type="submit">Показать интервалы</button>
 </form>
 
-<h2>Интервалы времени для {{ selected_date }}</h2>
 <div class="table-responsive">
     <table class="table table-striped table-hover table-bordered">
         <thead class="table-dark">
@@ -160,7 +161,7 @@
         <tr>
             <td>{{ interval.start_time }}</td>
             <td>{{ interval.end_time }}</td>
-            <td>{{ interval.duration | duration_format }}</td>  <!-- Assuming you have a duration_format filter -->
+            <td>{{ interval.duration | duration_format }}</td>
         </tr>
         {% empty %}
         <tr>
@@ -170,6 +171,7 @@
         </tbody>
     </table>
 </div>
+
 <h2>Итоги дня</h2>
 <div class="table-responsive">
     <table class="table table-striped table-hover table-bordered">

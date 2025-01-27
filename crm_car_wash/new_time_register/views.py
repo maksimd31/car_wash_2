@@ -482,10 +482,36 @@ def update_daily_summary(user, intervals, total_duration):
 #         'day_one_records': day_one_records,
 #         'selected_date': date_obj,  # Pass the selected date to the template
 #     })
+#
+# def intervals_for_date(request):
+#     date = request.GET.get('date',
+#                            timezone.now().date().strftime('%Y-%m-%d'))  # По умолчанию - сегодня, если дата не указана
+#     date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
+#
+#     # Получение записей TimeInterval для пользователя на указанную дату
+#     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=date_obj)
+#     formatted_intervals, total_duration = format_intervals(intervals)
+#
+#     # Обновление DailySummary для пользователя
+#     update_daily_summary(request.user, intervals, total_duration)
+#
+#     # Получение записей DailySummary для пользователя на указанную дату
+#     daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
+#
+#     # Получение записей Day_one для пользователя на указанную дату
+#     day_one_records = DayOne.objects.filter(user=request.user, date=date_obj)
+#
+#     # Передача всех данных в контекст шаблона
+#     return render(request, 'your_template.html', {
+#         'intervals': intervals,
+#         'formatted_intervals': formatted_intervals,
+#         'daily_summaries': daily_summaries,
+#         'day_one_records': day_one_records,
+#         'selected_date': date_obj,  # Передача выбранной даты в шаблон
+#     })
 
 def intervals_for_date(request):
-    date = request.GET.get('date',
-                           timezone.now().date().strftime('%Y-%m-%d'))  # По умолчанию - сегодня, если дата не указана
+    date = request.GET.get('date', timezone.now().date().strftime('%Y-%m-%d'))  # По умолчанию - сегодня
     date_obj = timezone.datetime.strptime(date, '%Y-%m-%d').date()
 
     # Получение записей TimeInterval для пользователя на указанную дату
@@ -499,7 +525,7 @@ def intervals_for_date(request):
     daily_summaries = DailySummary.objects.filter(user=request.user, date=date_obj)
 
     # Получение записей Day_one для пользователя на указанную дату
-    day_one_records = Day_one.objects.filter(user=request.user, date=date_obj)
+    day_one_records = DayOne.objects.filter(user=request.user, date=date_obj)
 
     # Передача всех данных в контекст шаблона
     return render(request, 'your_template.html', {

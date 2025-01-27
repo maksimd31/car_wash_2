@@ -11,7 +11,8 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     # path('tim/', views.timer_view, name='tim'),
     # path('timer/', views.time_interval_view, name='time_interval'),
-    path('timer/', views.time_interval_view, name='time_interval_view'),  # Убедитесь, что здесь правильный путь
+    path('timer/', views.time_interval_view, name='time_interval_view'),
+
     path('timer/<str:date>/', views.intervals_for_date, name='intervals_for_date')
     # path('time-interval/create/', views.create_time_interval, name='create_time_interval'),  # Путь для создания
 

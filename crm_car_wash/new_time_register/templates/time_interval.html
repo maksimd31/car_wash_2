@@ -183,8 +183,9 @@
         </thead>
         <tbody>
         {% for summary in daily_summaries %}
+        {% if summary.date_create %}
         <tr>
-            <td><a href="{%url 'intervals_for_date' summary.date %}">{{summary.date}}</a></td>
+            <td>{{summary.date}}</td>
             <td>{{ summary.interval_count }}</td>
             <td>
                 {% if summary.total_time %}
@@ -193,9 +194,13 @@
                 00:00:00
                 {% endif %}
             </td>
+            {%endif%}
         </tr>
         {% endfor %}
+
         </tbody>
+    </table>
+
     </table>
 </div>
 </body>

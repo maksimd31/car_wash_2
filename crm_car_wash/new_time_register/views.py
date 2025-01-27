@@ -294,40 +294,40 @@ def add_manual_interval(user, start_time_str, end_time_str):
     interval.duration = duration
     interval.save()
 
-@authenticated_user_required
-def time_interval_view(request):
-    moscow_tz = pytz.timezone('Europe/Moscow')
-
-    # Получение текущей даты или даты из GET-запроса
-    selected_date = request.GET.get('date', timezone.now().date())
-    selected_date = datetime.strptime(selected_date, '%Y-%m-%d').date()
-
-    if request.method == 'POST':
-        if 'start' in request.POST:
-            return handle_start_interval(request, moscow_tz)
-        elif 'stop' in request.POST:
-            return handle_stop_interval(request, moscow_tz)
-        elif 'reset' in request.POST:
-            return handle_reset_intervals(request)
-        elif 'delete_summary' in request.POST:
-            return handle_delete_summary(request)
-        elif 'add_manual_interval' in request.POST:
-            return handle_add_manual_interval(request)
-
-    # Фильтрация интервалов по выбранной дате
-    intervals = TimeInterval.objects.filter(user=request.user, date_create__date=selected_date)
-    formatted_intervals, total_duration = format_intervals(intervals)
-
-    # Обновление или создание DailySummary
-    update_daily_summary(request.user, intervals, total_duration)
-
-    daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
-
-    return render(request, 'time_interval.html', {
-        'formatted_intervals': formatted_intervals,
-        'daily_summaries': daily_summaries,
-        'selected_date': selected_date,
-    })
+# @authenticated_user_required
+# def time_interval_view(request):
+#     moscow_tz = pytz.timezone('Europe/Moscow')
+#
+#     # Получение текущей даты или даты из GET-запроса
+#     selected_date = request.GET.get('date', timezone.now().date())
+#     selected_date = datetime.strptime(selected_date, '%Y-%m-%d').date()
+#
+#     if request.method == 'POST':
+#         if 'start' in request.POST:
+#             return handle_start_interval(request, moscow_tz)
+#         elif 'stop' in request.POST:
+#             return handle_stop_interval(request, moscow_tz)
+#         elif 'reset' in request.POST:
+#             return handle_reset_intervals(request)
+#         elif 'delete_summary' in request.POST:
+#             return handle_delete_summary(request)
+#         elif 'add_manual_interval' in request.POST:
+#             return handle_add_manual_interval(request)
+#
+#     # Фильтрация интервалов по выбранной дате
+#     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=selected_date)
+#     formatted_intervals, total_duration = format_intervals(intervals)
+#
+#     # Обновление или создание DailySummary
+#     update_daily_summary(request.user, intervals, total_duration)
+#
+#     daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
+#
+#     return render(request, 'time_interval.html', {
+#         'formatted_intervals': formatted_intervals,
+#         'daily_summaries': daily_summaries,
+#         'selected_date': selected_date,
+#     })
 
 # @authenticated_user_required
 # def time_interval_view(request):
@@ -358,6 +358,45 @@ def time_interval_view(request):
 #         'daily_summaries': daily_summaries,
 #     })
 
+@authenticated_user_required
+def time_interval_view(request):
+    moscow_tz = pytz.timezone('Europe/Moscow')
+
+    # Получение текущей даты или даты из GET-запроса
+    selected_date_str = request.GET.get('date', timezone.now().date())
+
+    # Проверяем, является ли selected_date_str строкой
+    if isinstance(selected_date_str, str):
+        selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
+    else:
+        selected_date = selected_date_str  # Если это уже дата, используем её
+
+    if request.method == 'POST':
+        if 'start' in request.POST:
+            return handle_start_interval(request, moscow_tz)
+        elif 'stop' in request.POST:
+            return handle_stop_interval(request, moscow_tz)
+        elif 'reset' in request.POST:
+            return handle_reset_intervals(request)
+        elif 'delete_summary' in request.POST:
+            return handle_delete_summary(request)
+        elif 'add_manual_interval' in request.POST:
+            return handle_add_manual_interval(request)
+
+    # Фильтрация интервалов по выбранной дате
+    intervals = TimeInterval.objects.filter(user=request.user, date_create__date=selected_date)
+    formatted_intervals, total_duration = format_intervals(intervals)
+
+    # Обновление или создание DailySummary
+    update_daily_summary(request.user, intervals, total_duration)
+
+    daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
+
+    return render(request, 'time_interval.html', {
+        'formatted_intervals': formatted_intervals,
+        'daily_summaries': daily_summaries,
+        'selected_date': selected_date,
+    })
 
 def handle_start_interval(request, moscow_tz):
     active_interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).first()

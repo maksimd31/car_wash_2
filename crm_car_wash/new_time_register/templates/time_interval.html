@@ -61,21 +61,21 @@
 </div>
 
 
-<h1>Секундомер</h1>
+<!--<h1>Секундомер</h1>-->
 
 
-<h1 id="timer">00:00:00</h1>
+<!--<h1 id="timer">00:00:00</h1>-->
 
-<!--<style>-->
-<!--    #startBtn {-->
-<!--        display: none; /* Скрываем кнопку startBtn */-->
-<!--    }-->
-<!--</style>-->
+<!--&lt;!&ndash;<style>&ndash;&gt;-->
+<!--&lt;!&ndash;    #startBtn {&ndash;&gt;-->
+<!--&lt;!&ndash;        display: none; /* Скрываем кнопку startBtn */&ndash;&gt;-->
+<!--&lt;!&ndash;    }&ndash;&gt;-->
+<!--&lt;!&ndash;</style>&ndash;&gt;-->
 
-<!--<button class="badge rounded-pill bg-primary" id="startBtn">Старт</button>-->
-<div class="d-grid gap-2">
-<!--    <button class="btn btn-primary btn-lg full-width" id="startBtn">Старт</button>-->
-</div>
+<!--&lt;!&ndash;<button class="badge rounded-pill bg-primary" id="startBtn">Старт</button>&ndash;&gt;-->
+<!--<div class="d-grid gap-2">-->
+<!--&lt;!&ndash;    <button class="btn btn-primary btn-lg full-width" id="startBtn">Старт</button>&ndash;&gt;-->
+<!--</div>-->
 
 
 <!--<button id="pauseBtn" disabled>Пауза</button>-->
@@ -160,18 +160,25 @@
         </tr>
         </thead>
         <tbody>
-        {% for interval in intervals %}
-        <tr>
-                    <td>{{ interval.start_time }}</td>
-                    <td>{{ interval.end_time }}</td>
-                    <td>{{ interval.duration |duration_format }}</td>
-                </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">Нет интервалов для этой даты.</td>
-        </tr>
-        {% endfor %}
-        </tbody>
+    {% for interval in intervals %}
+    <tr>
+        <td>{{ interval.start_time }}</td>
+        <td>
+            {% if interval.end_time %}
+                {{ interval.end_time }}
+            {% else %}
+                Идет запись
+            {% endif %}
+        </td>
+        <td>{{ interval.duration | duration_format }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">Нет интервалов для этой даты.</td>
+    </tr>
+    {% endfor %}
+</tbody>
+
     </table>
 </div>
 <h2>Итоги дня</h2>

@@ -404,6 +404,8 @@ def add_manual_interval(user, start_time_str, end_time_str):
 #         'intervals': intervals,
 #     })
 
+from django.utils import timezone
+from datetime import datetime
 
 @authenticated_user_required
 def time_interval_view(request):
@@ -425,7 +427,8 @@ def time_interval_view(request):
     if active_intervals.exists():
         active_interval = active_intervals.first()  # Предполагаем, что только один активный интервал
         if active_interval.start_time:  # Убедитесь, что start_time существует
-            start_date = datetime.combine(now.date(), active_interval.start_time)
+            # Создаем offset-aware datetime
+            start_date = timezone.make_aware(datetime.combine(now.date(), active_interval.start_time))
             if start_date < now:
                 # Завершаем интервал
                 active_interval.end_time = now
@@ -445,7 +448,6 @@ def time_interval_view(request):
 
     intervals = TimeInterval.objects.filter(user=request.user, date_create__date=selected_date)
     formatted_intervals, total_duration = format_intervals(intervals)
-
     update_daily_summary(request.user, intervals, total_duration)
 
     daily_summaries = DailySummary.objects.filter(user=request.user).order_by('date')
@@ -456,6 +458,7 @@ def time_interval_view(request):
         'selected_date': selected_date,
         'intervals': intervals,
     })
+
 
 
 

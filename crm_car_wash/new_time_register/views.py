@@ -412,25 +412,24 @@ def time_interval_view(request):
     # Получение текущей даты или даты из GET-запроса
     selected_date_str = request.GET.get('date', timezone.now().date())
 
-    # Проверяем, является ли selected_date_str строкой
     if isinstance(selected_date_str, str):
         selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
     else:
-        selected_date = selected_date_str  # Если это уже дата, используем её
+        selected_date = selected_date_str
 
-    # Получаем текущую дату и время
     now = timezone.now()
 
     # Проверяем наличие активного интервала
     active_intervals = TimeInterval.objects.filter(user=request.user, end_time__isnull=True)
 
-    # Если есть активный интервал и он начался до текущей даты
     if active_intervals.exists():
         active_interval = active_intervals.first()  # Предполагаем, что только один активный интервал
-        if active_interval.start_time.date() < now.date():
-            # Завершаем интервал
-            active_interval.end_time = now
-            active_interval.save()
+        if active_interval.start_time:  # Убедитесь, что start_time существует
+            start_date = datetime.combine(now.date(), active_interval.start_time)
+            if start_date < now:
+                # Завершаем интервал
+                active_interval.end_time = now
+                active_interval.save()
 
     if request.method == 'POST':
         if 'start' in request.POST:
@@ -456,6 +455,7 @@ def time_interval_view(request):
         'selected_date': selected_date,
         'intervals': intervals,
     })
+
 
 
 

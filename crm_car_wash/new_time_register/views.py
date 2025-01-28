@@ -369,7 +369,20 @@ def time_interval_view(request):
     if isinstance(selected_date_str, str):
         selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
     else:
-        selected_date = selected_date_str  # Если это уже дата, используем её
+        selected_date = selected_date_str
+
+    active_intervals = TimeInterval.objects.filter(user=request.user, end_time__isnull=True)
+
+    now = timezone.now()
+
+    if active_intervals.exists():
+        active_interval = active_intervals.first()
+        # Создаем datetime для сравнения
+        start_datetime = datetime.combine(now.date(), active_interval.start_time)
+        if start_datetime < now:
+            # Завершаем интервал
+            active_interval.end_time = now.time()  # Сохраняем только время
+            active_interval.save()
 
     if request.method == 'POST':
         if 'start' in request.POST:

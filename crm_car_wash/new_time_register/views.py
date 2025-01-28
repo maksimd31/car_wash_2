@@ -1,17 +1,13 @@
 from datetime import timezone
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm
-import pytz
-from django.utils import timezone
 from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import TimeInterval, DailySummary, DayOne
 import pytz
-from django.shortcuts import render
+from datetime import datetime
+from .models import TimeInterval, DailySummary
+from datetime import timedelta
 from django.utils import timezone
-from datetime import datetime  # Добавьте этот импорт
-from .models import TimeInterval, DailySummary  # Импортируйте ваши модели
-# Импортируйте другие необходимые модули и функции
+from django.contrib import messages
 
 
 def authenticated_user_required(view_func):
@@ -371,19 +367,6 @@ def time_interval_view(request):
     else:
         selected_date = selected_date_str
 
-    active_intervals = TimeInterval.objects.filter(user=request.user, end_time__isnull=True)
-
-    # now = timezone.now()
-    #
-    # if active_intervals.exists():
-    #     active_interval = active_intervals.first()
-    #     # Создаем datetime для сравнения
-    #     start_datetime = datetime.combine(now.date(), active_interval.start_time)
-    #     if start_datetime < now:
-    #         # Завершаем интервал
-    #         active_interval.end_time = now.time()  # Сохраняем только время
-    #         active_interval.save()
-
     if request.method == 'POST':
         if 'start' in request.POST:
             return handle_start_interval(request, moscow_tz)
@@ -432,14 +415,40 @@ def handle_start_interval(request, moscow_tz):
     return redirect('time_interval_view')
 
 
+# def handle_stop_interval(request, moscow_tz):
+#     interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).last()
+#     if interval:
+#         interval.end_time = timezone.now().astimezone(moscow_tz).time()
+#         interval.save()
+#         messages.success(request, "Интервал успешно завершен.")
+#     else:
+#         messages.warning(request, "Нет активного интервала для завершения.")
+#     return redirect('time_interval_view')
+
+
+
+
 def handle_stop_interval(request, moscow_tz):
+    # Получаем текущий активный интервал пользователя (если есть)
     interval = TimeInterval.objects.filter(user=request.user, end_time__isnull=True).last()
     if interval:
-        interval.end_time = timezone.now().astimezone(moscow_tz).time()
-        interval.save()
-        messages.success(request, "Интервал успешно завершен.")
+        # Получаем текущее время в московском часовом поясе
+        current_time = timezone.now().astimezone(moscow_tz)
+        # Проверяем, если start_time больше 24 часов назад
+        if interval.start_time and (current_time - timezone.make_aware(
+                datetime.combine(current_time.date(), interval.start_time))) > timedelta(hours=24):
+            # Если прошло больше 24 часов, устанавливаем end_time на текущее время
+            interval.end_time = current_time.time()
+            messages.warning(request, "Интервал автоматически завершен, так как он был активен более 24 часов.")
+        else:
+            # Если интервал все еще действителен, останавливаем его нормально
+            interval.end_time = current_time.time()
+            messages.success(request, "Интервал успешно завершен.")
+
+        interval.save()  # Сохраняем изменения
     else:
         messages.warning(request, "Нет активного интервала для завершения.")
+
     return redirect('time_interval_view')
 
 

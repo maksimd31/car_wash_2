@@ -496,7 +496,6 @@ def format_intervals(intervals):
     return formatted_intervals, total_duration
 
 
-
 def update_daily_summary(user, intervals, total_duration):
     today = timezone.now().date()
     daily_summary, created = DailySummary.objects.get_or_create(user=user, date=today)

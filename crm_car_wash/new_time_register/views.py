@@ -480,20 +480,44 @@ def handle_add_manual_interval(request):
     return redirect('time_interval_view')
 
 
+# def format_intervals(intervals):
+#     formatted_intervals = []
+#     total_duration = timezone.timedelta()
+#     for interval in intervals:
+#         if interval.start_time and interval.end_time:
+#             duration = interval.duration
+#             total_duration += duration
+#             minutes, seconds = divmod(duration.total_seconds(), 60)
+#             formatted_intervals.append({
+#                 'start_time': interval.start_time.strftime("%H:%M:%S"),
+#                 'end_time': interval.end_time.strftime("%H:%M:%S"),
+#                 'duration': f"{int(minutes)} мин {int(seconds)} сек"
+#             })
+#     return formatted_intervals, total_duration
+
+from datetime import timedelta
+
+
 def format_intervals(intervals):
     formatted_intervals = []
-    total_duration = timezone.timedelta()
+    total_duration = timedelta()  # Инициализируем total_duration как timedelta
+
     for interval in intervals:
-        if interval.start_time and interval.end_time:
-            duration = interval.duration
-            total_duration += duration
-            minutes, seconds = divmod(duration.total_seconds(), 60)
-            formatted_intervals.append({
-                'start_time': interval.start_time.strftime("%H:%M:%S"),
-                'end_time': interval.end_time.strftime("%H:%M:%S"),
-                'duration': f"{int(minutes)} мин {int(seconds)} сек"
-            })
+        # Предполагаем, что duration может быть None
+        duration = interval.duration if interval.duration is not None else timedelta(0)
+
+        # Форматируем интервал (например, в строку)
+        formatted_intervals.append({
+            'start_time': interval.start_time,
+            'end_time': interval.end_time,
+            'duration': duration,
+        })
+
+        # Добавляем duration к total_duration
+        total_duration += duration
+
     return formatted_intervals, total_duration
+
 
 
 def update_daily_summary(user, intervals, total_duration):

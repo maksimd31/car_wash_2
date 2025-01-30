@@ -480,6 +480,7 @@ def handle_add_manual_interval(request):
     return redirect('time_interval_view')
 
 
+
 def format_intervals(intervals):
     formatted_intervals = []
     total_duration = timezone.timedelta()
